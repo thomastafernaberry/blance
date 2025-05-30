@@ -1,0 +1,31 @@
+---
+import Navbar from '../components/Navbar.astro';
+import MainBtn from '../components/MainBtn.astro';
+import ProductCarousel from '../components/ProductCarousel.astro';
+import "../styles/global.css";
+---
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta charset="UTF-8">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+</head>
+<body>
+	<Navbar currentPage="home" />
+	<main class="flex flex-col gap-y-8 px-6 pb-12 mb-12 bg-white-300 rounded-b-4xl">
+		<h1 class="text-8xl text-center font-[Anton] uppercase tracking-wider fg-dark">Blance</h1>
+		<img src="/src/images/hero.png">
+		<MainBtn text="Explorá nuestros artículos" />
+	</main>
+	<div class="flex flex-col gap-y-4">
+		<ProductCarousel carouselTitle="Articulos populares"/>	
+		<ProductCarousel carouselTitle="Nuevos ingresos"/>	
+		<div class="px-6 mt-8 mb-12">
+			<h5 class="text-lg font-medium text-center mb-4">¿No encontraste lo que buscabas?</h5>
+			<MainBtn text="Ver todos los productos" />
+		</div>
+	</div>
+</body>
+</html>

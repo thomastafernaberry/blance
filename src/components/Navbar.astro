@@ -1,0 +1,28 @@
+---
+import NavHome from './NavHome.astro';
+import NavStore from './NavStore.astro';
+import NavBag from './NavBag.astro';
+
+interface Props {
+	currentPage: string;
+}
+
+const { currentPage } = Astro.props as Props;
+
+let navStyle = 'flex flex-row justify-between items-center acenter min-w-full min-h-20 py-4 px-2 text-center px-6 ';
+
+// Nav background color in homepage
+currentPage === 'home' ? navStyle += 'bg-white-300' : '';
+---
+
+<nav class={navStyle}>
+	{ currentPage === 'store' ? <NavHome /> : <NavStore /> }
+
+	<div>
+		{ currentPage !== 'home' && <h5 class="font-medium uppercase">Blance</h5> }
+		{ currentPage === 'store' && <p class="text-xs">Tienda online</p> }
+		{ currentPage === 'bag' && <p class="text-xs">Tu carrito</p> }
+	</div>
+
+	{ currentPage === 'bag' ? <div class="w-[30px]"></div> : <NavBag /> }
+</nav>

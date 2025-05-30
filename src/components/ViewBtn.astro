@@ -1,0 +1,28 @@
+---
+import SingleView from './SingleView.astro';
+import DoubleView from './DoubleView.astro';
+---
+
+<form class="flex gap-5 border-[.2px] border-gray-200 rounded-full">
+	<button type="submit" id="single" class="w-12 rounded-full grid place-items-center"><SingleView /></button>
+	<button type="submit" id="double" name="v" value="double" class="w-12 rounded-full grid place-items-center"><DoubleView /></button>
+</form>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const singleBtn = document.getElementById('single');
+		const doubleBtn = document.getElementById('double');
+		const view = new URL(document.URL).searchParams.get('v');
+
+		view === 'double' ?
+			doubleBtn.classList.toggle('bg-dark'):
+			singleBtn.classList.toggle('bg-dark');
+		
+	});
+</script>
+
+<style>
+	button {
+		transition: background-color .4s ease-out;
+	}	
+</style>

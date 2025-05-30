@@ -1,0 +1,23 @@
+---
+import SearchBar from './SearchBar.astro';
+import ViewBtn from './ViewBtn.astro';
+---
+<style>
+
+	select {
+	  appearance: base-select;
+	}
+
+</style>
+
+<div class="flex flex-col gap-y-6 pb-4 px-4">
+	<SearchBar />
+	<div class="flex justify-between gap-x-6">
+		<ViewBtn />
+		<select class="text-gray-300 text-xs rounded-full border-[.2px] border-gray-200 p-4 px-6 w-full">
+			<option value="price-asc" class="">Menor precio primero</option>
+			<option value="price-des">Mayor precio primero</option>
+		</select>
+	</div>
+</div>
+

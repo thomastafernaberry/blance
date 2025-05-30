@@ -1,0 +1,18 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	hex: string;
+}
+
+const { hex } = Astro.props as Props;
+---
+
+<style define:vars={{ hex }}>
+	div {
+		background-color: var(--hex);
+	}
+</style>
+
+<div class="w-4 h-4 rounded-full"></div>
+

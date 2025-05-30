@@ -1,0 +1,51 @@
+---
+import Color from './Color.astro';
+
+interface Props {
+	type: string;
+	name: string;
+	price: number;
+	imageSrc: string;
+	colors: Array[];
+}
+
+const { 
+	type = 'small',
+	name = 'Artículo de lencería',
+	price = 5000,
+	imageSrc = '/src/images/product-big.jpg',
+	colors = ['red', 'green', 'blue']
+} = Astro.props as Props;
+
+// TODO: implement colors
+---
+
+{ type === 'small' ?
+<div class="min-h-[280px] min-w-[140px] mb-2">
+	<img class="rounded-3xl" src={imageSrc} />
+	<div class="m-1">
+		<div class="mb-2">
+			<h5 class="text-sm text-dark">{name}</h5>
+			<h5 class="text-xs text-gray-300">${price}</h5>
+		</div>
+		<div class="flex gap-x-4">
+			<Color hex="#FF0000" />
+			<Color hex="#008000" />
+			<Color hex="#0000FF" />
+		</div>
+	</div>
+</div> :
+<div class="bg-white-300 rounded-3xl p-3 mb-4">
+	<img class="rounded-3xl" src={imageSrc} />
+	<div class="flex justify-between items-center bg-white-400 p-3 rounded-2xl mt-3">
+		<div>
+			<h5 class="text-sm text-dark">{name}</h5>
+			<h5 class="text-xs text-gray-300">${price}</h5>
+		</div>
+		<div class="flex gap-x-4">
+			<Color hex="#FF0000" />
+			<Color hex="#008000" />
+			<Color hex="#0000FF" />
+		</div>
+	</div>
+</div> }

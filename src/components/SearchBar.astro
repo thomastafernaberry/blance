@@ -1,0 +1,9 @@
+---
+import '../styles/global.css';
+import SearchMag from './SearchMag.astro';
+---
+
+<form class="border-[.2px] border-gray-200 rounded-full flex justify-between">
+	<input class="text-xs pl-6 py-5 w-full" type="text" id="q" name="q" placeholder="¿Qué producto estás buscando?">
+	<button class="bg-dark text-white rounded-r-full min-w-16 grid place-items-center" type="submit"><SearchMag /></button>
+</form>
