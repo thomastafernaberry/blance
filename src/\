@@ -1,0 +1,43 @@
+---
+import { strapi } from '@strapi/client';
+import ProductCard from './ProductCard.astro';
+
+class Product {
+	strapiCollectionName = 'products'; 
+
+	strapiURL = 'http://localhost:1337/api';
+	strapiToken = '6031cbfee033dd02a388254bd028e2cd2af74f2924bf60a4a142822b4357c95e1323d6a105a1220a09a191855b4316f84def1fda7430b37e0add2e04885489834b8b592094f5cf9d304363367b03db4882c64da5907aa5f4c3914e3c29b537c9ba1905b77409732a3bdc08bb7879268df87e82d819c8ef3ad95fa0d1778f15a9';
+	strapiClient = strapi({ 
+		baseURL: this.strapiURL, 
+		auth: this.strapiToken 
+	});
+
+	async searchByName(name: string) : object {
+		const collection = await (this.strapiClient).collection(this.strapiCollectionName);
+		return await collection.findOne(1);
+	}
+}
+
+const params = Astro.url.searchParams;
+const search = params.get('q');
+const productsObj = await (new Product).searchByName(search);
+
+interface Props {
+	viewMode: string;
+}
+
+const { viewMode = 'single' } = Astro.props as Props;
+---
+
+<script define:vars={{ search }}>
+	console.log(search);
+</script>
+
+{ viewMode === 'double' ?
+	<div class="grid grid-cols-2 gap-4 p-3">
+		{ productsObj.data.map( p => <ProductCard name={p.name} price={p.price} />) }
+	</div> :
+	<div class="grid p-3">
+		{ productsObj.data.map( p => <ProductCard type="big" name={p.name} price={p.price} />) }
+	</div> }
+
