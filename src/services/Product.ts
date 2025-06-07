@@ -1,37 +1,44 @@
 import Strapi from './Strapi.ts';
 
-interface Response {
-	data: any;
-	meta: object;
-	error: object;
-}
-
 export default class Product extends Strapi {
 
-	private strapiCollectionName: string; 
-	private strapiCollection: any;
+	private collectionName: string; 
+	private productsCollection: any;
 
-	constructor() {
+	private constructor() {
 		super();
-		this.strapiCollectionName = 'products';
-		this.strapiCollection = this.strapiClient.collection(this.strapiCollectionName);
+		this.collectionName = 'products';
+	}
+		
+	static async init() : Promise<Product> {
+		const instance = new Product();
+		instance.productsCollection = await instance.strapiClient.collection(instance.collectionName);
+		return instance;
 	}
 
-	async searchByName(name: string) : Promise<Response> {
-		return this.strapiCollection.find({
-			filters: {
-				name: {
-					$containsi: name
-				}
-			}
-		});
+	async searchByName(productName: string, sortBy?: string) : Promise<Response> {
+		const params = {};
+		params.filters = { name: { $containsi: productName } };
+
+		if (!sortBy || sortBy === 'price:asc') {
+			params.sort = { price: 'asc' }; 
+		}
+
+		return this.productsCollection.find(params);
 	}
 	
-	async searchByCategory(category: string) : Promise<Response> {
-		return this.strapiCollection.find({
+	async searchByCategory(categoryName: string, sortBy?: string) : Promise<Response> {
+		return this.productsCollection.find({
+			populate: {
+				category: {
+					fields: 'name'
+				}
+			},
 			filters: {
 				category: {
-					$containsi: category
+					name: {
+						$contains: categoryName
+					} 
 				}
 			}
 		});

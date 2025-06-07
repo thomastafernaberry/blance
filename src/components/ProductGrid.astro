@@ -2,24 +2,63 @@
 import ProductCard from './ProductCard.astro';
 import Product from '../services/Product.ts';
 
-const params = Astro.url.searchParams;
-const searchValue = params.get('q');
-const productsObj = await (new Product).searchByName(searchValue);
-
 interface Props {
-	viewMode: string;
+	category?: string;
 }
 
-const { viewMode = 'single' } = Astro.props as Props;
+const { category  } = Astro.props as Props;
+
+const params = Astro.url.searchParams;
+const searchValue = (params.get('q') || '');
+
+// Get products
+const productService = await Product.init();
+let productsObj = await productService.searchByName(searchValue);
+if (category) {
+	productsObj = await productService.searchByCategory(category);
+}
+
+let [title, subtitle] = '';
+// Set title
+if (searchValue) {
+	title = `Buscando "${searchValue}"`;
+} else if (category) {
+	title = `Categoría ${category}`;
+}
+// Set subtitle
+if (productsObj.data.length === 0) {
+	subtitle = 'No hay productos que coincidan con tu búsqueda.';
+}
 ---
 
-{ searchValue && <p class="font-medium text-center">Buscando "{searchValue}"</p> }	
+<script define:vars={{category}}>
+	console.log(category);
+</script>
 
-{ viewMode === 'double' ?
-	<div class="grid grid-cols-2 gap-4 p-3">
-		{ productsObj.data.map( p => <ProductCard name={p.name} price={p.price} />) }
-	</div> :
-	<div class="grid p-3">
-		{ productsObj.data.map( p => <ProductCard type="big" name={p.name} price={p.price} />) }
-	</div> }
 
+<div class="grid gap-4 mt-4">
+	{ title && <h1 class="text-2xl text-center capitalize">{title}</h1> }	
+	{ subtitle && <h4 class="text-sm text-gray-300 text-center">{subtitle}</h4> }
+	{ (searchValue || category) && <a href="/store" class="underline block text-center">Reiniciar la búsqueda</a> }
+<div>
+
+<div id="products-container">
+		{ productsObj.data.values().map( p => <ProductCard name={p.name} price={p.price} />) }
+</div> 
+
+
+<style>
+	#products-container {
+		display: grid;
+		padding: 1rem;
+	}
+
+	#products-container {
+		grid-template-columns: 1fr;
+	}
+
+	#products-container.double {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1rem;
+	}
+</style>

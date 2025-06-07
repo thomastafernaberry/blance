@@ -1,50 +1,86 @@
 ---
+import '../styles/global.css';
 import SingleView from './SingleView.astro';
 import DoubleView from './DoubleView.astro';
-const view = await Astro.session.get('');
 ---
 
-<style>
-	button { transition: background-color .4s ease-out; }	
-</style>
-
-<div class="flex gap-5 border-[.2px] border-gray-200 rounded-full">
+<div class="flex gap-5 border-[.2px] border-gray-200 rounded-full h-12">
 	<button id="single" class="w-12 rounded-full grid place-items-center"> <SingleView /> </button>
 	<button id="double" class="w-12 rounded-full grid place-items-center"> <DoubleView /> </button>
 </div>
 
-<script define:vars={{ view }}>
+<script>
+
 	document.addEventListener('DOMContentLoaded', () => {
-		console.log(view);
 
 		const singleBtn = document.getElementById('single');
  		const doubleBtn = document.getElementById('double');
 		
+		const container = document.getElementById('products-container');
+		const products = document.getElementsByClassName('product-card');
+
+		function getCurrentView() {
+			return localStorage.getItem('view');
+		}
+		
+		function setCurrentView(view) {
+			localStorage.setItem('view', view);
+		}
+		
+		function switchProductsView() {
+			getCurrentView() === 'single' ?
+				setCurrentView('double'):
+				setCurrentView('single');	
+		}
+		
+		function styleProductsBig(products) {
+			for (let prod of products) {
+				prod.classList.remove('small');
+			}
+		}
+
+		function styleProductsSmall(products) {
+			for (let prod of products) {
+				prod.classList.add('small');
+			}
+		}
+
 		function updateBtnStyles() {
 			if (localStorage.getItem('view') === 'single') {
-				singleBtn.classList.toggle('bg-dark');
+				singleBtn.classList.add('bg-dark');
 				doubleBtn.classList.remove('bg-dark');
 			} else {
-				doubleBtn.classList.toggle('bg-dark');
+				doubleBtn.classList.add('bg-dark');
 				singleBtn.classList.remove('bg-dark');
 			}
 		}
 		
-		function switchProductsView() {
-			localStorage.getItem('view') === 'single' ?
-				localStorage.setItem('view', 'double'):
-				localStorage.setItem('view', 'single'); 
+		function updateView(container, products) {
+				if (getCurrentView() === 'double') {
+					container.classList.add('double');
+					styleProductsSmall(products);
+				} else {
+					container.classList.remove('double');
+					styleProductsBig(products);
+				}
 		}
-
-		for (let b of [singleBtn, doubleBtn]) {
-			b.addEventListener('click', ()  => {
+	
+		for (let btn of [singleBtn, doubleBtn]) {
+			btn.addEventListener('click', ()  => {
 				switchProductsView();
 				updateBtnStyles();
+				updateView(container, products);
 			});
 		}
 		
+
 		updateBtnStyles();
+		updateView(container, products);
 		
 	});
+
 </script>
 
+<style>
+	button { transition: all .3s ease-in-out; }	
+</style>

@@ -1,21 +1,24 @@
 ---
+import "../styles/global.css";
+import BaseLayout from '../components/BaseLayout.astro';
 import Navbar from '../components/Navbar.astro';
 import MainBtn from '../components/MainBtn.astro';
 import ProductCarousel from '../components/ProductCarousel.astro';
-import "../styles/global.css";
+
+const currentPage = "home";
 ---
-<html>
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta charset="UTF-8">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
-</head>
-<body>
-	<Navbar currentPage="home" />
-	<main class="flex flex-col gap-y-8 px-6 pb-12 mb-12 bg-white-300 rounded-b-4xl">
-		<h1 class="text-8xl text-center font-[Anton] uppercase tracking-wider fg-dark">Blance</h1>
+
+<BaseLayout currentPage={ currentPage }>
+	<head>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+	</head>
+	<main class="flex flex-col gap-y-6 px-6 pb-12 mb-12 bg-white-300 rounded-b-4xl">
+		<div class="grid gap-2 pb-2">
+			<h1 class="text-8xl text-center font-[Anton] uppercase tracking-wider fg-dark">Blance</h1>
+			<p class="text-center text-gray-300 tracking-wider">Lencería que abraza lo que sos</p>
+		</div>
 		<img src="/src/images/hero.png">
 		<MainBtn text="Explorá nuestros artículos" />
 	</main>
@@ -27,5 +30,4 @@ import "../styles/global.css";
 			<MainBtn text="Ver todos los productos" />
 		</div>
 	</div>
-</body>
-</html>
+</BaseLayout>

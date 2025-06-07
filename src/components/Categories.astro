@@ -1,14 +1,72 @@
 ---
+import Category from '../services/Category.ts';
+
+const categoryService = await Category.init();
+const categoryNames = await categoryService.getAllNames();
+
+const { currentCategory } = Astro.props;
 ---
 
-<ul class="flex gap-8 items-center text-xs text-gray-500 overflow-auto w-full pt-2 pb-4">
-	<li class="rounded-full bg-dark text-white px-4 py-2" >Todo</li>
-	<li>Culotte</li>
-	<li>Less</li>
-	<li>Maya</li>
-	<li>Corpiño</li>
-	<li>Corpiño</li>
-	<li>Corpiño</li>
-	<li>Corpiño</li>
+<ul id="container" class="flex gap-2 items-center text-xs text-gray-500 overflow-x-auto w-full py-3 pb-5">
+
+	<li class="category">
+		<a class="px-5 py-3 rounded-full" href="/store">todo</a>
+	</li>
+
+	{ categoryNames.map ( n => (
+		<li class="category">
+				<a class="px-5 py-3 rounded-full" href=`/store/${n}`>{n}</a>
+		</li>
+	))}
+
 </ul>
 
+<script define:vars={ {currentCategory} }> 
+
+document.addEventListener('DOMContentLoaded', () => {
+
+	const container = document.getElementById('container');
+	const categories = document.getElementsByClassName('category');
+	console.log(currentCategory);
+
+	function updateCategoryStyle() {
+		for (let c of categories) {
+			const name = c.textContent.trim();
+			const anchor = c.children[0];
+			
+			if (currentCategory === undefined) {
+				anchor.classList.add('bg-dark', 'text-white');
+				break;
+			} else if (currentCategory === name) {
+				anchor.classList.add('bg-dark', 'text-white');
+				break;
+			}
+		}
+	}
+		
+	function updateCategorySorting() {
+		const array = Array.from(categories);
+
+		let index = array.findIndex(e => e.textContent.trim() === currentCategory);
+		if (index === -1) {
+			index = 0;
+		}
+
+		const element = array.splice(index, 1)[0];
+		array.unshift(element);
+		
+		container.replaceChildren(...array);
+	}
+	
+	updateCategorySorting();
+	
+	updateCategoryStyle();
+
+});
+
+</script>
+
+<style>
+	li { height: auto; }
+	a { text-transform: capitalize; transition: background-color .4s ease-out; }
+</style>
