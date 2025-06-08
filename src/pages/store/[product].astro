@@ -1,0 +1,20 @@
+---
+import Product from '../../services/Product.ts';
+import BaseLayout from '../../components/BaseLayout.astro';
+import ProductDetail from '../../components/ProductDetail.astro';
+
+export async function getStaticPaths() {
+	const productService = await Product.init();
+	const productNames = await productService.getAllNames();	
+	return productNames.map( n => ( { params: { product: n }}));
+}
+
+const { product } = Astro.params;
+
+const productService = await Product.init();
+const p = (await productService.searchByName(product)).data[0];
+---
+
+<BaseLayout>
+	<ProductDetail name={p.name} price={p.price} />
+</BaseLayout
