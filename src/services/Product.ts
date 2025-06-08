@@ -44,5 +44,10 @@ export default class Product extends Strapi {
 		});
 	}
 
+	async getAllNames() {
+		const products = await this.productsCollection.find();
+		return products.data.map( p => p.name );
+	}
+
 }
 

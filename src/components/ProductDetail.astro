@@ -1,281 +1,39 @@
 ---
-// ProductDetail.astro
+import Product from '../services/Product.ts';
+import Color from '../components/Color.astro';
+import MainBtn from '../components/MainBtn.astro';
 
-// Define Props interface
 interface Props {
-  id: string;
-  title: string;
-  price: number;
-  imageUrls: string[];
-  availableColors: Array<{ color: string; name?: string }>;
-  availableSizes: string[];
-  description: string;
-  characteristics: Record<string, string>;
-  composition: Record<string, string>;
+	name: string;
+	price: number;
+	description: string;
+	composition: string;
 }
 
-// Destructure props with default values
-const {
-  id,
-  title = "Artículo de lencería",
-  price = 5000,
-  imageUrls = [
-    "/src/images/Image.jpg",
-    "/path/to/product-image-2.jpg",
-    "/path/to/product-image-3.jpg"
-  ],
-  availableColors = [
-    { color: "#242424" },
-    { color: "#ADADAD" },
-    { color: "#E5A895" }
-  ],
-  availableSizes = ["XS", "S", "M", "L", "XL"],
-  description = "Prenda delicada y sensual, confeccionada en encaje suave para realzar la silueta con elegancia y comodidad.",
-  characteristics = {
-    "Material": "Tela"
-  },
-  composition = {
-    "Poliéster": "100%"
-  }
-} = Astro.props;
+const productService = await Product.init();
+const productsObj = await productService.searchByName();
 
-// Format price with dots as thousand separators
-const formattedPrice = new Intl.NumberFormat('es-AR', {
-  style: 'currency',
-  currency: 'ARS',
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 0
-}).format(price).replace('ARS', '$');
-
-import "../styles/global.css";
+const { 
+	name = 'Producto super copado',
+	price = 5000,
+	description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur',
+	composition = '',
+} = Astro.props as Props;
 ---
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div class="product-detail font-sans max-w-full mx-auto p-4 bg-gray-50">
-  <div class="product-image-gallery mb-6">
-    <div class="gallery-container relative rounded-lg overflow-hidden aspect-w-3/4 bg-gray-100">
-      {imageUrls.map((url, index) => (
-        <div
-          key={url}
-          class={`gallery-item absolute top-0 left-0 w-full h-full transition-opacity opacity-0 ${index === 0 ? 'opacity-100' : ''}`}
-          data-slide={index}
-        >
-          <img src={url} alt={`${title} - Imagen ${index + 1}`} class="product-image w-full h-full object-cover" />
-        </div>
-      ))}
-    </div>
-
-    <div class="gallery-indicators flex justify-center gap-2 mt-4">
-      {imageUrls.map((_, index) => (
-        <button
-          key={index}
-          class={`indicator w-3 h-3 rounded-full border-none bg-gray-500 cursor-pointer transition-colors ${index === 0 ? 'bg-gray-800' : ''}`}
-          data-index={index}
-          aria-label={`Ver imagen ${index + 1}`}
-        ></button>
-      ))}
-    </div>
-  </div>
-
-  <div class="product-info mb-8">
-    <h1 class="product-title text-2xl font-bold leading-none text-gray-800 mb-2">
-      {title}
-    </h1>
-    <p class="product-price text-lg font-bold text-gray-800 mb-4">
-      {formattedPrice}
-    </p>
-
-    <div class="color-options flex gap-3 mb-6">
-      {availableColors.map((colorObj, index) => (
-        <button
-          key={colorObj.color}
-          class={`color-option w-7 h-7 rounded-full border-none cursor-pointer transition-transform ${index === 0 ? 'scale-110' : ''} ${index === 0 ? 'shadow-lg shadow-gray-100' : ''}`}
-          style={{ backgroundColor: colorObj.color }}
-          data-color={colorObj.color}
-          aria-label={`Seleccionar color ${colorObj.name || colorObj.color}`}
-        ></button>
-      ))}
-    </div>
-
-    <div class="size-selector mb-6">
-      <select
-        class="size-dropdown appearance-none w-full px-4 py-2 border border-gray-200 rounded-full bg-gray-50 font-sans text-sm text-gray-800 focus:outline-none focus:border-gray-600"
-        aria-label="Seleccionar talle"
-      >
-        {availableSizes.map((size) => (
-          <option key={size} value={size}>
-            Talle {size}
-          </option>
-        ))}
-      </select>
-    </div>
-
-    <button class="add-to-cart-button w-full bg-gray-800 text-white border-none rounded-full px-6 py-3 font-sans text-base font-bold cursor-pointer transition-transform hover:bg-orange-500">
-      Añadir a la cartera
-    </button>
-  </div>
-
-  <div class="product-details-section">
-    <div class="detail-box bg-gray-100 rounded-lg p-6 mb-6">
-      <h2 class="detail-title text-lg font-bold leading-none text-gray-800 mb-3">
-        Descripción
-      </h2>
-      <p class="detail-text text-sm font-normal leading-relaxed text-gray-800">
-        {description}
-      </p>
-    </div>
-
-    <div class="details-tabs flex gap-2 mb-4">
-      <button
-        class="tab-button flex-1 bg-gray-100 rounded-full px-4 py-3 font-sans text-sm font-semibold text-gray-800 cursor-pointer transition-colors"
-        data-tab="characteristics"
-      >
-        Características
-      </button>
-      <button
-        class="tab-button flex-1 bg-gray-100 rounded-full px-4 py-3 font-sans text-sm font-semibold text-gray-800 cursor-pointer transition-colors"
-        data-tab="composition"
-      >
-        Composición
-      </button>
-    </div>
-
-    <div id="characteristics-content" class="tab-content bg-gray-100 rounded-lg p-4">
-      {Object.entries(characteristics).map(([key, value]) => (
-        <div key={key} class="detail-item flex justify-between items-center py-2 border-b border-gray-300">
-          <span class="detail-key text-sm font-semibold text-gray-800">{key}:</span>
-          <span class="detail-value text-sm text-gray-600">{value}</span>
-        </div>
-      ))}
-    </div>
-
-    <div id="composition-content" class="tab-content hidden bg-gray-100 rounded-lg p-4">
-      {Object.entries(composition).map(([key, value]) => (
-        <div key={key} class="detail-item flex justify-between items-center py-2 border-b border-gray-300">
-          <span class="detail-key text-sm font-semibold text-gray-800">{key}:</span>
-          <span class="detail-value text-sm text-gray-600">{value}</span>
-        </div>
-      ))}
-    </div>
-  </div>
-</div>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Gallery functionality
-  const galleryItems = document.querySelectorAll('.gallery-item');
-  const indicators = document.querySelectorAll('.indicator');
-
-  indicators.forEach(indicator => {
-    indicator.addEventListener('click', () => {
-      const index = parseInt(indicator.dataset.index);
-
-      // Update active indicator
-      indicators.forEach(ind => ind.classList.remove('active'));
-      indicator.classList.add('active');
-
-      // Update active slide
-      galleryItems.forEach(item => item.classList.remove('active'));
-      galleryItems[index].classList.add('active');
-    });
-  });
-
-  // Color selection
-  const colorOptions = document.querySelectorAll('.color-option');
-  colorOptions.forEach(option => {
-    option.addEventListener('click', () => {
-      colorOptions.forEach(opt => opt.classList.remove('selected'));
-      option.classList.add('selected');
-    });
-  });
-
-  // Detail tabs functionality
-  const tabButtons = document.querySelectorAll('.tab-button');
-  const tabContents = document.querySelectorAll('.tab-content');
-
-  tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const tab = button.dataset.tab;
-
-      // Update active tab button
-      tabButtons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-
-      // Update active tab content
-      tabContents.forEach(content => content.classList.add('hidden'));
-      document.getElementById(`${tab}-content`).classList.remove('hidden');
-    });
-  });
-
-  // Add to cart functionality
-  const addToCartBtn = document.querySelector('.add-to-cart-button');
-  if (addToCartBtn) {
-    addToCartBtn.addEventListener('click', () => {
-      // Get selected options
-      const selectedColor = document.querySelector('.color-option.selected')?.dataset.color;
-      const selectedSize = document.querySelector('.size-dropdown')?.value;
-
-      // Animation feedback
-      addToCartBtn.classList.add('clicked');
-      setTimeout(() => addToCartBtn.classList.remove('clicked'), 300);
-
-      // Dispatch custom event
-      const event = new CustomEvent('product:addToCart', {
-        detail: {
-          productId: document.querySelector('.product-detail').dataset.productId,
-          selectedColor,
-          selectedSize
-        }
-      });
-      window.dispatchEvent(event);
-
-      // Visual feedback
-      const notification = document.createElement('div');
-      notification.classList.add('add-notification');
-      notification.textContent = 'Producto añadido a la cartera';
-      document.body.appendChild(notification);
-
-      setTimeout(() => {
-        notification.classList.add('show');
-        setTimeout(() => {
-          notification.classList.remove('show');
-          setTimeout(() => notification.remove(), 300);
-        }, 2000);
-      }, 10);
-    });
-  }
-});
-</script>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
-
-/* Custom Styles for specific states not covered by Tailwind */
-.add-to-cart-button.clicked {
-  transform: scale(0.98);
-}
-
-.add-notification {
-  position: fixed;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(100%);
-  background-color: #242424;
-  color: #F5F1EB;
-  padding: 0.75rem 1.5rem;
-  border-radius: 2rem;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-  opacity: 0;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  z-index: 1000;
-}
-
-.add-notification.show {
-  transform: translateX(-50%) translateY(0);
-  opacity: 1;
-}
-
-</style>
+<main class="grid">
+	<img class="rounded-4xl p-4 pt-2 place-self-center" src="/src/images/product-big.jpg" />
+	<div class="px-4 pt-2">
+		<h1 class="text-3xl/10 my-2 font-regular text-dark capitalize">{name}<h1>
+		<h2 class="text-xl pb-6">${price}</h2>
+		<Color hexColor="#000" />
+		<MainBtn text="Anadir al carrito" />
+	</div>
+	<div class="bg-white-100 mx-4 mt-24 rounded-4xl" >
+		<div class="flex justify-between bg-white-200 rounded-t-4xl border-gray-200 h-12 border-b-1">
+			<button class="bg-dark text-white rounded-tl-4xl py-2 px-6 w-full">Descripción</button>
+			<button class="bg-white-200 rounded-tr-4xl py-2 px-6 w-full">Composición</button>
+		</div>
+		<p class="text-sm/7 text-gray-300 font-light px-6 py-4">{description}</p>
+	</div>
+</main>

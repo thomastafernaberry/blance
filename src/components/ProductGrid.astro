@@ -31,19 +31,14 @@ if (productsObj.data.length === 0) {
 }
 ---
 
-<script define:vars={{category}}>
-	console.log(category);
-</script>
-
-
-<div class="grid gap-4 mt-4">
-	{ title && <h1 class="text-2xl text-center capitalize">{title}</h1> }	
+<div class="grid gap-4">
+	{ title && <h1 class="text-2xl text-center capitalize mt-4">{title}</h1> }	
 	{ subtitle && <h4 class="text-sm text-gray-300 text-center">{subtitle}</h4> }
-	{ (searchValue || category) && <a href="/store" class="underline block text-center">Reiniciar la búsqueda</a> }
-<div>
+	{ (searchValue || category) && <a href="/store" class="underline block text-center mb-2">Reiniciar la búsqueda</a> }
+</div>
 
 <div id="products-container">
-		{ productsObj.data.values().map( p => <ProductCard name={p.name} price={p.price} />) }
+		{ productsObj.data.values().map( p => <a href=`/store/${p.name}`> <ProductCard name={p.name} price={p.price}/> </a>) }
 </div> 
 
 
