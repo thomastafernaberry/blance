@@ -2,22 +2,12 @@
 export const prerender = false;
 
 import '../styles/global.css';
-import Navbar from '../components/Navbar.astro';
-import ProductGrid from '../components/ProductGrid.astro';
+import BaseLayout from '../components/BaseLayout.astro';
 import StoreHeader from '../components/StoreHeader.astro';
-
-const view = 'single';
+import ProductGrid from '../components/ProductGrid.astro';
 ---
 
-<html>
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta charset="UTF-8">
-</head>
-<body>
-	<Navbar currentPage="store" />
+<BaseLayout currentPage="store">
 	<StoreHeader />
 	<ProductGrid id="grid" />
-</body>
-</html>
-
+</BaseLayout>

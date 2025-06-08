@@ -1,0 +1,20 @@
+---
+const sorting = Astro.cookies.get('sorting');
+if (!sorting) {
+	Astro.cookies.set('sorting', 'asc');
+}
+---
+
+<select class="w-full text-xs text-gray-300 font-light border-[.5px] border-solid border-gray-200 rounded-full px-6 place-items-center justify-content-center">
+	<option value="asc">Menor precio primero</option>
+	<option value="des">Mayor precio primero</option>
+</select>
+
+<style>
+
+	select {
+		appearance: base-select;
+	}
+
+</style>
+

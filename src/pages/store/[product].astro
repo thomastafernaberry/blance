@@ -15,6 +15,6 @@ const productService = await Product.init();
 const p = (await productService.searchByName(product)).data[0];
 ---
 
-<BaseLayout>
+<BaseLayout currentPage="detail">
 	<ProductDetail name={p.name} price={p.price} />
 </BaseLayout
