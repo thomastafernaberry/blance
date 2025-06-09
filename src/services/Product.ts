@@ -16,32 +16,31 @@ export default class Product extends Strapi {
 		return instance;
 	}
 
-	async searchByName(productName: string, sortBy?: string) : Promise<Response> {
+	async searchByName(productName: string, sorting?: string) : Promise<Response> {
 		const params = {};
 		params.filters = { name: { $containsi: productName } };
 
-		if (!sortBy || sortBy === 'price:asc') {
+		if (sorting === 'desc') {
+			params.sort = { price: 'desc' }; 
+		} else {
 			params.sort = { price: 'asc' }; 
 		}
 
 		return this.productsCollection.find(params);
 	}
 	
-	async searchByCategory(categoryName: string, sortBy?: string) : Promise<Response> {
-		return this.productsCollection.find({
-			populate: {
-				category: {
-					fields: 'name'
-				}
-			},
-			filters: {
-				category: {
-					name: {
-						$contains: categoryName
-					} 
-				}
-			}
-		});
+	async searchByCategory(categoryName: string, sorting?: string) : Promise<Response> {
+		const params = {};
+		params.populate = { category: { fields: 'name' } };
+		params.filters = { category: { name: { $containsi: categoryName } } };
+
+		if (sorting === 'desc') {
+			params.sort = { price: 'desc' }; 
+		} else {
+			params.sort = { price: 'asc' }; 
+		}
+
+		return this.productsCollection.find(params);
 	}
 
 	async getAllNames() {

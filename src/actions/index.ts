@@ -1,15 +1,17 @@
 import { defineAction } from 'astro:actions';
-import { z } from 'astro:schema';
 
 export const server = {
 
-  setSortingCookie: defineAction({
-    sorting: z.string()
-  }),
-
-  handler: async (sorting) => {
-    Astro.cookies.set('sorting', sorting)
-  }
+	setSorting: defineAction({
+		handler: async (input, context) => {
+			await context.session.set('sorting', input);
+		}
+	}),
+	
+	getSorting: defineAction({
+		handler: async (input, context) => {
+			return context.session.get('sorting');
+		}
+	})
 
 }
-

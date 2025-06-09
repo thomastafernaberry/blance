@@ -7,13 +7,15 @@ interface Props {
 }
 
 const { category  } = Astro.props as Props;
+// ?
+const sorting = (await Astro.session?.get('sorting')) || '';
 
 const params = Astro.url.searchParams;
-const searchValue = (params.get('q') || '');
+const searchValue = params.get('q') || '';
 
 // Get products
 const productService = await Product.init();
-let productsObj = await productService.searchByName(searchValue);
+let productsObj = await productService.searchByName(searchValue, sorting);
 if (category) {
 	productsObj = await productService.searchByCategory(category);
 }
