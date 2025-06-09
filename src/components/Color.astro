@@ -2,15 +2,15 @@
 import '../styles/global.css';
 
 interface Props {
-	hex: string;
+	hexCode: string;
 }
 
-const { hex } = Astro.props as Props;
+const { hexCode } = Astro.props as Props;
 ---
 
-<style define:vars={{ hex }}>
+<style define:vars={{ hexCode }}>
 	div {
-		background-color: var(--hex);
+		background-color: var(--hexCode);
 	}
 </style>
 

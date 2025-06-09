@@ -28,9 +28,9 @@ import DoubleView from './DoubleView.astro';
 		}
 		
 		function switchProductsView() {
-			getCurrentView() === 'single' ?
-				setCurrentView('double'):
-				setCurrentView('single');	
+			getCurrentView() === 'double' ?
+				setCurrentView('single'):
+				setCurrentView('double');	
 		}
 		
 		function styleProductsBig(products) {
@@ -46,12 +46,12 @@ import DoubleView from './DoubleView.astro';
 		}
 
 		function updateBtnStyles() {
-			if (localStorage.getItem('view') === 'single') {
-				singleBtn.classList.add('bg-dark');
-				doubleBtn.classList.remove('bg-dark');
-			} else {
+			if (localStorage.getItem('view') === 'double' ) {
 				doubleBtn.classList.add('bg-dark');
 				singleBtn.classList.remove('bg-dark');
+			} else {
+				singleBtn.classList.add('bg-dark');
+				doubleBtn.classList.remove('bg-dark');
 			}
 		}
 		

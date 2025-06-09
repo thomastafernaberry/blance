@@ -1,34 +1,30 @@
 ---
+import { actions } from 'astro:actions';
 import ProductCard from './ProductCard.astro';
-import Product from '../services/Product.ts';
 
 interface Props {
 	category?: string;
 }
 
-const { category  } = Astro.props as Props;
-// ?
-const sorting = (await Astro.session?.get('sorting')) || '';
+const { category } = Astro.props as Props;
 
-const params = Astro.url.searchParams;
-const searchValue = params.get('q') || '';
+const sorting = await Astro.session?.get('sorting');
 
-// Get products
-const productService = await Product.init();
-let productsObj = await productService.searchByName(searchValue, sorting);
-if (category) {
-	productsObj = await productService.searchByCategory(category, sorting);
-}
+const searchValue = Astro.url?.searchParams?.get('q');
+
+const { data, error } = await Astro.callAction(actions.getProducts, { 
+	productName: searchValue, 
+	categoryName: category, 
+	sorting: sorting  
+});
 
 let [title, subtitle] = '';
-// Set title
 if (searchValue) {
 	title = `Buscando "${searchValue}"`;
 } else if (category) {
 	title = `Categoría ${category}`;
 }
-// Set subtitle
-if (productsObj.data.length === 0) {
+if (data.data.length === 0) {
 	subtitle = 'No hay productos que coincidan con tu búsqueda.';
 }
 ---
@@ -40,22 +36,20 @@ if (productsObj.data.length === 0) {
 </div>
 
 <div id="products-container">
-		{ productsObj.data.values().map( p => <a href=`/store/${p.name}`> <ProductCard name={p.name} price={p.price}/> </a>) }
+		{ data.data.map( p => <a href=`/store/${p.name}`> <ProductCard images={p.images} name={p.name} price={p.price} colors={p.colors} /> </a> ) }
 </div> 
 
 
 <style>
 	#products-container {
 		display: grid;
-		padding: 1rem;
-	}
-
-	#products-container {
 		grid-template-columns: 1fr;
+		padding: 1rem;
+		gap: 1rem;
 	}
 
 	#products-container.double {
 		grid-template-columns: repeat(2, 1fr);
-		gap: 1rem;
+		row-gap: 1.5rem;
 	}
 </style>

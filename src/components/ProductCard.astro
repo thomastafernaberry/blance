@@ -4,16 +4,16 @@ import Color from './Color.astro';
 interface Props {
 	name: string;
 	price: number;
-	imageSrc: string;
-	colors: Array[];
+	images: array;
+	colors: array;
 	isSmall: boolean;
 }
 
 const { 
-	name = 'Artículo de lencería',
-	price = 5000,
-	imageSrc = '/src/images/product-big.jpg',
-	colors = ['red', 'green', 'blue'],
+	name = '',
+	price = 0,
+	images = [],
+	colors = [],
 	isSmall = false
 } = Astro.props as Props;
 
@@ -22,20 +22,18 @@ if (isSmall) {
 	articleClasses += ' small';
 }
 
-// TODO: implement colors
+const srcPath = `http://localhost:1337${images?.[0]?.url}`;
 ---
 
 <article class={articleClasses}>
-  <img class="product-image" src={imageSrc} />
+  <img class="product-image" src="/src/images/product-big.jpg" />
   <div class="product-info">
     <div>
       <h5 class="product-name">{name}</h5>
       <h5 class="product-price">${price}</h5>
     </div>
     <div class="color-options">
-      <Color hex="#FF0000" />
-      <Color hex="#008000" />
-      <Color hex="#0000FF" />
+			{ colors.map(c => <Color hexCode={c.hex}/>) }
     </div>
   </div>
 </article>
@@ -43,13 +41,15 @@ if (isSmall) {
 <style>
 
 .product-card {
+	display: grid;
+	gap: .5rem;
   background-color: var(--color-white-300);
   border-radius: 1.5rem;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-	transition: all .4s ease-in-out;
+  padding: 0.5rem;
+	transition: all .4s ease-out;
 	
 	>.product-image {
+		aspect-ratio: 3/4;
   	border-radius: 1.5rem;
 	}
 
@@ -58,63 +58,49 @@ if (isSmall) {
 		justify-content: space-between;
 		align-items: center;
 		background-color: var(--color-white-400);
-		padding: 1rem;
-		border-radius: 1rem;
-		margin-top: 0.75rem;
+		padding: 1.2rem;
+		border-radius: 1.5rem;
 	}
 
 	.product-name {
 		font-size: 0.875rem;
 		color: var(--color-dark);
+		text-transform: capitalize;
 	}
 
 	.product-price {
 		font-size: 0.75rem;
+		letter-spacing: .6px;
 		color: var(--color-gray-300);
 	}
 
 	.color-options {
 		display: flex;
-		gap: 1rem;
+		gap: 1.2rem;
 	}
 }
 
 .product-card.small {
   min-height: 280px;
   min-width: 140px;
-  margin-bottom: 0.5rem;
   background-color: transparent;
   border-radius: 1.5rem;
   padding: 0;
-  margin-bottom: 1rem;
-
-  >.product-image {
-    border-radius: 1.5rem;
-  }
+	gap: 0;
 
   >.product-info {
     margin: 0;
-		padding: .4rem;
+		padding: .5rem;
 		background-color: transparent;
 		flex-direction: column;
 		flex-wrap: nowrap;
 		align-items: start;
-  }
-
-  .product-name {
-    font-size: 0.875rem;
-    color: var(--color-dark);
-  }
-
-  .product-price {
-    font-size: 0.75rem;
-    color: var(--color-gray-300);
+		gap: .2rem;
   }
 
   .color-options {
-    display: flex;
-    gap: 1rem;
 		padding-top: .4rem;
+		gap: 1rem;
   }
 }
 

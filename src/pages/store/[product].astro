@@ -1,4 +1,5 @@
 ---
+import { actions } from 'astro:actions';
 import Product from '../../services/Product.ts';
 import BaseLayout from '../../components/BaseLayout.astro';
 import ProductDetail from '../../components/ProductDetail.astro';
@@ -11,8 +12,9 @@ export async function getStaticPaths() {
 
 const { product } = Astro.params;
 
-const productService = await Product.init();
-const p = (await productService.searchByName(product)).data[0];
+const { data, error } = await Astro.callAction(actions.getProducts, { productName: product });
+
+const p = data?.data?.[0];
 ---
 
 <BaseLayout currentPage="detail">

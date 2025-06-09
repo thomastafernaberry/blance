@@ -7,7 +7,7 @@ export default class Strapi {
 	
 	constructor() {
 		this.strapiURL = 'http://localhost:1337/api';
-		this.strapiToken = '4a7ca82b935813a2e9c02c8764327477935ff9b8ea8098d456c6940382c6f62005e93b6b33e210822685e6ceab80e62806fbcce338f0d5f9a3d6a74d5aea21bbae46bc27663785d76406ffc56398407f38fa5c118271b8575154b518632277ab719bd4e57ea420ce4cfc776ea1de2d8e4038c848cf98f47b6dbd4464b73865ae';
+		this.strapiToken = '9dbef15e6c8c06dd0b7596cb18f47a36617f5077bd62bdfc2a9efb86a5e6b5bbf39906659e1232ad0d46559c1eddc2abfb1c6ce8c1453e0f48632f3faee38309d48af53a5c684a793d67c2ba00a18c03eaa80a415b7561c427fdf456bc31c1060d0f836862e1d528298fbaf3b0f4d6d6fa3a49f11a418d5a4c3bfb90f92a85c4';
 		this.strapiClient = strapi({ 
 			baseURL: this.strapiURL, 
 			auth: this.strapiToken 
