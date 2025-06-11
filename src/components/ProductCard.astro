@@ -23,6 +23,7 @@ if (isSmall) {
 }
 
 const srcPath = `http://localhost:1337${images?.[0]?.url}`;
+
 ---
 
 <article class={articleClasses}>
@@ -33,7 +34,7 @@ const srcPath = `http://localhost:1337${images?.[0]?.url}`;
       <h5 class="product-price">${price}</h5>
     </div>
     <div class="color-options">
-			{ colors.map(c => <Color hexCode={c.hex}/>) }
+			{ colors.map( c => <Color hex={c.hex} /> ) }
     </div>
   </div>
 </article>
@@ -102,6 +103,10 @@ const srcPath = `http://localhost:1337${images?.[0]?.url}`;
 		padding-top: .4rem;
 		gap: 1rem;
   }
+}
+
+.product-card.small:hover {
+	scale: 1.05;
 }
 
 </style>

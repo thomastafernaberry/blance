@@ -1,0 +1,52 @@
+---
+interface Props {
+	images: array;
+}
+
+const { images = [] } = Astro.props as Props;
+---
+
+<div class="flex items-center justify-center">
+	<button id="btn-back" class="absolute bg-dark/60 text-white p-4 rounded-full w-4 h-4 left-5"></button>
+	<img id="image-container" class="rounded-4xl aspect-3/4 w-full" />
+	<button id="btn-next" class="absolute bg-dark/60 text-white p-4 rounded-full w-4 h-4 right-5"></button>
+</div>
+
+<script define:vars={{images}}>
+
+	const imageContainer = document.getElementById('image-container');
+	const btnBack = document.getElementById('btn-back');
+	const btnNext = document.getElementById('btn-next');
+	
+	const srcArray = [];
+	const origin = 'http://localhost:1337'; // strapi
+	for (i of images) {
+		srcArray.push(origin + i.url);
+	}
+	
+	let currentImageIndex = 0;
+	
+	function updateImage() {
+
+		if (currentImageIndex > srcArray.length - 1) { 
+			currentImageIndex = 0;
+		} else if (Math.sign(currentImageIndex) === -1) { // check for negative numbers
+			currentImageIndex = srcArray.length - 1;
+		}
+
+		imageContainer.src = srcArray[currentImageIndex];
+	}
+	
+	btnBack.addEventListener('click', () => {
+		currentImageIndex -= 1;
+		updateImage();
+	});
+
+	btnNext.addEventListener('click', () => {
+		currentImageIndex += 1;
+		updateImage();
+	});
+
+	updateImage();
+		
+</script>

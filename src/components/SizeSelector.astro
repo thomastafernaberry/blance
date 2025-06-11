@@ -1,0 +1,20 @@
+---
+interface Props {
+	sizes: array;
+}
+
+const { sizes = [] } = Astro.props;
+---
+
+<div class="grid h-20 w-28">
+	<label class="text-xs text-gray-600">Talles disponibles:</label>
+	<select class="grid place-items-center border-[.1px] border-gray-100 shadow-sm rounded-full px-5 h-10">
+		<option>XL</option>
+	</select>
+</div>
+
+<style>
+	select {
+		appearance: base-select;
+	}
+</style>

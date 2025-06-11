@@ -2,17 +2,21 @@
 import '../styles/global.css';
 
 interface Props {
-	hexCode: string;
+	hex: string;
+	big: boolean;
 }
 
-const { hexCode } = Astro.props as Props;
+const { hex = '', big = false } = Astro.props as Props;
 ---
+{ big
+	? <div class="color w-5 h-5 rounded-full"></div>
+	: <div class="color w-4 h-4 rounded-full"></div>
+}
 
-<style define:vars={{ hexCode }}>
-	div {
-		background-color: var(--hexCode);
-	}
+
+
+<style define:vars={{hex}}>
+	div { background-color: var(--hex); }
 </style>
 
-<div class="w-4 h-4 rounded-full"></div>
 

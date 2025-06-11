@@ -9,7 +9,7 @@ import DoubleView from './DoubleView.astro';
 	<button id="double" class="w-12 rounded-full grid place-items-center"> <DoubleView /> </button>
 </div>
 
-<script>
+<script type="module">
 
 	document.addEventListener('DOMContentLoaded', () => {
 
@@ -72,7 +72,6 @@ import DoubleView from './DoubleView.astro';
 				updateView(container, products);
 			});
 		}
-		
 
 		updateBtnStyles();
 		updateView(container, products);

@@ -22,6 +22,7 @@ export default class Product extends Strapi {
 		params.fields = ['name', 'price'];
 		params.sort = ['price:asc']; 
 		params.populate = { 
+			category: { fields: ['name'] },
 			colors: { fields: ['hex'] }, 
 			images: { fields: ['url'] },
 			sizesAndStock:  { fields: ['*'] }
@@ -32,7 +33,6 @@ export default class Product extends Strapi {
 		}
 		
 		if (categoryName) {
-			params.populate = { category: { fields: 'name' } };
 			params.filters = { category: { name: { $containsi: categoryName } } };
 		}
 

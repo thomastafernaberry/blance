@@ -1,32 +1,49 @@
 ---
-import Product from '../services/Product.ts';
+import ProductDetailCarousel from '../components/ProductDetailCarousel.astro';
+import SizeSelector from '../components/SizeSelector.astro';
 import Color from '../components/Color.astro';
 import MainBtn from '../components/MainBtn.astro';
 
 interface Props {
+	images: array;
 	name: string;
 	price: number;
+	colors: array;
+	sizes: array;
 	description: string;
 	composition: string;
 }
 
-const { 
+const {
+	images = [],
 	name = '',
 	price = 0,
+	colors = [],
+	sizes = [],
 	description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur',
 	composition = '',
 } = Astro.props as Props;
+
 ---
 
-<main class="grid">
-	<img class="rounded-4xl p-4 pt-2 place-self-center" src="/src/images/product-big.jpg" />
-	<div class="px-4 pt-2">
-		<h1 class="text-3xl/10 my-2 font-regular text-dark capitalize">{name}<h1>
-		<h2 class="text-xl pb-6">${price}</h2>
-		<Color hexColor="#000" />
-		<MainBtn text="Anadir al carrito" />
+<main class="grid justify-center px-4">
+	<ProductDetailCarousel images={images} />
+	<div class="grid gap-4 p-2 pb-10 pt-6">
+		<h1 class="text-4xl/11 text-dark capitalize">{name}</h1>
+		<div class="mt-1">
+			<h2 class="text-2xl text-gray-800">${price}</h2>
+			<h3 class="text-xs font-light text-gray-400 mt-1">Precio sin impuestos nacionales: $1000</h3>
+		</div>
+		<div class="flex justify-between mt-8">
+			<div class="grid h-20">
+				<label class="text-xs text-gray-600">Colores disponibles:</label>
+				<div class="flex gap-6 w-fit items-center h-fit">{ colors.map( c => <Color hex={c.hex} big=true />) }</div>
+			</div>
+			<SizeSelector sizes={sizes} />
+		</div>
 	</div>
-	<div class="bg-white-100 mx-4 mt-24 rounded-4xl" >
+	<MainBtn text="Añadir producto al carrito" />
+	<div class="bg-white-100 my-20 rounded-4xl" >
 		<div class="flex justify-between bg-white-200 rounded-t-4xl border-gray-200 h-12 border-b-1">
 			<button class="bg-dark text-white rounded-tl-4xl py-2 px-6 w-full">Descripción</button>
 			<button class="bg-white-200 rounded-tr-4xl py-2 px-6 w-full">Composición</button>
