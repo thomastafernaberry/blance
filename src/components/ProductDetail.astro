@@ -3,6 +3,7 @@ import ProductDetailCarousel from '../components/ProductDetailCarousel.astro';
 import SizeSelector from '../components/SizeSelector.astro';
 import Color from '../components/Color.astro';
 import MainBtn from '../components/MainBtn.astro';
+import ProductDetailData from '../components/ProductDetailData.astro';
 
 interface Props {
 	images: array;
@@ -20,13 +21,13 @@ const {
 	price = 0,
 	colors = [],
 	sizes = [],
-	description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur',
+	description = '',
 	composition = '',
 } = Astro.props as Props;
 
 ---
 
-<main class="grid justify-center px-4">
+<main class="grid px-4">
 	<ProductDetailCarousel images={images} />
 	<div class="grid gap-4 p-2 pb-10 pt-6">
 		<h1 class="text-4xl/11 text-dark capitalize">{name}</h1>
@@ -43,11 +44,5 @@ const {
 		</div>
 	</div>
 	<MainBtn text="Añadir producto al carrito" />
-	<div class="bg-white-100 my-20 rounded-4xl" >
-		<div class="flex justify-between bg-white-200 rounded-t-4xl border-gray-200 h-12 border-b-1">
-			<button class="bg-dark text-white rounded-tl-4xl py-2 px-6 w-full">Descripción</button>
-			<button class="bg-white-200 rounded-tr-4xl py-2 px-6 w-full">Composición</button>
-		</div>
-		<p class="text-sm/7 text-gray-300 font-light px-6 py-4">{description}</p>
-	</div>
+	<ProductDetailData description={description} composition={composition} />
 </main>

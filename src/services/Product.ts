@@ -19,7 +19,7 @@ export default class Product extends Strapi {
 	async getProducts(productName?: string, categoryName?: string, sorting?: string) : Promise<Response> {
 		const params = {};
 		params.filters = { name: { $containsi: productName } };
-		params.fields = ['name', 'price'];
+		params.fields = ['name', 'price', 'description', 'composition'];
 		params.sort = ['price:asc']; 
 		params.populate = { 
 			category: { fields: ['name'] },

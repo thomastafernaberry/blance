@@ -7,34 +7,50 @@ const { images = [] } = Astro.props as Props;
 ---
 
 <div class="flex items-center justify-center">
-	<button id="btn-back" class="absolute bg-dark/60 text-white p-4 rounded-full w-4 h-4 left-5"></button>
-	<img id="image-container" class="rounded-4xl aspect-3/4 w-full" />
-	<button id="btn-next" class="absolute bg-dark/60 text-white p-4 rounded-full w-4 h-4 right-5"></button>
+	<button id="btn-back" class="absolute bg-dark/60 text-white p-4 rounded-full w-4 h-4 left-6"></button>
+	<div class="grid place-items-center">
+		<img id="image-container" class="rounded-4xl aspect-3/4 bg-white-500 min-w-full min-h-100" />
+		<div class="flex gap-2 relative bottom-6">
+			{ images.map( () => <div class="indicator w-2 h-2 rounded-full "></div>) }
+		</div>
+	</div>
+	<button id="btn-next" class="absolute bg-dark/60 text-white p-4 rounded-full w-4 h-4 right-6"></button>
 </div>
 
 <script define:vars={{images}}>
 
 	const imageContainer = document.getElementById('image-container');
+	const indicators = document.getElementsByClassName('indicator')
 	const btnBack = document.getElementById('btn-back');
 	const btnNext = document.getElementById('btn-next');
 	
 	const srcArray = [];
 	const origin = 'http://localhost:1337'; // strapi
-	for (i of images) {
+	for (const i of images) {
 		srcArray.push(origin + i.url);
 	}
-	
+
 	let currentImageIndex = 0;
+	
+	function updateIndicators() {
+		for (const i of indicators) {
+			i.style.backgroundColor = 'grey'
+		}
+		indicators[currentImageIndex].style.backgroundColor = 'black';
+	}
 	
 	function updateImage() {
 
 		if (currentImageIndex > srcArray.length - 1) { 
 			currentImageIndex = 0;
-		} else if (Math.sign(currentImageIndex) === -1) { // check for negative numbers
+		} else if (Math.sign(currentImageIndex) === -1) { // check for negative numbers in currentImageIndex
 			currentImageIndex = srcArray.length - 1;
 		}
 
 		imageContainer.src = srcArray[currentImageIndex];
+ 	
+		updateIndicators();
+
 	}
 	
 	btnBack.addEventListener('click', () => {
