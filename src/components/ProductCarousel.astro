@@ -1,7 +1,15 @@
 ---
+import { actions } from 'astro:actions';
 import ProductCard from './ProductCard.astro';
 import ArrowRight from './ArrowRight.astro';
-const { carouselTitle } = Astro.props;
+
+interface Props {
+	carouselTitle: string;
+}
+
+const products = (await Astro.callAction(actions.getProducts, {productName:''}))?.data;
+
+const { carouselTitle } = Astro.props as Props;
 ---
 
 <div class="m-4">
@@ -11,11 +19,8 @@ const { carouselTitle } = Astro.props;
 			<a href="#"><ArrowRight /></a>
 		</div> 
 	}
-	<div class="flex flex-row gap-x-4 overflow-scroll">
-		<ProductCard isSmall=true />
-		<ProductCard isSmall=true />
-		<ProductCard isSmall=true />
-		<ProductCard isSmall=true />
+	<div class="flex flex-row gap-x-4 overflow-x-scroll pb-2">
+		{ products?.data?.map(p => <ProductCard name={p.name} price={p.price} colors={p.colors} isSmall=true /> )		
 	</div>
 </div>
 

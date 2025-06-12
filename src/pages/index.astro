@@ -14,20 +14,24 @@ const currentPage = "home";
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 	</head>
-	<main class="flex flex-col gap-y-10 px-6 pb-16 pt-4 mb-12 bg-white-300 rounded-b-4xl">
-		<div class="grid gap-4">
+	<main class="flex flex-col gap-y-10 px-4 pb-16 pt-2 mb-12 bg-white-300 rounded-b-4xl">
+		<div class="grid gap-2">
 			<h1 class="text-8xl text-center font-[Anton] uppercase tracking-wide">Blance</h1>
-			<p class="text-center text-gray-500 tracking-wider font-semibold">Lencería que abraza lo que sos</p>
+			<h3 class="text-center text-gray-500 tracking-wider font-semibold">Lencería que abraza lo que sos</h3>
 		</div>
 		<img src="/src/images/hero.png" class="aspect-3/4">
-		<MainBtn text="Explorá nuestros artículos" />
+		<a href="/store">
+			<MainBtn text="Explorá nuestros artículos" />
+		</a>
 	</main>
 	<div class="flex flex-col gap-y-4">
 		<ProductCarousel carouselTitle="Articulos populares"/>	
 		<ProductCarousel carouselTitle="Nuevos ingresos"/>	
 		<div class="px-6 mt-8 mb-12">
 			<h5 class="text-lg font-medium text-center mb-4">¿No encontraste lo que buscabas?</h5>
-			<MainBtn text="Ver todos los productos" />
+			<a href="/store">
+				<MainBtn text="Ver todos los productos" />
+			</a>
 		</div>
 	</div>
 </BaseLayout>
