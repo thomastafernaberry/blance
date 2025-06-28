@@ -4,45 +4,51 @@ import SizeSelector from '../components/SizeSelector.astro';
 import Color from '../components/Color.astro';
 import MainBtn from '../components/MainBtn.astro';
 import ProductDetailData from '../components/ProductDetailData.astro';
+import { getProductsColors } from '../utils/product.ts';
+import type { ProductData } from '../services/Product.ts';
 
 interface Props {
-	images: array;
-	name: string;
-	price: number;
-	colors: array;
-	sizes: array;
-	description: string;
-	composition: string;
+	productData: ProductData;
 }
 
-const {
-	images = [],
-	name = '',
-	price = 0,
-	colors = [],
-	sizes = [],
-	description = '',
-	composition = '',
-} = Astro.props as Props;
+const { productData } = Astro.props as Props;
 
+const availableSizes = [];
+for (const size of productData.stockBySize) {
+	if (size.stock > 0) {
+		availableSizes.push(size.name);
+	}
+}
+
+const { productSlugs, availableColors } = getProductsColors(productData);
 ---
 
 <main class="grid px-4">
-	<ProductDetailCarousel images={images} />
+	<ProductDetailCarousel images={productData.images} />
 	<div class="grid gap-4 p-2 pb-10 pt-6">
-		<h1 class="text-4xl/11 text-dark capitalize">{name}</h1>
+		<h1 class="text-4xl/11 text-dark capitalize">
+			{productData.name}
+		</h1>
 		<div class="mt-1">
-			<h2 class="text-2xl text-gray-800">${price}</h2>
-			<h3 class="text-xs font-light text-gray-400 mt-1">Precio sin impuestos nacionales: $1000</h3>
+			<h2 class="text-2xl text-gray-800">
+				${productData.price}
+			</h2>
+			<h3 class="text-xs font-light text-gray-400 mt-1">
+				Precio sin impuestos nacionales: ${(productData.price / 1.21).toPrecision(6)}
+			</h3>
 		</div>
 		<div class="flex justify-between mt-8">
-			<div class="grid h-20">
-				<label class="text-xs text-gray-600">Colores disponibles:</label>
-				<div class="flex gap-6 w-fit items-center h-fit">{ colors.map( c => <Color hex={c.hex} big=true />) }</div>
+			<div class="grid h-[80px]">
+				<label class="text-xs text-gray-600">
+					Colores disponibles:
+				</label>
+				<div class="flex gap-6 w-fit items-center h-fit"> 
+					{ availableColors.map( (hex, i) => <Color hex={hex} slug={productSlugs[i]} isBig=true /> ) }
+				</div>
 			</div>
-			<SizeSelector sizes={sizes} />
+			<SizeSelector availableSizes={availableSizes} />
 		</div>
 	</div>
 	<MainBtn text="Añadir producto al carrito" />
-	<ProductDetailData description={description} composition={composition} />
+	<ProductDetailData description={productData.description} composition={productData.composition} />
 </main>

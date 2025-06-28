@@ -7,6 +7,14 @@ import StoreHeader from '../components/StoreHeader.astro';
 import ProductGrid from '../components/ProductGrid.astro';
 ---
 
+<script>
+	// ------------------------------------------- DEV --------------------------------------
+	import Cart from '../services/Cart.ts';
+	// const cart = new Cart();
+	// console.log(cart.getProducts());
+</script>
+
+
 <BaseLayout currentPage="store">
 	<StoreHeader />
 	<ProductGrid id="grid" />

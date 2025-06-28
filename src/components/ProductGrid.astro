@@ -18,16 +18,25 @@ const { data, error } = await Astro.callAction(actions.getProducts, {
 	sorting: sorting  
 });
 
+const productsData = [];
+for (const product of data.data) {
+	productsData.push(product);
+}
+
 let [title, subtitle] = '';
 if (searchValue) {
 	title = `Buscando "${searchValue}"`;
 } else if (category) {
 	title = `Categoría ${category}`;
 }
-if (data.data.length === 0) {
+if (data?.data?.length === 0) {
 	subtitle = 'No hay productos que coincidan con tu búsqueda.';
 }
 ---
+
+<script define:vars={{data}}>
+	console.log(data.data);
+</script>
 
 <div class="grid gap-4">
 	{ title && <h1 class="text-2xl text-center capitalize mt-4">{title}</h1> }	
@@ -36,20 +45,22 @@ if (data.data.length === 0) {
 </div>
 
 <div id="products-container">
-		{ data.data.map( p => <a href=`/store/${p.name}`> <ProductCard images={p.images} name={p.name} price={p.price} colors={p.colors} /> </a> ) }
+		{ productsData.map( productData => <ProductCard productData={productData} />) }
 </div> 
 
 
 <style>
+
 	#products-container {
 		display: grid;
 		grid-template-columns: 1fr;
-		padding: 1rem;
-		gap: 1rem;
+		padding: 16px;
+		gap: 16px;
 	}
 
 	#products-container.double {
 		grid-template-columns: repeat(2, 1fr);
-		row-gap: 1.5rem;
+		row-gap: 28px;
 	}
+
 </style>

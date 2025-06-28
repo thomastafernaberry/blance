@@ -1,90 +1,136 @@
 ---
+import type { ProductData } from '../services/Product.ts';
+import { getProductsColors } from '../utils/product.ts';
 import Color from './Color.astro';
 
 interface Props {
-	name: string;
-	price: number;
-	images: array;
-	colors: array;
-	isSmall: boolean;
+	productData: ProductData;
+	isSimple: boolean;
 }
 
-const { 
-	name = '',
-	price = 0,
-	images = [],
-	colors = [],
-	isSmall = false
-} = Astro.props as Props;
+const { productData, isSimple = false } = Astro.props as Props;
 
 let articleClasses = 'product-card';
-if (isSmall) {
+if (isSimple) {
 	articleClasses += ' small';
 }
 
-const srcPath = `http://localhost:1337${images?.[0]?.url}`;
+const { productSlugs, availableColors } = getProductsColors(productData);
 
+const srcPath = `http://localhost:1337${productData?.images?.[0]?.url}`;
 ---
 
+<script define:vars={{productSlugs}}>
+	console.log(productSlugs);
+</script>
+
 <article class={articleClasses}>
-  <img class="product-image" src="/src/images/product-big.jpg" />
-  <div class="product-info">
-    <div>
-      <h5 class="product-name">{name}</h5>
-      <h5 class="product-price">${price}</h5>
-    </div>
-    <div class="color-options">
-			{ colors.map( c => <Color hex={c.hex} /> ) }
-    </div>
-  </div>
+	<a href=`/store/${productData?.slug}`>
+		<div>
+			<img class="product-image" src="/src/images/product-big.jpg" />
+			<div class="marker">
+				<button>
+					<p>Añadir al carrito</p>
+					<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M2.4947 13.7033C3.2947 14.6667 4.7827 14.6667 7.76003 14.6667H8.24003C11.2174 14.6667 12.706 14.6667 13.506 13.7033M2.4947 13.7033C1.6947 12.7393 1.96936 11.2767 2.51803 8.35C2.90803 6.27 3.1027 5.22933 3.84336 4.61467M13.506 13.7033C14.306 12.7393 14.0314 11.2767 13.4827 8.35C13.0927 6.27 12.8974 5.22933 12.1567 4.61467M12.1567 4.61467C11.4167 4 10.3574 4 8.2407 4H7.75936C5.6427 4 4.58403 4 3.84336 4.61467" stroke="#F5F1EB" stroke-width="1.5"/>
+						<path d="M6 3.99998V3.33331C6 2.80288 6.21071 2.29417 6.58579 1.9191C6.96086 1.54403 7.46957 1.33331 8 1.33331C8.53043 1.33331 9.03914 1.54403 9.41421 1.9191C9.78929 2.29417 10 2.80288 10 3.33331V3.99998" stroke="#F5F1EB" stroke-width="1.5" stroke-linecap="round"/>
+					</svg>
+				</button>
+			</div>
+		</div>
+		<div class="product-info">
+			<div>
+				<h5 class="product-name">{productData?.name}</h5>
+				<h5 class="product-price">${productData?.price}</h5>
+			</div>
+		</div>
+	</a>
+	<div class="color-options">
+		{ availableColors?.map( (h, i) => <Color hex={h} slug={productSlugs[i]} /> ) }
+	</div>
 </article>
+
 
 <style>
 
 .product-card {
 	display: grid;
-	gap: 12px;
+	position: relative;
+	gap: 8px;
   background-color: var(--color-white-300);
-  border-radius: 1.5rem;
-  padding: 0.5rem;
+  border-radius: 16px;
+  padding: 8px;
 	transition: all .4s ease-out;
-	box-shadow: var(--shadow-sm);
 	
-	>.product-image {
+	.product-image {
 		aspect-ratio: 3/4;
-  	border-radius: var(--radius-3xl);
-		box-shadow: var(--shadow-xs);
+		border-radius: 20px;
 	}
 
-	>.product-info {
+	.marker {
+		width: 0px;	
+		height: 0px;
+		position: absolute;
+		left: 100%;
+	}
+	
+	button {
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		right: 204px;
+		bottom: 56px;
+		min-width: 188px;
+		height: 48px;
+		padding-left: 20px;
+		background-color: #ffffff;
+		align-content: center;
+		font-size: .75rem;
+		border-radius: 16px;
+
+		>svg {
+			background-color: black;
+			width: 48px;
+			height: 48px;
+			padding: 12px;
+			border-radius: 0 20px 20px 0;
+		}
+	}
+		
+	.btn>button::before {
+		content: '🛒';
+		display: grid;
+		place-items: center;
+		position: absolute;
+		border-radius: 0 20px 20px 0;
+		left: 148px;
+		width: 52px;
+		height: 48px;
+	}
+
+	.product-info {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		background-color: var(--color-white-400);
-		padding: 16px 18px;
-		gap: 32px;
-		border-radius: var(--radius-3xl);
-		box-shadow: var(--shadow-xs);
+		padding: 16px;
+		gap: 48px;
+		border-radius: 16px;
 	}
 
 	.product-name {
-		font-size: 0.875rem;
+		font-size: 1rem;
 		line-height: 1.2rem;
-		letter-spacing: .2px;
 		color: var(--color-dark);
 		text-transform: capitalize;
+		text-wrap: pretty;
 	}
 
 	.product-price {
-		font-size: 0.75rem;
-		letter-spacing: .6px;
+		font-size: 0.9rem;
 		color: var(--color-gray-300);
-		margin-top: 6px;
-	}
-
-	.color-options {
-		display: flex;
-		gap: 1.2rem;
+		margin-top: 4px;
 	}
 }
 
@@ -93,29 +139,35 @@ const srcPath = `http://localhost:1337${images?.[0]?.url}`;
   min-height: 280px;
   min-width: 140px;
   background-color: transparent;
-  border-radius: 1.5rem;
+  border-radius: 16px;
   padding: 0;
 	gap: 0;
-	box-shadow: none;
 
-  >.product-info {
+	button {
+		scale: 0.9;
+		min-width: fit-content;
+		padding-left: 0;
+		right: 52px;
+		bottom: 52px;
+
+		>p {
+			display: none
+		}
+
+		svg {
+			border-radius: 16px;
+		}
+	}
+
+  .product-info {
     margin: 0;
-		padding: 12px 6px;
+		padding: 8px 4px;
 		background-color: transparent;
 		flex-direction: column;
 		flex-wrap: nowrap;
 		align-items: start;
 		gap: 12px;
-		box-shadow: none;
   }
-	
-	.product-name {
-		min-height: 40px;
-	}
-	
-	.product-price {
-		margin-top: .2rem;
-	}
 
   .color-options {
 		gap: 1rem;
@@ -124,6 +176,11 @@ const srcPath = `http://localhost:1337${images?.[0]?.url}`;
 
 .product-card.small:hover {
 	scale: 1.05;
+}
+
+.color-options {
+	display: flex;
+	gap: 16px;
 }
 
 </style>

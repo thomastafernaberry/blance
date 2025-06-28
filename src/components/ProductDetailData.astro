@@ -9,8 +9,8 @@ const { description, composition } = Astro.props as Props;
 
 <div class="my-30 rounded-4xl">
   <div class="flex gap-4 items-center justify-between rounded-4xl bg-white-200 h-2 tracking-wide text-sm">
-    <button id="btn-description" class="bg-dark text-white rounded-4xl py-3 w-full shadow-xs">Descripción</button>
-    <button id="btn-composition" class="bg-white-200 rounded-4xl py-3 w-full border-[.1px] border-gray-100 shadow-xs">Composición</button>
+    <button id="btn-description" class="bg-black text-white rounded-4xl py-3 w-full min-h-[52px]">Descripción</button>
+    <button id="btn-composition" class="bg-white-200 rounded-4xl py-3 w-full border-[.1px] border-gray-100 min-h-[52px]">Composición</button>
   </div>
 	<div class="min-h-60 p-3 mt-6 text-gray-300 font-light text-sm/7">
 		<p id="product-description">{description}</p>
@@ -39,12 +39,12 @@ const { description, composition } = Astro.props as Props;
 	
 	function updateStyles(btnArray) {
 		btnArray.forEach(b => { 
-			if (b.classList.contains('bg-dark')) {
-				b.classList.remove('bg-dark', 'text-white');
+			if (b.classList.contains('bg-black')) {
+				b.classList.remove('bg-black', 'text-white');
 				b.classList.add('bg-white-200');
 			} else {
 				b.classList.remove('bg-white-200');
-				b.classList.add('bg-dark', 'text-white');
+				b.classList.add('bg-black', 'text-white');
 			}
 		})
 	}

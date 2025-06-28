@@ -1,22 +1,21 @@
 ---
-import '../styles/global.css';
-
 interface Props {
 	hex: string;
-	big: boolean;
+	slug: string;
+	isBig?: boolean;
 }
 
-const { hex = '', big = false } = Astro.props as Props;
+const { hex = '', slug = '#', isBig = true } = Astro.props as Props;
+const productURL = `/store/${slug}`;
 ---
-{ big
-	? <div class="color w-5 h-5 rounded-full"></div>
+
+{ isBig
+	? <div class="color w-5 h-5 rounded-full"><a class="block w-full h-full" href={productURL} ></a></div>
 	: <div class="color w-4 h-4 rounded-full"></div>
 }
-
 
 
 <style define:vars={{hex}}>
 	div { background-color: var(--hex); }
 </style>
-
 

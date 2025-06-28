@@ -1,0 +1,92 @@
+import Strapi from './Strapi.ts';
+
+export type StockBySize = {
+	readonly id: number;
+	readonly name: string;
+	stock: number;
+}
+
+type Image = {
+	readonly documentId: string;
+	readonly url: string;
+}
+
+type Category = {
+	readonly documentId: string;
+	readonly name: string;
+}
+
+type Color = {
+	readonly documentId: string;
+	readonly hex: string;
+}
+
+type ProductData = {
+	readonly documentId: string;
+	readonly slug: string;
+	readonly name: string;
+	readonly price: number;
+	readonly description: string;
+	readonly composition: string;
+	readonly category: Category;
+	readonly color: Color;
+	readonly images: ReadonlyArray<Image>;
+	readonly stockBySize: ReadonlyArray<StockBySize>;
+}
+
+export default class Product extends Strapi {
+
+	private collectionName: string; 
+	private productsCollection: any;
+
+	private constructor() {
+		super();
+		this.collectionName = 'products';
+	}
+		
+	static async init() : Promise<Product> {
+		const instance = new Product();
+		instance.productsCollection = await instance.strapiClient.collection(instance.collectionName);
+		return instance;
+	}
+
+	async getProducts(productName?: string, categoryName?: string, sorting?: string) : Promise<ProductData[]> {
+		const params = {};
+		params.fields = ['name', 'price', 'description', 'composition', 'slug'];
+		params.populate = { 
+			images: { fields: ['url'] },
+			category: { fields: ['name'] },
+			color: { fields: ['hex'] },
+			stockBySize: { fields: ['name', 'stock'] },
+			relatedProducts: { fields: ['products'] },
+		};
+
+		if (productName) {
+			params.filters = { name: { $containsi: productName } };
+		}
+
+		if (categoryName) {
+			params.filters = { category: { name: { $containsi: categoryName } } };
+		}
+
+		if (sorting === 'desc') {
+			params.sort = ['price:desc']; 
+		} else {
+			params.sort = ['price:asc']; 
+		}
+
+		return this.productsCollection.find(params);
+	}
+
+	async getAllNames() {
+		const products = await this.productsCollection.find();
+		return products.data.map( p => p.name );
+	}
+	
+	async getAllSlugs() {
+		const products = await this.productsCollection.find();
+		return products.data.map( p => p.slug );
+	}
+
+}
+
