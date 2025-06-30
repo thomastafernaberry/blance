@@ -14,27 +14,31 @@ interface Props {
 const { productData } = Astro.props as Props;
 
 const availableSizes = [];
-for (const size of productData.stockBySize) {
-	if (size.stock > 0) {
-		availableSizes.push(size.name);
+try {
+	for (const size of productData.stockBySize) {
+		if (size.stock > 0) {
+			availableSizes.push(size.name);
+		}
 	}
+} catch (e) {
+	console.error(e);
 }
 
 const { productSlugs, availableColors } = getProductsColors(productData);
 ---
 
 <main class="grid px-4">
-	<ProductDetailCarousel images={productData.images} />
-	<div class="grid gap-4 p-2 pb-10 pt-6">
+	<ProductDetailCarousel images={productData?.images} />
+	<div class="grid gap-4 p-2 pb-10 pt-3">
 		<h1 class="text-4xl/11 text-dark capitalize">
-			{productData.name}
+			{productData?.name}
 		</h1>
 		<div class="mt-1">
 			<h2 class="text-2xl text-gray-800">
-				${productData.price}
+				${productData?.price}
 			</h2>
 			<h3 class="text-xs font-light text-gray-400 mt-1">
-				Precio sin impuestos nacionales: ${(productData.price / 1.21).toPrecision(6)}
+				Precio sin impuestos nacionales: ${(productData?.price / 1.21).toPrecision(6)}
 			</h3>
 		</div>
 		<div class="flex justify-between mt-8">
@@ -50,5 +54,5 @@ const { productSlugs, availableColors } = getProductsColors(productData);
 		</div>
 	</div>
 	<MainBtn text="Añadir producto al carrito" />
-	<ProductDetailData description={productData.description} composition={productData.composition} />
+	<ProductDetailData description={productData?.description} composition={productData?.composition} />
 </main>

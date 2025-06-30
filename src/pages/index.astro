@@ -1,9 +1,18 @@
 ---
+import { actions } from 'astro:actions';
 import "../styles/global.css";
 import BaseLayout from '../components/BaseLayout.astro';
 import Navbar from '../components/Navbar.astro';
 import MainBtn from '../components/MainBtn.astro';
 import ProductCarousel from '../components/ProductCarousel.astro';
+
+const products = (await Astro.callAction(actions.getProducts, { featured: true }))?.data?.data;
+const popularProducts = [];
+const newProducts = [];
+
+products.forEach((p) => {
+  p.isPopular ? popularProducts.push(p) : newProducts.push(p);
+});
 
 const currentPage = "home";
 ---
@@ -25,8 +34,8 @@ const currentPage = "home";
 		</a>
 	</main>
 	<div class="flex flex-col gap-y-4">
-		<ProductCarousel carouselTitle="Articulos populares"/>	
-		<ProductCarousel carouselTitle="Nuevos ingresos"/>	
+		<ProductCarousel carouselTitle="Articulos populares" products={popularProducts}/>	
+		<ProductCarousel carouselTitle="Nuevos ingresos" products={newProducts}/>	
 		<div class="px-6 mt-8 mb-12">
 			<h5 class="text-lg font-medium text-center mb-4">¿No encontraste lo que buscabas?</h5>
 			<a href="/store">

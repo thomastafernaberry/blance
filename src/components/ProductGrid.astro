@@ -19,8 +19,12 @@ const { data, error } = await Astro.callAction(actions.getProducts, {
 });
 
 const productsData = [];
-for (const product of data.data) {
-	productsData.push(product);
+try {
+	for (const product of data.data) {
+		productsData.push(product);
+	}
+} catch (e) {
+	console.error(e);
 }
 
 let [title, subtitle] = '';
@@ -55,12 +59,12 @@ if (data?.data?.length === 0) {
 		display: grid;
 		grid-template-columns: 1fr;
 		padding: 16px;
-		gap: 16px;
+		gap: 32px 16px;
 	}
 
 	#products-container.double {
 		grid-template-columns: repeat(2, 1fr);
-		row-gap: 28px;
+		row-gap: 32px;
 	}
 
 </style>

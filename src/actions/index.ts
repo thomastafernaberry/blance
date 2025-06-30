@@ -6,7 +6,7 @@ export const server = {
 	getProducts: defineAction({
 		handler: async (input, context) => {
 			const productService = await Product.init();
-			const products = await productService.getProducts(input.productName, input.productSlug, input.categoryName, input.sorting);
+			const products = await productService.getProducts(input.productName, input.productSlug, input.categoryName, input.sorting, input.featured);
 			return products;
 		}
 	}),

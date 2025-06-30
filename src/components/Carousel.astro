@@ -1,6 +1,12 @@
 ---
 import ProductCard from './ProductCard.astro';
 import ArrowRight from './ArrowRight.astro';
+import { actions } from 'astro:actions';
+
+const products = Astro.callAction(actions.getProducts({ featured: true }));
+const newProducts = [];
+const popularProducts = [];
+
 const { carouselTitle } = Astro.props;
 ---
 

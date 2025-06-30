@@ -1,15 +1,15 @@
 ---
+import type { ProductData } from '../services/Product.ts';
 import { actions } from 'astro:actions';
 import ProductCard from './ProductCard.astro';
 import ArrowRight from './ArrowRight.astro';
 
 interface Props {
 	carouselTitle: string;
+	products: Array<ProductData>;
 }
 
-const products = (await Astro.callAction(actions.getProducts, {productName:''}))?.data;
-
-const { carouselTitle } = Astro.props as Props;
+const { carouselTitle, products = [] } = Astro.props as Props;
 ---
 
 <div class="m-4">
@@ -19,8 +19,8 @@ const { carouselTitle } = Astro.props as Props;
 			<a href="#"><ArrowRight /></a>
 		</div> 
 	}
-	<div class="flex flex-row gap-x-4 overflow-x-scroll pb-2">
-		{ products?.data?.map(p => <ProductCard name={p.name} price={p.price} colors={p.colors} isSmall=true /> )		
+	<div class="flex flex-row gap-x-4 overflow-x-scroll pb-4">
+		{ products?.map( p => <ProductCard productData={p} isSimple=true /> )		
 	</div>
 </div>
 

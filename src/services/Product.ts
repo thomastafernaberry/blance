@@ -51,7 +51,8 @@ export default class Product extends Strapi {
 	private constructor() {
 		super();
 		this.collectionName = 'products';
-		this.productFields = ['name', 'price', 'description', 'composition', 'slug'];
+		this.productFields = ['name', 'price', 'description', 'composition', 'slug', 'isVisible', 'isNew', 'isPopular'];
+		this.productFilters = { isVisible: { $eq: true } };
 		this.productPopulate = {
 			images: { 
 				fields: 'url',
@@ -86,18 +87,21 @@ export default class Product extends Strapi {
 		return instance;
 	}
 
-	async getProducts(productName?: string, productSlug?: string, categoryName?: string, sorting?: string) : Promise<ProductData[]> {
+	async getProducts(productName?: string, productSlug?: string, categoryName?: string, sorting?: string, featured?: boolean) : Promise<ProductData[]> {
 		const params = {
 			fields: this.productFields,
+			filters: this.productFilters,
 			populate: this.productPopulate,
 		};
 		// TODO: look for and implement a more accurate filter to get a single matching result for slug. maybe findOne()?
 		if (productName) {
-			params.filters = { name: { $containsi: productName } };
+			params.filters.name = { $containsi: productName };
 		} else if (productSlug) {
-			params.filters = { slug: { $containsi: productSlug } };
+			params.filters.slug = { $containsi: productSlug };
 		} else if (categoryName) {
-			params.filters = { category: { name: { $containsi: categoryName } } };
+			params.filters.category = { name: { $containsi: categoryName } };
+		} else if (featured) {
+			params.filters.$or = [ { isPopular: { $eq: true } }, { isNew: { $eq: true } } ];
 		}
 
 		if (sorting === 'desc') {

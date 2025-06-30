@@ -20,17 +20,13 @@ const { productSlugs, availableColors } = getProductsColors(productData);
 const srcPath = `http://localhost:1337${productData?.images?.[0]?.url}`;
 ---
 
-<script define:vars={{productSlugs}}>
-	console.log(productSlugs);
-</script>
-
 <article class={articleClasses}>
 	<a href=`/store/${productData?.slug}`>
 		<div>
 			<img class="product-image" src="/src/images/product-big.jpg" />
 			<div class="marker">
 				<button>
-					<p>Añadir al carrito</p>
+					<p>Añadir producto</p>
 					<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path d="M2.4947 13.7033C3.2947 14.6667 4.7827 14.6667 7.76003 14.6667H8.24003C11.2174 14.6667 12.706 14.6667 13.506 13.7033M2.4947 13.7033C1.6947 12.7393 1.96936 11.2767 2.51803 8.35C2.90803 6.27 3.1027 5.22933 3.84336 4.61467M13.506 13.7033C14.306 12.7393 14.0314 11.2767 13.4827 8.35C13.0927 6.27 12.8974 5.22933 12.1567 4.61467M12.1567 4.61467C11.4167 4 10.3574 4 8.2407 4H7.75936C5.6427 4 4.58403 4 3.84336 4.61467" stroke="#F5F1EB" stroke-width="1.5"/>
 						<path d="M6 3.99998V3.33331C6 2.80288 6.21071 2.29417 6.58579 1.9191C6.96086 1.54403 7.46957 1.33331 8 1.33331C8.53043 1.33331 9.03914 1.54403 9.41421 1.9191C9.78929 2.29417 10 2.80288 10 3.33331V3.99998" stroke="#F5F1EB" stroke-width="1.5" stroke-linecap="round"/>
@@ -56,10 +52,9 @@ const srcPath = `http://localhost:1337${productData?.images?.[0]?.url}`;
 .product-card {
 	display: grid;
 	position: relative;
-	gap: 8px;
-  background-color: var(--color-white-300);
-  border-radius: 16px;
-  padding: 8px;
+  #background-color: var(--color-white-300);
+  border-radius: 20px;
+  #padding: 8px;
 	transition: all .4s ease-out;
 	
 	.product-image {
@@ -79,14 +74,14 @@ const srcPath = `http://localhost:1337${productData?.images?.[0]?.url}`;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		right: 204px;
+		right: 196px;
 		bottom: 56px;
 		min-width: 188px;
 		height: 48px;
-		padding-left: 20px;
+		padding-left: 18px;
 		background-color: #ffffff;
 		align-content: center;
-		font-size: .75rem;
+		font-size: .85rem;
 		border-radius: 16px;
 
 		>svg {
@@ -94,7 +89,7 @@ const srcPath = `http://localhost:1337${productData?.images?.[0]?.url}`;
 			width: 48px;
 			height: 48px;
 			padding: 12px;
-			border-radius: 0 20px 20px 0;
+			border-radius: 0 16px 16px 0;
 		}
 	}
 		
@@ -110,13 +105,14 @@ const srcPath = `http://localhost:1337${productData?.images?.[0]?.url}`;
 	}
 
 	.product-info {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		background-color: var(--color-white-400);
-		padding: 16px;
+		#display: flex;
+		#justify-content: space-between;
+		#align-items: center;
+		#background-color: var(--color-white-400);
+		#padding: 16px;
+		padding: 12px 4px;
 		gap: 48px;
-		border-radius: 16px;
+		border-radius: 20px;
 	}
 
 	.product-name {
@@ -131,6 +127,10 @@ const srcPath = `http://localhost:1337${productData?.images?.[0]?.url}`;
 		font-size: 0.9rem;
 		color: var(--color-gray-300);
 		margin-top: 4px;
+	}
+
+	.color-options {
+		padding-left: 4px;
 	}
 }
 
@@ -172,10 +172,6 @@ const srcPath = `http://localhost:1337${productData?.images?.[0]?.url}`;
   .color-options {
 		gap: 1rem;
   }
-}
-
-.product-card.small:hover {
-	scale: 1.05;
 }
 
 .color-options {
