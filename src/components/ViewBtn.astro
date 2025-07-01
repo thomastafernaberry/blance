@@ -5,8 +5,8 @@ import DoubleView from './DoubleView.astro';
 ---
 
 <div class="flex gap-5 border-1 border-gray-100 rounded-full">
-	<button id="single" class="w-[52px] rounded-full grid place-items-center"> <SingleView /> </button>
-	<button id="double" class="w-[52px] rounded-full grid place-items-center"> <DoubleView /> </button>
+	<button id="single" class="w-[52px] rounded-full grid place-items-center text-gray-200"> <SingleView /> </button>
+	<button id="double" class="w-[52px] rounded-full grid place-items-center text-gray-200"> <DoubleView /> </button>
 </div>
 
 <script type="module">
@@ -47,11 +47,11 @@ import DoubleView from './DoubleView.astro';
 
 		function updateBtnStyles() {
 			if (localStorage.getItem('view') === 'double' ) {
-				doubleBtn.classList.add('bg-dark');
-				singleBtn.classList.remove('bg-dark');
+				doubleBtn.classList.add('bg-dark', 'text-white');
+				singleBtn.classList.remove('bg-dark', 'text-white');
 			} else {
-				singleBtn.classList.add('bg-dark');
-				doubleBtn.classList.remove('bg-dark');
+				singleBtn.classList.add('bg-dark', 'text-white');
+				doubleBtn.classList.remove('bg-dark', 'text-white');
 			}
 		}
 		

@@ -10,9 +10,13 @@ const products = (await Astro.callAction(actions.getProducts, { featured: true }
 const popularProducts = [];
 const newProducts = [];
 
-products.forEach((p) => {
-  p.isPopular ? popularProducts.push(p) : newProducts.push(p);
-});
+try {
+	products.forEach((p) => {
+		p.isPopular ? popularProducts.push(p) : newProducts.push(p);
+	});
+} catch (e) {
+	console.error(e);
+}
 
 const currentPage = "home";
 ---
