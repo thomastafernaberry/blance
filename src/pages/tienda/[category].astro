@@ -1,0 +1,22 @@
+---
+export const prerender = false;
+
+import Category from '../../services/Category.ts';
+import BaseLayout from '../../components/BaseLayout.astro';
+import StoreHeader from '../../components/StoreHeader.astro';
+import ProductGrid from '../../components/ProductGrid.astro';
+
+export async function getStaticPaths() {
+	const categoryService = await Category.init();
+	const categoryNames = await categoryService.getAllNames();
+	return categoryNames.map( n => ( { params: { category: n }}));
+}
+
+const { category } = Astro.params;
+---
+
+<BaseLayout currentPage="store" />
+	<StoreHeader currentCategory={category} />
+	<ProductGrid category={category} />
+</BaseLayout>
+
