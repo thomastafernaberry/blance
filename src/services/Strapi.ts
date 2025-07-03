@@ -1,4 +1,12 @@
+import type { ProductData } from './Product.ts';
+import type { CategoryData } from './Category.ts';
 import { strapi } from '@strapi/client';
+
+export type StrapiResponse = {
+  readonly data: ProductData | ProductData[] | CategoryData[];
+  readonly meta: any;
+  readonly error?: any;
+}
 
 export default class Strapi {
 	private strapiURL: string;

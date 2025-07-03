@@ -15,8 +15,6 @@
 		document.addEventListener('DOMContentLoaded', async () => {
 			const select = document.getElementById('select') as HTMLSelectElement;
 
-			const currentSorting = (await actions.getSorting()).data;
-
 			select.addEventListener('input', (e: Event) => {
 				const selectElement = e.target as HTMLSelectElement;
 				const selectedValue = selectElement.value;
@@ -24,11 +22,13 @@
 				window.location.reload()
 			});
 			
+			const currentSorting = (await actions.getSorting()).data;
 			const optionsElements = select.children as HTMLOptionElement[];
 			for (const option of optionsElements) {
-				option.value === currentSorting && option.setAttribute('selected', '');
+				if (option.value === currentSorting) {
+					option.setAttribute('selected', '');
+				}
 			}
-
 		});
 </script>
 

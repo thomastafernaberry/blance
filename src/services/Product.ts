@@ -1,4 +1,5 @@
-import Strapi from './Strapi.ts';
+import type { StrapiResponse } from './Strapi';
+import Strapi from './Strapi';
 
 export type StockBySize = {
 	readonly id: number;
@@ -28,6 +29,7 @@ type ProductGroup = {
 }
 
 export type ProductData = {
+	readonly kind: "product";
 	readonly documentId: string;
 	readonly slug: string;
 	readonly name: string;
@@ -41,21 +43,16 @@ export type ProductData = {
 	readonly color: Color;
 	readonly images: ReadonlyArray<Image>;
 	readonly stockBySize: ReadonlyArray<StockBySize>;
-	readonly productGroup: ReadonlyArray<ProductGroup>;
-}
-
-export type StrapiResponse = {
-	readonly data: ProductData[];
-	readonly meta: any;
-	readonly error?: any;
+	readonly productsGroup: ProductGroup;
 }
 
 export default class Product extends Strapi {
 
 	private readonly collectionName: string; 
-	private readonly productsCollection: any;
-	private readonly productFields: Array<string>;
-	private readonly productPopulate: Array<any>;
+	private readonly productFields: string[];
+	private readonly productFilters: any[];
+	private readonly productPopulate: any[];
+	private productsCollection: any;
 
 	private constructor() {
 		super();
@@ -101,6 +98,7 @@ export default class Product extends Strapi {
 			fields: this.productFields,
 			filters: this.productFilters,
 			populate: this.productPopulate,
+			sort: [''],
 		};
 		// TODO: look for and implement a more accurate filter to get a single matching result for slug. maybe findOne()?
 		if (productName) {
@@ -122,30 +120,38 @@ export default class Product extends Strapi {
 		return this.productsCollection.find(params);
 	}
 
-	async getRelatedProductsColors(documentId: string): string[] {
+	async getRelatedProductsColors(documentId: string): Promise<string[]> {
 		const params = {
 			fields: this.productFields,
 			populate: this.productPopulate,
 		};
-		const productData = (await this.productsCollection.findOne(documentId, params)).data;
+		const strapiResponse = await this.productsCollection.findOne(documentId, params) as StrapiResponse;
+		const productData = strapiResponse.data as ProductData;
 		const relatedProducts = productData.productsGroup.products;
-		const relatedColorsHex = [];
-		relatedProducts.forEach( product => {
+		const relatedColorsHex = [] as string[];
+		relatedProducts.forEach((product) => {
 			relatedColorsHex.push(product.color.hex);
 		});
 
 		return relatedColorsHex;
 	}
 
-	async getAllNames(): string[] {
-		const products = await this.productsCollection.find();
-		return products.data.map( p => p.name );
+	async getAllNames(): Promise<string[]> {
+		const strapiResponse = await this.productsCollection.find() as StrapiResponse;
+		const productsData = strapiResponse.data as ProductData[];
+		return productsData.map((p) => p.name);
 	}
 	
-	async getAllSlugs(): string[] {
-		const products = await this.productsCollection.find();
-		return products.data.map( p => p.slug );
-	}
+	async getAllSlugs(): Promise<string[]> {
+		const strapiResponse = await this.productsCollection.find() as StrapiResponse;
+		const productsData = strapiResponse.data as ProductData[];
+		const productsSlugs = [] as string[];
 
+		for (const productData of productsData) {
+			productsSlugs.push(productData.slug);
+		}
+
+		return productsSlugs;
+	}
 }
 

@@ -21,9 +21,9 @@ const srcPath = `http://localhost:1337${productData?.images?.[0]?.url}`;
 ---
 
 <article class={articleClasses}>
-	<a href=`/tienda/${productData?.slug}`>
+	<a href=`/tienda/producto/${productData?.slug}`>
 		<div>
-			<img class="product-image" src={srcPath} />
+			<img class="product-image" src={srcPath} alt={productData?.name} />
 			<div class="marker">
 				<button>
 					<p>Añadir producto</p>

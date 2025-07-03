@@ -1,21 +1,27 @@
+import type { ProductData } from '../services/Product.ts';
+
 export default class Cart {
 
-	private cart;
+	private cart: ProductData[];
 
 	constructor() {
 		this.cart = [];
 	}
 	
-	addProduct(product) {
+	addProductToCart(product: ProductData): void {
 		this.cart.push(product);	
 	}
 
-	getProducts() {
+	getCartProducts(): ProductData[] {
 		return this.cart;
 	}
 	
-	static removeProduct(product) {
-		// 
+	removeProduct(product: ProductData): boolean {
+		if (product.name) {
+			return true;
+		} else {
+			return false;
+		}
 	}
-	
+
 }

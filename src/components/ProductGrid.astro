@@ -5,6 +5,7 @@ import { getProductsData } from '../utils/product.ts';
 import ProductCard from './ProductCard.astro';
 
 interface Props {
+	id?: string;
 	category?: string;
 }
 
@@ -51,9 +52,7 @@ if (productsData.length === 0) {
 </div>
 
 <div id="products-container">
-	{productsData.map((productData: ProductData) => (
-		<ProductCard productData={productData} />
-	))}
+	{productsData.map((productData) => <ProductCard productData={productData} />)}
 </div> 
 
 

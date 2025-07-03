@@ -1,4 +1,5 @@
-import type { StrapiResponse, ProductData } from '../services/Product.ts';
+import type { ProductData } from '../services/Product';
+import type { StrapiResponse } from '../services/Strapi';
 
 
 type ProductColors = {
@@ -39,11 +40,11 @@ export function getProductSizes(productData: ProductData): Array<string> {
 	return availableSizes;
 }
 
-export function getProductsData(response: StrapiResponse): ProductData[] {
-	const productsData = [];
+export function getProductsData(strapiResponse: StrapiResponse): ProductData[] {
+	const productsData = strapiResponse.data as ProductData[];
 
 	try {
-		response.data.forEach((productData: ProductData) => {
+		productsData.forEach((productData) => {
 			productsData.push(productData);
 		})
 	} catch (e) {
@@ -54,7 +55,7 @@ export function getProductsData(response: StrapiResponse): ProductData[] {
 }
 
 export function getFeaturedProducts(strapiResponse: StrapiResponse) {
-	const products = strapiResponse.data?.data as ProductData[];
+	const products = strapiResponse.data as ProductData[];
 	const popularProducts = [] as ProductData[];
 	const newProducts = [] as ProductData[];
 
