@@ -1,12 +1,11 @@
 ---
 import type { ProductData } from '../services/Product.ts';
-import { actions } from 'astro:actions';
 import ProductCard from './ProductCard.astro';
 import ArrowRight from './ArrowRight.astro';
 
 interface Props {
 	carouselTitle: string;
-	products: Array<ProductData>;
+	products: ProductData[];
 }
 
 const { carouselTitle, products = [] } = Astro.props as Props;
@@ -20,7 +19,7 @@ const { carouselTitle, products = [] } = Astro.props as Props;
 		</div> 
 	}
 	<div class="flex flex-row gap-x-4 overflow-x-scroll pb-4">
-		{ products?.map( p => <ProductCard productData={p} isSimple=true /> )		
+		{ products?.map( p => <ProductCard productData={p} isSmall={true} /> )		
 	</div>
 </div>
 

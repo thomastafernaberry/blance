@@ -19,7 +19,7 @@ const { description, composition } = Astro.props as Props;
 </div>
 
 
-<script type="module">
+<script is:inline type="module">
 
 	const descriptionElement = document.getElementById('product-description');
 	const compositionElement = document.getElementById('product-composition');

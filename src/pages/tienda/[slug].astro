@@ -12,7 +12,14 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 
-const { data, error } = await Astro.callAction(actions.getProducts, { productSlug: slug });
+const { data, error } = await Astro.callAction(actions.getProducts, { 
+	productSlug: slug,
+});
+
+if (error) {
+	return;	
+}
+
 const productData = data.data[0];
 ---
 

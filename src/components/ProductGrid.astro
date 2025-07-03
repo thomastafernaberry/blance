@@ -1,5 +1,7 @@
 ---
+import type { ProductData } from '../services/Product.ts';
 import { actions } from 'astro:actions';
+import { getProductsData } from '../utils/product.ts';
 import ProductCard from './ProductCard.astro';
 
 interface Props {
@@ -15,41 +17,43 @@ const searchValue = Astro.url?.searchParams?.get('q');
 const { data, error } = await Astro.callAction(actions.getProducts, { 
 	productName: searchValue, 
 	categoryName: category, 
-	sorting: sorting  
+	sorting: sorting,
 });
 
-const productsData = [];
-try {
-	for (const product of data.data) {
-		productsData.push(product);
-	}
-} catch (e) {
-	console.error(e);
+if (error) {
+	return;
 }
 
+const productsData = getProductsData(data);
+
 let [title, subtitle] = '';
+
 if (searchValue) {
 	title = `Buscando "${searchValue}"`;
 } else if (category) {
 	title = `Categoría ${category}`;
 }
-if (data?.data?.length === 0) {
+
+if (productsData.length === 0) {
 	subtitle = 'No hay productos que coincidan con tu búsqueda.';
 }
 ---
 
-<script define:vars={{data}}>
-	console.log(data.data);
-</script>
-
 <div class="grid gap-4">
-	{ title && <h1 class="text-2xl text-center capitalize mt-4">{title}</h1> }	
-	{ subtitle && <h4 class="text-sm text-gray-300 text-center">{subtitle}</h4> }
-	{ (searchValue || category) && <a href="/store" class="underline block text-center mb-2">Reiniciar la búsqueda</a> }
+	{title && 
+		<h1 class="text-2xl text-center capitalize mt-4">{title}</h1>}	
+
+	{subtitle && 
+		<h4 class="text-sm text-gray-300 text-center">{subtitle}</h4>}
+
+	{(searchValue || category) && 
+		<a href="/tienda" class="underline block text-center mb-2">Reiniciar la búsqueda</a>}
 </div>
 
 <div id="products-container">
-		{ productsData.map( productData => <ProductCard productData={productData} />) }
+	{productsData.map((productData: ProductData) => (
+		<ProductCard productData={productData} />
+	))}
 </div> 
 
 

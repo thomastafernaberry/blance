@@ -1,21 +1,21 @@
 ---
 import type { ProductData } from '../services/Product.ts';
-import { getProductsColors } from '../utils/product.ts';
+import { getProductColors } from '../utils/product.ts';
 import Color from './Color.astro';
 
 interface Props {
 	productData: ProductData;
-	isSimple: boolean;
+	isSmall?: boolean;
 }
 
-const { productData, isSimple = false } = Astro.props as Props;
+const { productData, isSmall = false } = Astro.props as Props;
 
 let articleClasses = 'product-card';
-if (isSimple) {
+if (isSmall) {
 	articleClasses += ' small';
 }
 
-const { productSlugs, availableColors } = getProductsColors(productData);
+const { productSlugs, availableColors } = getProductColors(productData);
 
 const srcPath = `http://localhost:1337${productData?.images?.[0]?.url}`;
 ---
@@ -23,7 +23,7 @@ const srcPath = `http://localhost:1337${productData?.images?.[0]?.url}`;
 <article class={articleClasses}>
 	<a href=`/tienda/${productData?.slug}`>
 		<div>
-			<img class="product-image" src="/src/images/product-big.jpg" />
+			<img class="product-image" src={srcPath} />
 			<div class="marker">
 				<button>
 					<p>Añadir producto</p>
@@ -42,7 +42,7 @@ const srcPath = `http://localhost:1337${productData?.images?.[0]?.url}`;
 		</div>
 	</a>
 	<div class="color-options">
-		{ availableColors?.map( (h, i) => <Color hex={h} slug={productSlugs[i]} /> ) }
+		{ availableColors?.map( (h: string, i: number) => <Color hex={h} slug={productSlugs[i]} /> ) }
 	</div>
 </article>
 

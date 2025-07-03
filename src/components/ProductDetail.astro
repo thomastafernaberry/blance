@@ -4,7 +4,7 @@ import SizeSelector from '../components/SizeSelector.astro';
 import Color from '../components/Color.astro';
 import MainBtn from '../components/MainBtn.astro';
 import ProductDetailData from '../components/ProductDetailData.astro';
-import { getProductsColors } from '../utils/product.ts';
+import { getProductColors, getProductSizes } from '../utils/product.ts';
 import type { ProductData } from '../services/Product.ts';
 
 interface Props {
@@ -13,18 +13,9 @@ interface Props {
 
 const { productData } = Astro.props as Props;
 
-const availableSizes = [];
-try {
-	for (const size of productData.stockBySize) {
-		if (size.stock > 0) {
-			availableSizes.push(size.name);
-		}
-	}
-} catch (e) {
-	console.error(e);
-}
+const availableSizes = getProductSizes(productData);
 
-const { productSlugs, availableColors } = getProductsColors(productData);
+const { productSlugs, availableColors } = getProductColors(productData);
 ---
 
 <main class="grid px-4">
@@ -47,7 +38,7 @@ const { productSlugs, availableColors } = getProductsColors(productData);
 					Colores disponibles:
 				</label>
 				<div class="flex gap-6 w-fit items-center h-fit"> 
-					{ availableColors.map( (hex, i) => <Color hex={hex} slug={productSlugs[i]} isBig=true /> ) }
+					{ availableColors.map( (hex, i) => <Color hex={hex} slug={productSlugs[i]} isBig={true} /> ) }
 				</div>
 			</div>
 			<SizeSelector availableSizes={availableSizes} />

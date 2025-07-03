@@ -1,6 +1,8 @@
 ---
+import type { Image } from '../services/Product.ts';
+
 interface Props {
-	images: array;
+	images: Image[];
 }
 
 const { images = [] } = Astro.props as Props;
@@ -21,7 +23,7 @@ const { images = [] } = Astro.props as Props;
 	</button>
 </div>
 
-<script define:vars={{images}}>
+<script is:inline define:vars={{images}}>
 
 	const imageContainer = document.getElementById('image-container');
 	const indicators = document.getElementsByClassName('indicator')

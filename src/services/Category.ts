@@ -16,7 +16,7 @@ export default class Category extends Strapi {
 		return instance;
 	}
 
-	async getAllNames(name: string) : Promise<Response> {
+	async getAllNames() : Promise<string[]> {
 		const collection = await this.categoryCollection.find();
 		return collection.data.map(c => c.name);
 	}

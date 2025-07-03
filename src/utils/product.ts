@@ -1,6 +1,12 @@
-import type { ProductData } from '../services/Product.ts';
+import type { StrapiResponse, ProductData } from '../services/Product.ts';
 
-export function getProductsColors(productData: ProductData): Array<string> {
+
+type ProductColors = {
+	readonly productSlugs: readonly string[];
+	readonly availableColors: readonly string[];
+}
+
+export function getProductColors(productData: ProductData): ProductColors {
 	const relatedProducts = productData?.productsGroup?.products;
 	const productSlugs = [];
 	const availableColors = [];
@@ -17,3 +23,49 @@ export function getProductsColors(productData: ProductData): Array<string> {
 	
 	return { productSlugs, availableColors };
 }
+
+export function getProductSizes(productData: ProductData): Array<string> {
+	const availableSizes = [];
+	try {
+		for (const size of productData.stockBySize) {
+			if (size.stock > 0) {
+				availableSizes.push(size.name);
+			}
+		}
+	} catch (e) {
+		console.error(e);
+	}
+
+	return availableSizes;
+}
+
+export function getProductsData(response: StrapiResponse): ProductData[] {
+	const productsData = [];
+
+	try {
+		response.data.forEach((productData: ProductData) => {
+			productsData.push(productData);
+		})
+	} catch (e) {
+		console.error(e);
+	}
+
+	return productsData;
+}
+
+export function getFeaturedProducts(strapiResponse: StrapiResponse) {
+	const products = strapiResponse.data?.data as ProductData[];
+	const popularProducts = [] as ProductData[];
+	const newProducts = [] as ProductData[];
+
+	try {
+		products?.forEach((p: ProductData) => {
+			p.isPopular ? popularProducts.push(p) : newProducts.push(p);
+		});
+	} catch (e) {
+		console.error(e);
+	}
+
+	return { popularProducts, newProducts };
+}
+

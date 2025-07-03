@@ -10,33 +10,34 @@
 
 
 <script>
-
 		import { actions } from 'astro:actions';
 
 		document.addEventListener('DOMContentLoaded', async () => {
-			const form = document.getElementById('form');
-			const select = document.getElementById('select');
+			const select = document.getElementById('select') as HTMLSelectElement;
 
 			const currentSorting = (await actions.getSorting()).data;
 
-			select.addEventListener('input', async (e) => {
-				const selectedValue = e.target.value;
-				const { data, error } = await actions.setSorting(selectedValue);
+			select.addEventListener('input', (e: Event) => {
+				const selectElement = e.target as HTMLSelectElement;
+				const selectedValue = selectElement.value;
+				actions.setSorting(selectedValue);
 				window.location.reload()
 			});
 			
-			for (let opt of select.children) {
-				opt.value === currentSorting && opt.setAttribute('selected', '');
+			const optionsElements = select.children as HTMLOptionElement[];
+			for (const option of optionsElements) {
+				option.value === currentSorting && option.setAttribute('selected', '');
 			}
 
 		});
-
 </script>
 
 
 <style>
+
 	select {
 		appearance: base-select;
 	}
+
 </style>
 

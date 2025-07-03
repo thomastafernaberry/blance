@@ -2,23 +2,15 @@
 import { actions } from 'astro:actions';
 import "../styles/global.css";
 import BaseLayout from '../components/BaseLayout.astro';
-import Navbar from '../components/Navbar.astro';
 import MainBtn from '../components/MainBtn.astro';
 import ProductCarousel from '../components/ProductCarousel.astro';
-
-const products = (await Astro.callAction(actions.getProducts, { featured: true }))?.data?.data;
-const popularProducts = [];
-const newProducts = [];
-
-try {
-	products.forEach((p) => {
-		p.isPopular ? popularProducts.push(p) : newProducts.push(p);
-	});
-} catch (e) {
-	console.error(e);
-}
+import { getFeaturedProducts } from '../utils/product.ts';
 
 const currentPage = "home";
+
+const strapiResponse = await Astro.callAction(actions.getProducts, { featured: true });
+
+const { popularProducts, newProducts } = getFeaturedProducts(strapiResponse);
 ---
 
 <BaseLayout currentPage={ currentPage }>
@@ -33,7 +25,7 @@ const currentPage = "home";
 			<h3 class="text-center text-gray-500 tracking-wider font-semibold">Lencería que abraza lo que sos</h3>
 		</div>
 		<img src="/src/images/hero.png" class="aspect-3/4">
-		<a href="/store">
+		<a href="/tienda">
 			<MainBtn text="Explorá nuestros artículos" />
 		</a>
 	</main>
@@ -42,7 +34,7 @@ const currentPage = "home";
 		<ProductCarousel carouselTitle="Nuevos ingresos" products={newProducts}/>	
 		<div class="px-6 mt-8 mb-12">
 			<h5 class="text-lg font-medium text-center mb-4">¿No encontraste lo que buscabas?</h5>
-			<a href="/store">
+			<a href="/tienda">
 				<MainBtn text="Ver todos los productos" />
 			</a>
 		</div>
