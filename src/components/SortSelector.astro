@@ -10,34 +10,38 @@
 
 
 <script>
-		import { actions } from 'astro:actions';
+	import { actions } from 'astro:actions';
 
-		document.addEventListener('DOMContentLoaded', async () => {
-			const select = document.getElementById('select') as HTMLSelectElement;
+	document.addEventListener('DOMContentLoaded', async () => {
+		const select = document.getElementById('select') as HTMLSelectElement;
 
-			select.addEventListener('input', (e: Event) => {
-				const selectElement = e.target as HTMLSelectElement;
-				const selectedValue = selectElement.value;
-				actions.setSorting(selectedValue);
-				window.location.reload()
-			});
-			
-			const currentSorting = (await actions.getSorting()).data;
-			const optionsElements = select.children as HTMLOptionElement[];
-			for (const option of optionsElements) {
-				if (option.value === currentSorting) {
-					option.setAttribute('selected', '');
-				}
+		const optionElements = [] as HTMLOptionElement[];
+		for (const children of select.children) {
+			if (children.tagName === 'OPTION') {
+				optionElements.push(children as HTMLOptionElement);
 			}
+		}
+	
+		const currentSorting = (await actions.getSorting()).data;
+
+		for (const option of optionElements) {
+			if (option.value === currentSorting) {
+				option.setAttribute('selected', '');
+			}
+		}
+
+		select.addEventListener('input', async (e: Event) => {
+			const selectElement = e.target as HTMLSelectElement;
+			const selectedValue = selectElement.value;
+			await actions.setSorting(selectedValue);
+			window.location.reload();
 		});
+
+	});
 </script>
 
 
 <style>
-
-	select {
-		appearance: base-select;
-	}
-
+	select { appearance: base-select; }
 </style>
 

@@ -2,7 +2,7 @@
 import type { Image } from '../services/Product.ts';
 
 interface Props {
-	images: Image[];
+	readonly images: ReadonlyArray<Image>;
 }
 
 const { images = [] } = Astro.props as Props;

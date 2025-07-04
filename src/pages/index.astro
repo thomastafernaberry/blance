@@ -1,4 +1,7 @@
 ---
+export const prerender = false;
+
+import type { StrapiResponse } from '../services/Strapi';
 import { actions } from 'astro:actions';
 import "../styles/global.css";
 import BaseLayout from '../components/BaseLayout.astro';
@@ -8,8 +11,11 @@ import { getFeaturedProducts } from '../utils/product.ts';
 
 const currentPage = "home";
 
-const strapiResponse = await Astro.callAction(actions.getProducts, { featured: true });
-
+const { data, error }= await Astro.callAction(actions.getProducts, { featured: true });
+if (error) {
+	return;
+}
+const strapiResponse = data as StrapiResponse;
 const { popularProducts, newProducts } = getFeaturedProducts(strapiResponse);
 ---
 

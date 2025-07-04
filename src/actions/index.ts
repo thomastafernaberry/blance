@@ -18,20 +18,14 @@ export const server = {
 	}),
 
 	setSorting: defineAction({
-		handler: (input, context) => {
-			const session = context?.session;
-			if (session) {
-				session.set('sorting', input);
-			} 
+		handler: async (input, context) => {
+			context?.session?.set('sorting', input);
 		}
 	}),
 	
 	getSorting: defineAction({
 		handler: async (_input, context) => {
-			const session = context?.session;
-			if (session) {
-				return session.get('sorting');
-			}
+			return context?.session?.get('sorting');
 		}
 	}),
 

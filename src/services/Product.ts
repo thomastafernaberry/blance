@@ -46,12 +46,29 @@ export type ProductData = {
 	readonly productsGroup: ProductGroup;
 }
 
+type ProductFilters = {
+	name?: any;
+	slug?: any;
+	category?: any;
+	$or?: any[];
+	isVisible?: any;
+}
+
+type ProductPopulate = {
+	images?: any;
+	category?: any;
+	color?: any;
+	stockBySize?: any;
+	productsGroup?: any;
+}
+
+
 export default class Product extends Strapi {
 
 	private readonly collectionName: string; 
 	private readonly productFields: string[];
-	private readonly productFilters: any[];
-	private readonly productPopulate: any[];
+	private readonly productFilters: ProductFilters;
+	private readonly productPopulate: ProductPopulate;
 	private productsCollection: any;
 
 	private constructor() {
@@ -100,6 +117,11 @@ export default class Product extends Strapi {
 			populate: this.productPopulate,
 			sort: [''],
 		};
+
+		sorting === 'desc' 
+			? params.sort = ['price:desc'] 
+			: params.sort = ['price:asc']; 
+
 		// TODO: look for and implement a more accurate filter to get a single matching result for slug. maybe findOne()?
 		if (productName) {
 			params.filters.name = { $containsi: productName };
@@ -111,11 +133,6 @@ export default class Product extends Strapi {
 			params.filters.$or = [ { isPopular: { $eq: true } }, { isNew: { $eq: true } } ];
 		}
 
-		if (sorting === 'desc') {
-			params.sort = ['price:desc']; 
-		} else {
-			params.sort = ['price:asc']; 
-		}
 
 		return this.productsCollection.find(params);
 	}
