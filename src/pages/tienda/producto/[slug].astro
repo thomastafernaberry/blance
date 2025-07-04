@@ -1,0 +1,26 @@
+---
+export const prerender = false;
+
+import type { ProductData } from '../../../services/Product';
+import type { StrapiResponse } from '../../../services/Strapi';
+import { actions } from 'astro:actions';
+import BaseLayout from '../../../components/BaseLayout.astro';
+import ProductDetail from '../../../components/ProductDetail.astro';
+
+const { slug } = Astro.params;
+
+const { data , error } = await Astro.callAction(actions.getProducts, { 
+	productSlug: slug,
+});
+
+if (error) {
+	return;
+}
+
+const strapiResponse = data as StrapiResponse;
+const productData = strapiResponse.data as ProductData[];
+---
+
+<BaseLayout currentPage="detail">
+	<ProductDetail productData={productData[0]} />
+</BaseLayout
