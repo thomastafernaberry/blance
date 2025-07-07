@@ -2,17 +2,15 @@
 interface Props {
 	hex: string;
 	slug: string;
-	isBig?: boolean;
 }
 
-const { hex = '', slug = '#', isBig = true } = Astro.props as Props;
+const { hex = '', slug = '#' } = Astro.props as Props;
 const productURL = `/tienda/producto/${slug}`;
 ---
 
-{ isBig
-	? <div class="color w-5 h-5 rounded-full"><a class="block w-full h-full" href={productURL} ></a></div>
-	: <div class="color w-4 h-4 rounded-full"></div>
-}
+<div class="color w-[24px] h-[24px] rounded-full">
+	<a class="block w-full h-full" href={productURL} aria-label="Color disponible"></a>
+</div>
 
 
 <style define:vars={{hex}}>

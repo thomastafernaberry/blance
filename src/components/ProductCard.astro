@@ -26,7 +26,7 @@ const srcPath = strapiBaseURL + productData?.images?.[0]?.url;
 		<div>
 			<img class="product-image" src={srcPath} alt={productData?.name} width=343 height=458 fetchpriority="high" />
 			<div class="marker">
-				<button>
+				<button aria-label="Añadir producto al carrito">
 					<p>Añadir producto</p>
 					<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path d="M2.4947 13.7033C3.2947 14.6667 4.7827 14.6667 7.76003 14.6667H8.24003C11.2174 14.6667 12.706 14.6667 13.506 13.7033M2.4947 13.7033C1.6947 12.7393 1.96936 11.2767 2.51803 8.35C2.90803 6.27 3.1027 5.22933 3.84336 4.61467M13.506 13.7033C14.306 12.7393 14.0314 11.2767 13.4827 8.35C13.0927 6.27 12.8974 5.22933 12.1567 4.61467M12.1567 4.61467C11.4167 4 10.3574 4 8.2407 4H7.75936C5.6427 4 4.58403 4 3.84336 4.61467" stroke="#F5F1EB" stroke-width="1.5"/>
