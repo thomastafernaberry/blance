@@ -1,0 +1,169 @@
+---
+import Color from './Color.astro';
+
+interface Props {
+	name: string;
+	price: number;
+	images: array;
+	colors: array;
+	isSmall: boolean;
+}
+
+const { 
+	name = '',
+	price = 0,
+	images = [],
+	colors = [],
+	isSmall = false
+} = Astro.props as Props;
+
+let articleClasses = 'product-card';
+if (isSmall) {
+	articleClasses += ' small';
+}
+
+const srcPath = `http://localhost:1337${images?.[0]?.url}`;
+
+---
+
+<article class={articleClasses}>
+	<div>
+		<img class="product-image" src="/src/images/product-big.jpg" />
+		<div class="btn">
+			<button>Añadir al carrito</button>
+		</div>
+	</div>
+  <div class="product-info">
+    <div>
+      <h5 class="product-name">{name}</h5>
+      <h5 class="product-price">${price}</h5>
+    </div>
+    <div class="color-options">
+			{ colors.map( c => <Color hex={c.hex} /> ) }
+    </div>
+  </div>
+</article>
+
+<style>
+
+.product-card {
+	display: grid;
+	position: relative;
+	gap: 12px;
+  background-color: var(--color-white-300);
+  border-radius: 1.5rem;
+  padding: 8px;
+	transition: all .4s ease-out;
+	box-shadow: var(--shadow-sm);
+	
+	.product-image {
+		aspect-ratio: 3/4;
+  	border-radius: var(--radius-3xl);
+		box-shadow: var(--shadow-xs);
+	}
+
+	.btn {
+		width: 0px;	
+		height: 0px;
+		position: absolute;
+		left: 100%;
+	}
+	
+	.btn>button {
+		position: relative;
+		box-shadow: var(--shadow-xs);
+		right: 214px;
+		bottom: 54px;
+		width: 200px;
+		height: 48px;
+		padding: 24px;
+		background-color: #ffffff9c;
+		display: grid;
+		align-content: center;
+		font-size: .75rem;
+		justify-content: left;
+		border-radius: 20px;
+	}
+		
+	.btn>button::before {
+		content: '🛒';
+		position: absolute;
+		background: var(--color-dark);
+		border-radius: 20px;
+		left: 200px;
+		width: 24px;
+		height: 28px;
+		
+	}
+
+	>.product-info {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		background-color: var(--color-white-400);
+		padding: 16px 18px;
+		gap: 32px;
+		border-radius: var(--radius-3xl);
+		box-shadow: var(--shadow-xs);
+	}
+
+	.product-name {
+		font-size: 0.875rem;
+		line-height: 1.2rem;
+		letter-spacing: .2px;
+		color: var(--color-dark);
+		text-transform: capitalize;
+	}
+
+	.product-price {
+		font-size: 0.75rem;
+		letter-spacing: .6px;
+		color: var(--color-gray-300);
+		margin-top: 6px;
+	}
+
+	.color-options {
+		display: flex;
+		gap: 1.2rem;
+	}
+}
+
+.product-card.small {
+	align-items: start;
+  min-height: 280px;
+  min-width: 140px;
+  background-color: transparent;
+  border-radius: 1.5rem;
+  padding: 0;
+	gap: 0;
+	box-shadow: none;
+
+  >.product-info {
+    margin: 0;
+		padding: 12px 6px;
+		background-color: transparent;
+		flex-direction: column;
+		flex-wrap: nowrap;
+		align-items: start;
+		gap: 12px;
+		box-shadow: none;
+  }
+	
+	.product-name {
+		min-height: 40px;
+	}
+	
+	.product-price {
+		margin-top: .2rem;
+	}
+
+  .color-options {
+		gap: 1rem;
+  }
+}
+
+.product-card.small:hover {
+	scale: 1.05;
+}
+
+</style>

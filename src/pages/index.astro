@@ -3,7 +3,6 @@ export const prerender = false;
 
 import type { StrapiResponse } from '../services/Strapi';
 import { actions } from 'astro:actions';
-import "../styles/global.css";
 import BaseLayout from '../components/BaseLayout.astro';
 import MainBtn from '../components/MainBtn.astro';
 import ProductCarousel from '../components/ProductCarousel.astro';
@@ -22,11 +21,6 @@ const { popularProducts, newProducts } = getFeaturedProducts(strapiResponse);
 ---
 
 <BaseLayout currentPage={ currentPage }>
-	<head>
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
-	</head>
 	<main class="flex flex-col gap-y-10 px-4 pb-16 pt-2 mb-12 bg-white-300 rounded-b-4xl">
 		<div class="grid gap-2">
 			<h1 class="text-8xl text-center font-[Anton] uppercase tracking-wide">Blance</h1>

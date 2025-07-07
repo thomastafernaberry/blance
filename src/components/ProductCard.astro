@@ -24,7 +24,7 @@ const srcPath = strapiBaseURL + productData?.images?.[0]?.url;
 <article class={articleClasses}>
 	<a href=`/tienda/producto/${productData?.slug}`>
 		<div>
-			<img class="product-image" src={srcPath} alt={productData?.name} />
+			<img class="product-image" src={srcPath} alt={productData?.name} width=343 height=458 fetchpriority="high" />
 			<div class="marker">
 				<button>
 					<p>Añadir producto</p>
