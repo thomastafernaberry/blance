@@ -2,8 +2,10 @@ import type { ProductData } from './Product.ts';
 import type { CategoryData } from './Category.ts';
 import { strapi } from '@strapi/client';
 
-const strapiURL = import.meta.env.PUBLIC_STRAPI_URL;
-const strapiToken = import.meta.env.STRAPI_TOKEN;
+const env = import.meta.env;
+const strapiToken = env.STRAPI_TOKEN;
+const strapiBaseUrl = env.PUBLIC_STRAPI_BASE_URL;
+const strapiApiEndpoint = env.PUBLIC_STRAPI_API_ENDPOINT;
 
 export type StrapiResponse = {
   readonly data: ProductData | ProductData[] | CategoryData[];
@@ -12,15 +14,15 @@ export type StrapiResponse = {
 }
 
 export default class Strapi {
-	private strapiURL: string;
 	private strapiToken: string;
+	private strapiApiUrl: string;
 	public strapiClient: any;
 	
 	constructor() {
-		this.strapiURL = strapiURL;
 		this.strapiToken = strapiToken;
+		this.strapiApiUrl = strapiBaseUrl + strapiApiEndpoint;
 		this.strapiClient = strapi({ 
-			baseURL: this.strapiURL, 
+			baseURL: this.strapiApiUrl, 
 			auth: this.strapiToken 
 		});	
 	}

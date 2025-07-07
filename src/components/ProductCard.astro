@@ -17,7 +17,8 @@ if (isSmall) {
 
 const { productSlugs, availableColors } = getProductColors(productData);
 
-const srcPath = `http://localhost:1337${productData?.images?.[0]?.url}`;
+const strapiBaseURL = import.meta.env.PUBLIC_STRAPI_BASE_URL;
+const srcPath = strapiBaseURL + productData?.images?.[0]?.url;
 ---
 
 <article class={articleClasses}>

@@ -13,4 +13,10 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone'
   }),
+  image: {
+  	domains: ["strapi-production-1baa.up.railway.app"],
+  },
+  server: {
+  	allowedHosts: ['blance.ar'],
+  },
 });

@@ -1,11 +1,12 @@
 ---
-import type { Image } from '../services/Product.ts';
+import type { ProductImage } from '../services/Product.ts';
 
 interface Props {
-	readonly images: ReadonlyArray<Image>;
+	readonly images: ReadonlyArray<ProductImage>;
 }
 
 const { images = [] } = Astro.props as Props;
+const strapiBaseUrl = import.meta.env.PUBLIC_STRAPI_BASE_URL;
 ---
 
 <div class="flex items-center justify-center">
@@ -23,7 +24,7 @@ const { images = [] } = Astro.props as Props;
 	</button>
 </div>
 
-<script is:inline define:vars={{images}}>
+<script is:inline define:vars={{images, strapiBaseUrl}}>
 
 	const imageContainer = document.getElementById('image-container');
 	const indicators = document.getElementsByClassName('indicator')
@@ -31,9 +32,8 @@ const { images = [] } = Astro.props as Props;
 	const btnNext = document.getElementById('btn-next');
 	
 	const srcArray = [];
-	const origin = 'http://localhost:1337'; // strapi
 	for (const i of images) {
-		srcArray.push(origin + i.url);
+		srcArray.push(strapiBaseUrl + i.url);
 	}
 
 	let currentImageIndex = 0;

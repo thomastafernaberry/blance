@@ -7,7 +7,7 @@ export type StockBySize = {
 	stock: number;
 }
 
-export type Image = {
+export type ProductImage = {
 	readonly documentId: string;
 	readonly url: string;
 }
@@ -41,7 +41,7 @@ export type ProductData = {
 	readonly isNew: boolean;
 	readonly category: Category;
 	readonly color: Color;
-	readonly images: ReadonlyArray<Image>;
+	readonly images: ReadonlyArray<ProductImage>;
 	readonly stockBySize: ReadonlyArray<StockBySize>;
 	readonly productsGroup: ProductGroup;
 }
