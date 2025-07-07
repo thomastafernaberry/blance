@@ -17,11 +17,13 @@
 @font-face {
 	font-family: "DM Sans";
 	src: url("/src/fonts/dm-sans/DMSans-VariableFont_opsz,wght.ttf") format("truetype");
+	font-display: swap;
 }
 
 @font-face {
 	font-family: "Anton";
 	src: url("/src/fonts/anton/Anton-Regular.ttf") format("truetype");
+	font-display: swap;
 }
 
 body {

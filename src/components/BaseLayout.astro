@@ -2,13 +2,25 @@
 import '../styles/global.css';
 import Navbar from './Navbar.astro';
 
-const { currentPage } = Astro.props || 'home';
+interface Props {
+	currentPage: string;
+	title?: string;
+	description?: string;
+}
+
+const { currentPage = "home", title, description } = Astro.props as Props;
 ---
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+		{ title 
+			? <title>{title}</title> 
+			: <title>Blance</title> }
+		{	description 
+			? <meta name="description" content={description}></meta> 
+			: <meta name="description" content="Tienda de lencería."></meta> }
   </head>
   <body>
     <Navbar currentPage={currentPage} />
