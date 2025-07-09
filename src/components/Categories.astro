@@ -7,7 +7,7 @@ const categoryNames = await categoryService.getAllNames();
 const { currentCategory } = Astro.props;
 ---
 
-<ul id="container" class="flex gap-3 items-center text-xs text-gray-500 overflow-x-scroll w-full h-fit pb-2">
+<ul id="container" class="flex gap-3 items-center text-xs text-gray-500 overflow-x-auto w-full h-fit pb-2">
 
 	<li class="category">
 		<a href="/tienda">todo</a>

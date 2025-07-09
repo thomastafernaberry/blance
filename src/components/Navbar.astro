@@ -11,8 +11,9 @@ const { currentPage } = Astro.props as Props;
 
 let navStyle = 'flex flex-row justify-between items-center acenter min-w-full min-h-20 py-4 px-2 text-center px-6 ';
 
-// Nav background color in homepage
-currentPage === 'home' ? navStyle += 'bg-white-300' : '';
+if (currentPage === 'home') {
+	navStyle += 'bg-white-300';
+}
 ---
 
 <nav class={navStyle}>

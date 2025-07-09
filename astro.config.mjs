@@ -6,15 +6,11 @@ import node from "@astrojs/node";
 // https://astro.build/config
 export default defineConfig({
   vite: { plugins: [tailwindcss()], },
-	prefetch: {
-		defaultStrategy: 'viewport',
-		prefetchAll: true,
-	},
   adapter: node({
     mode: 'standalone'
   }),
   image: {
-  	domains: ["strapi-production-1baa.up.railway.app"],
+  	domains: ["strapi.blance.ar"],
   },
   server: {
   	allowedHosts: ['blance.ar'],
