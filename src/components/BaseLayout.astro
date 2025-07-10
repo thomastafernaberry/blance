@@ -23,14 +23,16 @@ const { currentPage = "home", title, description } = Astro.props as Props;
 			: <meta name="description" content="Tienda de lencería."></meta> }
   </head>
   <body>
-    <Navbar currentPage={currentPage} />
-    <slot />
+		<div class="wrapper">
+			<Navbar currentPage={currentPage} />
+			<slot />
+		</div>
   </body>
 </html>
 
 <style>
-	body {
+	.wrapper {
+		max-width: 600px;
 		margin-inline: auto;
-		max-width: 1000px;
 	}
 </style>

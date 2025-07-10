@@ -3,6 +3,8 @@ export const prerender = false;
 
 import type { StrapiResponse } from '../services/Strapi';
 import { actions } from 'astro:actions';
+import { Image } from 'astro:assets';
+import heroImage from '../images/hero.webp';
 import BaseLayout from '../components/BaseLayout.astro';
 import MainBtn from '../components/MainBtn.astro';
 import ProductCarousel from '../components/ProductCarousel.astro';
@@ -10,7 +12,6 @@ import { getFeaturedProducts } from '../utils/product.ts';
 
 const currentPage = "home";
 const env = import.meta.env;
-const srcPath = env.PUBLIC_STRAPI_BASE_URL + env.PUBLIC_STRAPI_MEDIA_ENDPOINT + 'hero_7bb6b30282.png';
 
 const { data, error }= await Astro.callAction(actions.getProducts, { featured: true });
 if (error) {
@@ -26,7 +27,7 @@ const { popularProducts, newProducts } = getFeaturedProducts(strapiResponse);
 			<h1 class="text-8xl text-center font-[Anton] uppercase tracking-wide">Blance</h1>
 			<h3 class="text-center text-gray-500 tracking-wider font-semibold">Lencería que abraza lo que sos</h3>
 		</div>
-		<img src={srcPath} alt="Mujer en lencería" class="aspect-3/4" />
+		<Image src={heroImage} alt="Mujer en lencería" class="aspect-3/4" />
 		<a href="/tienda">
 			<MainBtn text="Explorá nuestros artículos" />
 		</a>
