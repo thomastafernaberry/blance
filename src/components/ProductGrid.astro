@@ -38,6 +38,9 @@ if (productsData.length === 0) {
 	subtitle = 'No hay productos que coincidan con tu búsqueda.';
 }
 ---
+<script is:inline define:vars={{data}}>
+	console.log(data);
+</script>
 
 <div class="grid gap-4">
 	{title && 

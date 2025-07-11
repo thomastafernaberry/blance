@@ -38,7 +38,7 @@ const { productSlugs, availableColors } = getProductColors(productData);
 					Colores disponibles:
 				</label>
 				<div class="flex gap-6 w-fit items-center h-fit"> 
-					{ availableColors.map( (hex, i) => <Color hex={hex} slug={productSlugs[i]} isBig={true} /> ) }
+					{availableColors.map((hex, i) => <Color hex={hex} slug={productSlugs[i]} />)}
 				</div>
 			</div>
 			<SizeSelector availableSizes={availableSizes} />

@@ -62,7 +62,6 @@ type ProductPopulate = {
 	productsGroup?: any;
 }
 
-
 export default class Product extends Strapi {
 
 	private readonly collectionName: string; 
@@ -110,19 +109,18 @@ export default class Product extends Strapi {
 		return instance;
 	}
 
-	async getProducts(productName?: string, productSlug?: string, categoryName?: string, sorting?: string, featured?: boolean) : Promise<StrapiResponse> {
+	async getProducts(productName?: string, productSlug?: string, categoryName?: string, sorting?: string, featured?: boolean, page?: number): Promise<StrapiResponse> {
 		const params = {
+			pagination: {
+				pageSize: 6,
+			},
 			fields: this.productFields,
 			filters: this.productFilters,
 			populate: this.productPopulate,
-			sort: [''],
+			sort: ['price:asc'],
 		};
 
-		sorting === 'desc' 
-			? params.sort = ['price:desc'] 
-			: params.sort = ['price:asc']; 
-
-		// TODO: look for and implement a more accurate filter to get a single matching result for slug. maybe findOne()?
+		// TODO: implement a more accurate filter to get a single matching result for slug. maybe findOne()?
 		if (productName) {
 			params.filters.name = { $containsi: productName };
 		} else if (productSlug) {
@@ -133,6 +131,13 @@ export default class Product extends Strapi {
 			params.filters.$or = [ { isPopular: { $eq: true } }, { isNew: { $eq: true } } ];
 		}
 
+		if (sorting === 'desc') {
+			params.sort = ['price:desc'];
+		}
+
+		if (page) {
+			// TODO: implement pagination
+		}
 
 		return this.productsCollection.find(params);
 	}
