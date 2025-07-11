@@ -40,20 +40,6 @@ export function getProductSizes(productData: ProductData): Array<string> {
 	return availableSizes;
 }
 
-export function getProductsData(strapiResponse: StrapiResponse): ProductData[] {
-	const productsData = strapiResponse.data as ProductData[];
-
-	try {
-		productsData.forEach((productData) => {
-			productsData.push(productData);
-		})
-	} catch (e) {
-		console.error(e);
-	}
-
-	return productsData;
-}
-
 export function getFeaturedProducts(strapiResponse: StrapiResponse) {
 	const products = strapiResponse.data as ProductData[];
 	const popularProducts = [] as ProductData[];
