@@ -21,12 +21,12 @@ const { popularProducts, newProducts } = getFeaturedProducts(strapiResponse);
 ---
 
 <BaseLayout currentPage={ currentPage }>
-	<main class="flex flex-col gap-y-10 px-4 pb-16 pt-2 mb-12 bg-white-300 rounded-b-4xl">
-		<div class="grid gap-2">
+	<main class="flex flex-col gap-y-8 px-4 pb-8 pt-2 mb-12 bg-white-300 rounded-b-3xl">
+		<div class="grid">
 			<h1 class="text-8xl text-center font-[Anton] uppercase tracking-wide">Blance</h1>
 			<h3 class="text-center text-gray-500 tracking-wider font-semibold">Lencería que abraza lo que sos</h3>
 		</div>
-		<Image src={heroImage} alt="Mujer en lencería" class="aspect-3/4" />
+		<Image src={heroImage} alt="Mujer en lencería" class="aspect-3/4 rounded-3xl" />
 		<a href="/tienda">
 			<MainBtn text="Explorá nuestros artículos" />
 		</a>

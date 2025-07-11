@@ -25,7 +25,7 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 <article class={articleClasses}>
 	<a href=`/tienda/producto/${productData?.slug}`>
 		<div>
-			<Image src={productImage} alt={productData?.name} class="product-image" width=568 height=757 />
+			<Image src={productImage} alt={productData?.name} class="w-full aspect-3/4 rounded-3xl" width=568 height=757 loading="eager" />
 			<div class="marker">
 				<button aria-label="Añadir producto al carrito">
 					<p>Añadir producto</p>
@@ -54,16 +54,7 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 .product-card {
 	display: grid;
 	position: relative;
-  #background-color: var(--color-white-300);
-  border-radius: 20px;
-  #padding: 8px;
 	transition: all .4s ease-out;
-	
-	.product-image {
-		width: 100%;
-		aspect-ratio: 3/4;
-		border-radius: 20px;
-	}
 
 	.marker {
 		width: 0px;	
@@ -109,37 +100,30 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 
 	.product-info {
 		padding: 12px 4px;
-		gap: 48px;
-		border-radius: 20px;
 	}
 
 	.product-name {
-		font-size: 1rem;
-		line-height: 1.2rem;
+		font-size: 1.2rem;
+		line-height: 1.4rem;
 		color: var(--color-dark);
 		text-transform: capitalize;
 		text-wrap: pretty;
+		margin-bottom: 4px;
 	}
 
 	.product-price {
-		font-size: 0.9rem;
+		font-size: 1rem;
 		color: var(--color-gray-300);
-		margin-top: 4px;
 	}
 
 	.color-options {
-		padding-left: 4px;
+		padding: 8px 0 0 4px;
 	}
 }
 
 .product-card.small {
-	align-items: start;
   min-height: 280px;
   min-width: 140px;
-  background-color: transparent;
-  border-radius: 16px;
-  padding: 0;
-	gap: 0;
 
 	button {
 		scale: 0.9;
@@ -156,20 +140,17 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 			border-radius: 16px;
 		}
 	}
+	.product-info {
+		padding: 6px 0 0 4px;
+	}
 
-  .product-info {
-    margin: 0;
-		padding: 8px 4px;
-		background-color: transparent;
-		flex-direction: column;
-		flex-wrap: nowrap;
-		align-items: start;
-		gap: 12px;
-  }
-
-  .color-options {
-		gap: 1rem;
-  }
+	.product-name {
+		font-size: 1rem;
+	}
+	
+	.color-options {
+		padding: 12px 0 0;
+	}
 }
 
 .color-options {
