@@ -1,6 +1,5 @@
 ---
 import { actions } from 'astro:actions';
-import { getProductsData } from '../utils/product.ts';
 import ProductCard from './ProductCard.astro';
 
 interface Props {
@@ -38,9 +37,6 @@ if (productsData.length === 0) {
 	subtitle = 'No hay productos que coincidan con tu búsqueda.';
 }
 ---
-<script is:inline define:vars={{data}}>
-	console.log(data);
-</script>
 
 <div class="grid gap-4">
 	{title && 

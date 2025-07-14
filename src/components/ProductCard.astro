@@ -44,7 +44,7 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 		</div>
 	</a>
 	<div class="color-options">
-		{ availableColors?.map( (h: string, i: number) => <Color hex={h} slug={productSlugs[i]} /> ) }
+		{availableColors?.map((h: string, i: number) => <Color hex={h} slug={productSlugs[i]} />)}
 	</div>
 </article>
 

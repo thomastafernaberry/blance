@@ -62,19 +62,26 @@ type ProductPopulate = {
 	productsGroup?: any;
 }
 
+type ProductPagination = {
+	start?: number;
+	limit?: number;
+}
+
 export default class Product extends Strapi {
 
 	private readonly collectionName: string; 
+	private readonly productSort: string;
 	private readonly productFields: string[];
 	private readonly productFilters: ProductFilters;
 	private readonly productPopulate: ProductPopulate;
+	private readonly productPagination: ProductPagination;
 	private productsCollection: any;
 
 	private constructor() {
 		super();
 		this.collectionName = 'products';
+		this.productSort = 'price:asc';
 		this.productFields = ['name', 'price', 'description', 'composition', 'slug', 'isVisible', 'isNew', 'isPopular'];
-		this.productFilters = { isVisible: { $eq: true } };
 		this.productPopulate = {
 			images: { 
 				fields: 'url',
@@ -101,30 +108,30 @@ export default class Product extends Strapi {
 				}
 			},
 		};
+		this.productFilters = { isVisible: { $eq: true } };
+		this.productPagination = { start: 0, limit: 4 };
 	}
 		
-	static async init() : Promise<Product> {
+	static async init(): Promise<Product> {
 		const instance = new Product();
 		instance.productsCollection = await instance.strapiClient.collection(instance.collectionName);
 		return instance;
 	}
 
-	async getProducts(productName?: string, productSlug?: string, categoryName?: string, sorting?: string, featured?: boolean, page?: number): Promise<StrapiResponse> {
+	async getProducts(productName?: string, productSlug?: string, categoryName?: string, sorting?: string, featured?: boolean, start?: number): Promise<StrapiResponse> {
 		const params = {
-			pagination: {
-				pageSize: 6,
-			},
 			fields: this.productFields,
 			filters: this.productFilters,
 			populate: this.productPopulate,
-			sort: ['price:asc'],
+			sort: this.productSort,
+			pagination: this.productPagination,
 		};
 
-		// TODO: implement a more accurate filter to get a single matching result for slug. maybe findOne()?
 		if (productName) {
 			params.filters.name = { $containsi: productName };
 		} else if (productSlug) {
 			params.filters.slug = { $containsi: productSlug };
+			// TODO: implement a more accurate filter to get a single matching result for slug. maybe findOne()?
 		} else if (categoryName) {
 			params.filters.category = { name: { $containsi: categoryName } };
 		} else if (featured) {
@@ -132,11 +139,11 @@ export default class Product extends Strapi {
 		}
 
 		if (sorting === 'desc') {
-			params.sort = ['price:desc'];
+			params.sort = 'price:desc';
 		}
 
-		if (page) {
-			// TODO: implement pagination
+		if (start) {
+			params.pagination.start = start;
 		}
 
 		return this.productsCollection.find(params);

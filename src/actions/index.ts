@@ -6,14 +6,14 @@ export const server = {
 	getProducts: defineAction({
 		handler: async (input) => {
 			const productService = await Product.init();
-			const products = await productService.getProducts(
+			return productService.getProducts(
 				input.productName, 
 				input.productSlug, 
 				input.categoryName, 
 				input.sorting, 
 				input.featured,
+				input.start,
 			);
-			return products;
 		}
 	}),
 

@@ -8,7 +8,7 @@ interface Props {
 
 const { images = [] } = Astro.props as Props;
 const strapiBaseUrl = import.meta.env.PUBLIC_STRAPI_BASE_URL;
-const firstImageSrc = strapiBaseUrl + images[0].url;
+const firstImageSrc = strapiBaseUrl + images?.[0]?.url;
 ---
 
 <div class="flex items-center justify-center">
@@ -18,7 +18,7 @@ const firstImageSrc = strapiBaseUrl + images[0].url;
 	<div class="grid place-items-center">
 		<Image src={firstImageSrc} id="image-container" class="rounded-3xl aspect-3/4 bg-white-500 min-w-full min-h-[436px]" width=568 height=757 alt="Imagen del producto" />
 		<div class="flex gap-2 relative bottom-6">
-			{ images.map( () => <div class="indicator w-2 h-2 rounded-full"></div>) }
+			{images.map(() => <div class="indicator w-2 h-2 rounded-full"></div>)}
 		</div>
 	</div>
 	<button id="btn-next" class="absolute grid content-center justify-center bg-dark/30 text-white p-4 rounded-full w-4 h-4 right-5 shadow-xs">

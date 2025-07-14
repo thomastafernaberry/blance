@@ -1,8 +1,4 @@
 ---
-export const prerender = false;
-
-import type { ProductData } from '../../../services/Product';
-import type { StrapiResponse } from '../../../services/Strapi';
 import { actions } from 'astro:actions';
 import BaseLayout from '../../../components/BaseLayout.astro';
 import ProductDetail from '../../../components/ProductDetail.astro';
@@ -17,10 +13,9 @@ if (error) {
 	return;
 }
 
-const strapiResponse = data as StrapiResponse;
-const productData = strapiResponse.data as ProductData[];
+const productData = data.data[0];
 ---
 
 <BaseLayout currentPage="detail" title="Blance - Vista detallada">
-	<ProductDetail productData={productData[0]} />
+	<ProductDetail productData={productData} />
 </BaseLayout

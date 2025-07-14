@@ -1,6 +1,4 @@
 ---
-export const prerender = false;
-
 import type { StrapiResponse } from '../services/Strapi';
 import { actions } from 'astro:actions';
 import { Image } from 'astro:assets';
@@ -13,14 +11,16 @@ import { getFeaturedProducts } from '../utils/product.ts';
 const currentPage = "home";
 
 const { data, error }= await Astro.callAction(actions.getProducts, { featured: true });
+
 if (error) {
 	return;
 }
+
 const strapiResponse = data as StrapiResponse;
 const { popularProducts, newProducts } = getFeaturedProducts(strapiResponse);
 ---
 
-<BaseLayout currentPage={ currentPage }>
+<BaseLayout currentPage={currentPage}>
 	<main class="flex flex-col gap-y-8 px-4 pb-8 pt-2 mb-12 bg-white-300 rounded-b-3xl">
 		<div class="grid">
 			<h1 class="text-8xl text-center font-[Anton] uppercase tracking-wide">Blance</h1>

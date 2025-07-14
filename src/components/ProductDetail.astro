@@ -1,11 +1,11 @@
 ---
+import type { ProductData } from '../services/Product.ts';
 import ProductDetailCarousel from '../components/ProductDetailCarousel.astro';
 import SizeSelector from '../components/SizeSelector.astro';
 import Color from '../components/Color.astro';
 import MainBtn from '../components/MainBtn.astro';
 import ProductDetailData from '../components/ProductDetailData.astro';
 import { getProductColors, getProductSizes } from '../utils/product.ts';
-import type { ProductData } from '../services/Product.ts';
 
 interface Props {
 	productData: ProductData;

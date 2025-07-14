@@ -9,11 +9,12 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone',
   }),
+	output: 'server',
   image: {
   	domains: ["strapi.blance.ar"],
-		// Sharp is used by astro:assets <Image />
-		// it does not support server's CPU model
-		// it cant be used so we disable image optimization
+		// astro:assets <Image /> use Sharp
+		// Sharp does not support server's CPU model
+		// line below disable image optimization
 		service: passthroughImageService(),
   },
   server: {
