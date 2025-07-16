@@ -1,4 +1,6 @@
 ---
+export const partial = true;
+
 import type { ProductData } from '../services/Product.ts';
 import { Image } from 'astro:assets';
 import { getProductColors } from '../utils/product.ts';
@@ -25,7 +27,7 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 <article class={articleClasses}>
 	<a href=`/tienda/producto/${productData?.slug}`>
 		<div>
-			<Image src={productImage} alt={productData?.name} class="w-full aspect-3/4 rounded-2xl" width=568 height=757 loading="eager" />
+			<Image src={productImage} alt={productData?.name} class="w-full aspect-3/4 rounded-3xl" width=568 height=757 loading="eager" />
 			<div class="marker">
 				<button aria-label="Añadir producto al carrito">
 					<p>Añadir producto</p>
@@ -141,7 +143,7 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 		}
 	}
 	.product-info {
-		padding: 6px 4px;
+		padding: 6px 0 0 4px;
 	}
 
 	.product-name {
@@ -149,13 +151,12 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 	}
 	
 	.color-options {
-		padding: 12px 4px 0;
+		padding: 12px 0 0;
 	}
 }
 
 .color-options {
 	display: flex;
-	flex-wrap: wrap;
 	gap: 16px;
 }
 

@@ -109,7 +109,7 @@ export default class Product extends Strapi {
 			},
 		};
 		this.productFilters = { isVisible: { $eq: true } };
-		this.productPagination = { start: 0, limit: 4 };
+		this.productPagination = { start: 0, limit: 0 };
 	}
 		
 	static async init(): Promise<Product> {
@@ -124,7 +124,7 @@ export default class Product extends Strapi {
 			filters: this.productFilters,
 			populate: this.productPopulate,
 			sort: this.productSort,
-			pagination: this.productPagination,
+			//pagination: this.productPagination,
 		};
 
 		if (productName) {
@@ -142,9 +142,9 @@ export default class Product extends Strapi {
 			params.sort = 'price:desc';
 		}
 
-		if (start) {
-			params.pagination.start = start;
-		}
+		//if (start) {
+		//	params.pagination.start = start;
+		//}
 
 		return this.productsCollection.find(params);
 	}
