@@ -22,10 +22,10 @@ const { popularProducts, newProducts } = getFeaturedProducts(strapiResponse);
 ---
 
 <BaseLayout currentPage={currentPage}>
-	<main class="flex flex-col gap-y-8 px-4 pb-8 pt-2 mb-12 bg-white-300 rounded-b-3xl">
-		<div class="grid">
+	<main class="flex flex-col gap-y-8 px-4 pb-8 pt-2 mb-12 bg-white-200 rounded-b-3xl">
+		<div class="grid gap-6 mb-6">
 			<h1 class="text-8xl text-center font-[Anton] uppercase tracking-wide">Blance</h1>
-			<h3 class="text-center text-gray-500 tracking-wider font-semibold">Lencería que abraza lo que sos</h3>
+			<h3 class="text-center text-gray-700 tracking-wider font-semibold">Lencería que abraza lo que sos</h3>
 		</div>
 		<Image src={heroImage} alt="Mujer en lencería" class="aspect-3/4 rounded-3xl" />
 		<a href="/tienda">
@@ -35,7 +35,7 @@ const { popularProducts, newProducts } = getFeaturedProducts(strapiResponse);
 	<div class="flex flex-col gap-y-4">
 		<ProductCarousel carouselTitle="Articulos populares" products={popularProducts}/>	
 		<ProductCarousel carouselTitle="Nuevos ingresos" products={newProducts}/>	
-		<div class="px-6 mt-8 mb-12">
+		<div class="px-4 mt-8 mb-12">
 			<h5 class="text-lg font-medium text-center mb-4">¿No encontraste lo que buscabas?</h5>
 			<a href="/tienda">
 				<MainBtn text="Ver todos los productos" />

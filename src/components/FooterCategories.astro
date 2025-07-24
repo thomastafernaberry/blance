@@ -1,0 +1,31 @@
+---
+import Category from '../services/Category.ts';
+
+const categoryService = await Category.init();
+const categoryNames = await categoryService.getAllNames();
+---
+<ul id="footer-categories" class="flex gap-3 items-center text-xs text-gray-500 overflow-x-auto w-full h-fit pb-2">
+	{ categoryNames.map ((n: string) => (
+		<li>
+			<a href=`/tienda/categoria/${n}`>{n}</a>
+		</li>
+	))}
+</ul>
+
+<style>
+	li, a { 
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 40px; 
+		min-width: 72px;
+		border-radius: 24px;
+		background-color: var(--color-white-300);
+		color: var(--color-black-300);
+	}
+	a { 
+		text-transform: capitalize; 
+		transition: background-color .4s ease-out; 
+	}
+</style>
+

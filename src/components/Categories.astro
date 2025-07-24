@@ -1,32 +1,31 @@
 ---
 import Category from '../services/Category.ts';
 
+interface Props {
+	currentCategory: string;
+}
+
 const categoryService = await Category.init();
 const categoryNames = await categoryService.getAllNames();
 
 const { currentCategory } = Astro.props;
 ---
-
-<ul id="container" class="flex gap-3 items-center text-xs text-gray-500 overflow-x-auto w-full h-fit pb-2">
-
+<ul id="container" data-current-category={currentCategory} class="flex gap-3 items-center text-xs text-gray-500 overflow-x-auto w-full h-fit pb-2">
 	<li class="category">
 		<a href="/tienda">todo</a>
-	</li>
+	</li> 
 
-	{ categoryNames.map ( (n: string) => (
+	{ categoryNames.map ((n: string) => (
 		<li class="category">
-				<a href=`/tienda/categoria/${n}`>{n}</a>
-		</li>
+			<a href=`/tienda/categoria/${n}`>{n}</a>
+		</li> 
 	))}
-
 </ul>
 
-<script is:inline define:vars={{currentCategory}}> 
-
-document.addEventListener('DOMContentLoaded', () => {
-
+<script> 
 	const container = document.getElementById('container');
 	const categories = document.getElementsByClassName('category');
+	const currentCategory = container.dataset['currentCategory'];
 
 	function updateCategoryStyle() {
 		for (let c of categories) {
@@ -58,11 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 	
 	updateCategorySorting();
-	
 	updateCategoryStyle();
-
-});
-
 </script>
 
 <style>
@@ -79,3 +74,4 @@ document.addEventListener('DOMContentLoaded', () => {
 		transition: background-color .4s ease-out; 
 	}
 </style>
+

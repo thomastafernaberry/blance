@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Navbar from './Navbar.astro';
+import Footer from './Footer.astro';
 
 interface Props {
 	currentPage: string;
@@ -26,6 +27,7 @@ const { currentPage = "home", title, description } = Astro.props as Props;
 		<div class="wrapper">
 			<Navbar currentPage={currentPage} />
 			<slot />
+			<Footer />
 		</div>
   </body>
 </html>

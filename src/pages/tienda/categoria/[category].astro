@@ -6,7 +6,7 @@ import ProductGrid from '../../../components/ProductGrid.astro';
 const { category } = Astro.params;
 ---
 
-<BaseLayout currentPage="store" title=`Blance - ${category}` />
+<BaseLayout currentPage="store" title=`Blance - ${category}`>
 	<StoreHeader currentCategory={category} />
 	<ProductGrid category={category} />
 </BaseLayout>
