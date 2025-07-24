@@ -1,0 +1,43 @@
+---
+interface Props {
+	meta: {
+		pagination: {
+			page: number,
+			pageSize: number,
+			pageCount: number,
+			total: number,
+		}
+	},
+}
+
+const { meta } = Astro.props as Props;
+
+let anchorElements = [];
+for (let i = 1; i <= meta.pagination.pageCount; i++) {
+	anchorElements.push(`<a href="/tienda?pagina=${i}" class="grid place-content-center w-8 h-8 text-gray-500 rounded-full border-solid border-1 border-gray-200">${i}</a>`);
+}
+---
+
+<script>
+	const paginationContainer= document.getElementById('pagination-container');	
+	const paginationAnchorElements = paginationContainer.children;
+	const currentPage = paginationContainer.dataset['currentPage'];
+
+	function addSelectedStyle(element) {
+		element.classList.add('bg-dark','text-white');
+	}
+
+	if (currentPage === undefined) {
+		addSelectedStyle(paginationAnchorElements[0]);
+	} else {
+		for (const element of Array.from(paginationAnchorElements)) {
+			if (element.innerText === currentPage) {
+				addSelectedStyle(element);
+				break;
+			}
+		}
+	}
+
+</script>
+
+<div set:html={anchorElements} id="pagination-container" data-current-page={meta.pagination.page} class="flex gap-5 justify-center my-8"></div>

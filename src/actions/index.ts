@@ -12,7 +12,7 @@ export const server = {
 				input.categoryName, 
 				input.sorting, 
 				input.featured,
-				input.start,
+				input.page,
 			);
 		}
 	}),

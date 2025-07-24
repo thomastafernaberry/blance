@@ -109,7 +109,7 @@ export default class Product extends Strapi {
 			},
 		};
 		this.productFilters = { isVisible: { $eq: true } };
-		this.productPagination = { start: 0, limit: 0 };
+		this.productPagination = { page: 0, pageSize: 6, withCount: true };
 	}
 		
 	static async init(): Promise<Product> {
@@ -118,13 +118,13 @@ export default class Product extends Strapi {
 		return instance;
 	}
 
-	async getProducts(productName?: string, productSlug?: string, categoryName?: string, sorting?: string, featured?: boolean, start?: number): Promise<StrapiResponse> {
+	async getProducts(productName?: string, productSlug?: string, categoryName?: string, sorting?: string, featured?: boolean, page?: number): Promise<StrapiResponse> {
 		const params = {
 			fields: this.productFields,
 			filters: this.productFilters,
 			populate: this.productPopulate,
 			sort: this.productSort,
-			//pagination: this.productPagination,
+			pagination: this.productPagination,
 		};
 
 		if (productName) {
@@ -142,9 +142,9 @@ export default class Product extends Strapi {
 			params.sort = 'price:desc';
 		}
 
-		//if (start) {
-		//	params.pagination.start = start;
-		//}
+		if (page) {
+			params.pagination.page = page;
+		}
 
 		return this.productsCollection.find(params);
 	}

@@ -1,6 +1,7 @@
 ---
 import { actions } from 'astro:actions';
 import ProductCard from './ProductCard.astro';
+import Pagination from './Pagination.astro';
 
 interface Props {
 	id?: string;
@@ -12,11 +13,13 @@ const { category } = Astro.props as Props;
 const sorting = await Astro.session?.get('sorting');
 
 const searchValue = Astro.url?.searchParams?.get('q');
+const pageNumber = Astro.url?.searchParams?.get('pagina');
 
 const { data, error } = await Astro.callAction(actions.getProducts, { 
 	productName: searchValue, 
 	categoryName: category, 
 	sorting: sorting,
+	page: pageNumber,
 });
 
 if (error) {
@@ -38,20 +41,20 @@ if (productsData.length === 0) {
 }
 ---
 
+
 <div class="grid gap-4">
-	{title && 
-		<h1 class="text-2xl text-center capitalize mt-4">{title}</h1>}	
+	{title && <h1 class="text-2xl text-center capitalize mt-4">{title}</h1>}	
 
-	{subtitle && 
-		<h4 class="text-sm text-gray-300 text-center">{subtitle}</h4>}
+	{subtitle && <h4 class="text-sm text-gray-300 text-center">{subtitle}</h4>}
 
-	{(searchValue || category) && 
-		<a href="/tienda" class="underline block text-center mb-2">Reiniciar la búsqueda</a>}
+	{(searchValue || category) && <a href="/tienda" class="underline block text-center mb-2">Reiniciar la búsqueda</a>}
 </div>
 
 <div id="products-container">
 	{productsData.map((productData) => <ProductCard productData={productData} />)}
 </div> 
+
+<Pagination meta={data.meta} />
 
 
 <style>
