@@ -104,9 +104,10 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 	}
 
 	.product-name {
-		font-size: 1.2rem;
-		line-height: 1.2rem;
-		margin-bottom: 4px;
+		font-size: 1.3rem;
+		line-height: 1.3rem;
+		letter-spacing: -.4px;
+		margin-bottom: 6px;
 		color: var(--color-dark);
 		text-transform: capitalize;
 		text-wrap: pretty;
@@ -114,13 +115,13 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 
 	.product-price {
 		font-size: 1rem;
-		color: var(--color-gray-300);
+		color: var(--color-dark);
 	}
 
 	.product-price.tax-excluded {
 		font-size: .7rem;
 		margin-top: .3rem;
-		color: var(--color-gray-200);
+		color: var(--color-gray-300);
 	}
 
 	.color-options {
@@ -153,6 +154,9 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 
 	.product-name {
 		font-size: 1rem;
+		line-height: 1.2rem;
+		letter-spacing: normal;
+		margin-bottom: 4px;
 	}
 	
 	.color-options {
