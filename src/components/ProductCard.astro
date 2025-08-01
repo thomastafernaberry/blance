@@ -40,6 +40,7 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 			<div>
 				<h5 class="product-name">{productData?.name}</h5>
 				<h5 class="product-price">${productData?.price}</h5>
+				<p class="product-price tax-excluded">Precio sin impuestos nacionales ${productData?.price}</p>
 			</div>
 		</div>
 	</a>
@@ -104,16 +105,22 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 
 	.product-name {
 		font-size: 1.2rem;
-		line-height: 1.4rem;
+		line-height: 1.2rem;
+		margin-bottom: 4px;
 		color: var(--color-dark);
 		text-transform: capitalize;
 		text-wrap: pretty;
-		margin-bottom: 4px;
 	}
 
 	.product-price {
 		font-size: 1rem;
 		color: var(--color-gray-300);
+	}
+
+	.product-price.tax-excluded {
+		font-size: .7rem;
+		margin-top: .3rem;
+		color: var(--color-gray-200);
 	}
 
 	.color-options {
