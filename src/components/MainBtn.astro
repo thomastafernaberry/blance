@@ -1,7 +1,10 @@
 ---
-const { text } = Astro.props 
----
+interface Props {
+	text: string;
+	id?: string;
+	href?: string;
+}
 
-<button class="text-white tracking-wide bg-black w-full h-20 rounded-3xl shadow-md cursor-pointer">
-	<p>{text}</p>
-</button>
+const { text, id, href } = Astro.props as Props;
+---
+<a id={id} href={href} class="text-white tracking-wide bg-black w-full h-20 rounded-3xl shadow-md cursor-pointer grid place-content-center hover:bg-white hover:text-black hover:border-2">{text}</a>
