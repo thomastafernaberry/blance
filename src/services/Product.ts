@@ -118,7 +118,7 @@ export default class Product extends Strapi {
 		return instance;
 	}
 
-	async getProducts(productName?: string, productSlug?: string, categoryName?: string, sorting?: string, featured?: boolean, page?: number): Promise<StrapiResponse> {
+	async getProducts(productName?: string, productSlug?: string, categoryName?: string, sorting?: string, featured?: boolean, page?: number, documentIdArray?: string[]): Promise<StrapiResponse> {
 		const params = {
 			fields: this.productFields,
 			filters: this.productFilters,
@@ -136,6 +136,8 @@ export default class Product extends Strapi {
 			params.filters.category = { name: { $containsi: categoryName } };
 		} else if (featured) {
 			params.filters.$or = [ { isPopular: { $eq: true } }, { isNew: { $eq: true } } ];
+		} else if (documentIdArray) {
+			params.filters.documentId = { $in: documentIdArray };
 		}
 
 		if (sorting === 'desc') {
