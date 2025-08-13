@@ -28,18 +28,14 @@ const { popularProducts, newProducts } = getFeaturedProducts(strapiResponse);
 			<h3 class="text-center text-gray-700 tracking-wider font-semibold">Lencería que abraza lo que sos</h3>
 		</div>
 		<Image src={heroImage} alt="Mujer en lencería" class="aspect-3/4 rounded-3xl" />
-		<a href="/tienda">
-			<MainBtn text="Explorá nuestros artículos" />
-		</a>
+		<MainBtn text="Explorá nuestros artículos" href="/tienda" />
 	</main>
 	<div class="flex flex-col gap-y-4">
 		<ProductCarousel carouselTitle="Articulos populares" products={popularProducts}/>	
 		<ProductCarousel carouselTitle="Nuevos ingresos" products={newProducts}/>	
 		<div class="px-4 mt-8 mb-12">
 			<h5 class="text-lg font-medium text-center mb-4">¿No encontraste lo que buscabas?</h5>
-			<a href="/tienda">
-				<MainBtn text="Ver todos los productos" />
-			</a>
+			<MainBtn text="Ver todos los productos" href="/tienda" />
 		</div>
 	</div>
 	<Card />
