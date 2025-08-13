@@ -23,6 +23,7 @@ const { data, error } = await Astro.callAction(actions.getProducts, {
 });
 
 if (error) {
+	console.error(error);
 	return;
 }
 
@@ -41,7 +42,6 @@ if (productsData.length === 0) {
 }
 ---
 
-
 <div class="grid gap-4">
 	{title && <h1 class="text-2xl text-center capitalize mt-4">{title}</h1>}	
 
@@ -55,7 +55,6 @@ if (productsData.length === 0) {
 </div> 
 
 <Pagination meta={data.meta} />
-
 
 <style>
 
@@ -73,3 +72,4 @@ if (productsData.length === 0) {
 	}
 
 </style>
+
