@@ -1,0 +1,20 @@
+---
+import CartProduct from '../components/CartProduct.astro';
+import MainBtn from '../components/MainBtn.astro';
+import { actions } from 'astro:actions';
+
+const { data, error } = await Astro.callAction(actions.getCart);
+if (error) {
+	console.error(error);
+} 
+---
+	{ data && Object.keys(data).length !== 0
+		?	<main class="grid m-4 gap-y-12">
+				<h1 class="text-xl text-stone-900">Veamos lo que tenés en el carrito hasta ahora:</h1>
+				{data?.map((p) => <CartProduct cartProductData={p} />)}
+			</main>
+		: <main class="grid m-2 text-center min-h-120 place-content-center">
+				<h1 class="text-xl mb-4">No tenés productos en el carrito.</h1> 
+				<MainBtn text="Visitá nuestra tienda online" href="/tienda"><MainBtn>
+			</main>
+	}

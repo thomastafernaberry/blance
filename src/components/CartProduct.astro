@@ -1,0 +1,50 @@
+---
+import type { CartProductData } from '../actions/index';
+
+interface Props {
+	cartProductData: CartProductData;
+}
+
+const { cartProductData } = Astro.props as Props;
+---
+<article id="cart-product" class="flex gap-6">
+	<img class="rounded-xl" src={cartProductData?.firstImageSrc} width="140" height="140" />
+	<div class="flex flex-col gap-2 content-center w-full">
+		<h4 class="text-xl tracking-tight">{cartProductData?.name}</h4>
+		<div class="flex flex-col gap-1 text-sm mt-1">
+			<p>Precio: ${cartProductData?.unitPrice}</p>
+			<p>Talle: {cartProductData?.size}</p>
+		</div>
+		<div class="text-xl mt-4">
+			<div class="flex gap-5 mt-2 text-center items-center w-full" data-document-id={cartProductData.documentId}>
+				<button class="reduce-quantity-btn bg-dark text-white px-3 py-1 rounded-full cursor-pointer">-</button>
+				<div class="text-sm bg-white-100 px-4 py-2 rounded-full border-1 border-gray-100">
+					{cartProductData?.quantity}
+				</div>
+				<button class="increase-quantity-btn bg-dark text-white px-3 py-1 rounded-full cursor-pointer">+</button>
+			</div>
+		</div>
+	</div>
+</article>
+
+<script>
+	import { actions } from 'astro:actions';
+
+	const reduceQuantityBtnArray = document.getElementsByClassName('reduce-quantity-btn');
+	const increaseQuantityBtnArray = document.getElementsByClassName('increase-quantity-btn');
+
+	for (const btn of reduceQuantityBtnArray) {
+		btn.addEventListener('click', async (e) => {
+			await actions.reduceCartProductQuantity(e.target.parentElement.dataset.documentId);	
+			location.reload();
+		})
+	}
+
+	for (const btn of increaseQuantityBtnArray) {
+		btn.addEventListener('click', async (e) => {
+			await actions.increaseCartProductQuantity(e.target.parentElement.dataset.documentId);	
+			location.reload();
+		})
+	}
+
+</script>
