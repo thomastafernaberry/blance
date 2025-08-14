@@ -1,0 +1,26 @@
+---
+import type { CartProductData } from 'actions/index';
+
+interface Props {
+	cart: CartProductData;
+}
+
+const { cart } = Astro.props;
+
+const shippingCost = 2500;
+
+let totalCost = 0;
+for (const item of cart) {
+	totalCost += (item.unitPrice * item.quantity) ;
+}
+
+---
+{ cart && 
+		<ul class="px-6 py-5 border-1 border-gray-100 rounded-3xl shadow-md grid gap-1">
+			{ cart && <h4 class="text-2xl tracking-tight mb-2">Resumen de compra</h4> }
+			<li class="text-md tracking-tight"><span>Productos: ${totalCost}</span></li>
+			<li class="text-md tracking-tight"><span>Envío: ${shippingCost}</span></li>
+			<li class="text-lg font-semibold tracking-tight mt-4"><span>Total: ${totalCost + shippingCost}</span></li>
+		</ul> 
+} 
+
