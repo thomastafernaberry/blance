@@ -22,7 +22,7 @@ const firstImageSrc = strapiBaseUrl + productData?.images?.[0]?.url;
 
 <main class="grid px-4">
 	<ProductDetailCarousel images={productData?.images} />
-	<div class="grid gap-5 p-2 pb-10 pt-3">
+	<div class="grid gap-5 p-2 pb-10 pt-4">
 		<h1 class="text-4xl/11 text-dark capitalize">
 			{productData?.name}
 		</h1>
@@ -30,7 +30,7 @@ const firstImageSrc = strapiBaseUrl + productData?.images?.[0]?.url;
 			<h2 class="text-2xl text-gray-800">
 				${productData?.price}
 			</h2>
-			<span class="text-xs font-light text-gray-400 mt-1">
+			<span class="text-xs font-light text-gray-600 mt-1">
 				Precio sin impuestos nacionales: ${(productData?.price / 1.21).toPrecision(6)}
 			</span>
 		</div>
@@ -50,7 +50,7 @@ const firstImageSrc = strapiBaseUrl + productData?.images?.[0]?.url;
 				</div>
 				<SizeSelector availableSizes={availableSizes} />
 			</div>
-			<button id="add-product-btn" class="bg-black text-white py-8 rounded-3xl cursor-pointer mt-6 hover:bg-white hover:text-black hover:outline-2 hover:scale-95 duration-300 ease-in-out">Añadir producto al carrito</button>
+			<button id="add-product-btn" class="bg-black text-white py-8 rounded-3xl cursor-pointer mt-6 shadow-md hover:bg-white hover:text-black hover:outline-2 hover:scale-95 duration-300 ease-in-out">Añadir producto al carrito</button>
 		</form>
 	</div>
 	<ProductDetailData description={productData?.description} composition={productData?.composition} />
