@@ -16,7 +16,7 @@ const { cartProductData } = Astro.props as Props;
 			<p>Talle: {cartProductData?.size}</p>
 		</div>
 		<div class="text-xl mt-4">
-			<div class="flex gap-5 mt-2 text-center items-center w-full" data-document-id={cartProductData.documentId}>
+			<div class="flex gap-5 mt-2 text-center items-center w-full" data-document-id={cartProductData.documentId} data-size={cartProductData.size} >
 				<button class="reduce-quantity-btn bg-dark text-white px-3 py-1 rounded-full cursor-pointer">-</button>
 				<div class="text-sm bg-white-100 px-4 py-2 rounded-full border-1 border-gray-100">
 					{cartProductData?.quantity}
@@ -35,14 +35,22 @@ const { cartProductData } = Astro.props as Props;
 
 	for (const btn of reduceQuantityBtnArray) {
 		btn.addEventListener('click', async (e) => {
-			await actions.reduceCartProductQuantity(e.target.parentElement.dataset.documentId);	
+			const targetParentElementDataset = e.target.parentElement.dataset;
+			await actions.reduceCartProductQuantity({
+				documentId: targetParentElementDataset.documentId,
+				size: targetParentElementDataset.size,
+			});	
 			location.reload();
 		})
 	}
 
 	for (const btn of increaseQuantityBtnArray) {
 		btn.addEventListener('click', async (e) => {
-			await actions.increaseCartProductQuantity(e.target.parentElement.dataset.documentId);	
+			const targetParentElementDataset = e.target.parentElement.dataset;
+			await actions.increaseCartProductQuantity({
+				documentId: targetParentElementDataset.documentId,
+				size: targetParentElementDataset.size,
+			});	
 			location.reload();
 		})
 	}

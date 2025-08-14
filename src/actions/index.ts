@@ -98,12 +98,16 @@ export const server = {
 	}),
 
 	reduceCartProductQuantity: defineAction({
-		input: z.string(),
+		input: z.object({
+			documentId: z.string(),
+			size: z.string(),
+		}),
 		handler: async (input, context) => {
+			console.log(input);
 			const cart = await context.session?.get('cart');
 			try {
 				for (const item of cart) {
-					if (item.documentId === input) {
+					if (item.documentId === input.documentId && item.size === input.size) {
 						if (item.quantity === 1) {
 							cart.splice(cart.indexOf(item), 1);
 						} 
@@ -120,12 +124,16 @@ export const server = {
 	}),
 
 	increaseCartProductQuantity: defineAction({
-		input: z.string(),
+		input: z.object({
+			documentId: z.string(),
+			size: z.string(),
+		}),
 		handler: async (input, context) => {
+			console.log('hi');
 			const cart = await context.session?.get('cart');
 			try {
 				for (const item of cart) {
-					if (item.documentId === input) {
+					if (item.documentId === input.documentId && item.size === input.size) {
 							item.quantity++;
 					}
 				}
