@@ -7,21 +7,21 @@ interface Props {
 
 const { cartProductData } = Astro.props as Props;
 ---
-<article id="cart-product" class="flex gap-6">
-	<img class="rounded-xl" src={cartProductData?.firstImageSrc} width="140" height="140" />
-	<div class="flex flex-col gap-2 content-center w-full">
-		<h4 class="text-xl tracking-tight">{cartProductData?.name}</h4>
+<article id="cart-product" class="flex gap-6 max-w-full">
+	<img class="rounded-xl" src={cartProductData?.firstImageSrc} width="160" height="160" />
+	<div class="flex flex-col gap-2 content-center">
+		<h4 class="text-xl/6 tracking-tight">{cartProductData?.name}</h4>
 		<div class="flex flex-col gap-1 text-sm">
 			<p>Precio: ${cartProductData?.unitPrice}</p>
 			<p>Talle: {cartProductData?.size}</p>
 		</div>
 		<div class="text-xl mt-4">
-			<div class="flex gap-5 mt-2 text-center items-center w-full" data-document-id={cartProductData.documentId} data-size={cartProductData.size} >
-				<button class="reduce-quantity-btn bg-dark text-white px-3 py-1 rounded-full cursor-pointer">-</button>
-				<div class="text-sm bg-white-100 px-4 py-2 rounded-full border-1 border-gray-100">
+			<div class="flex gap-5 mt-2 text-center" data-document-id={cartProductData.documentId} data-size={cartProductData.size} >
+				<button class="reduce-quantity-btn bg-dark text-white min-w-9 py-1 rounded-full cursor-pointer">-</button>
+				<div class="text-sm bg-white-100 min-w-10 py-2 rounded-full border-1 border-gray-100">
 					{cartProductData?.quantity}
 				</div>
-				<button class="increase-quantity-btn bg-dark text-white px-3 py-1 rounded-full cursor-pointer">+</button>
+				<button class="increase-quantity-btn bg-dark text-white min-w-9 py-1 rounded-full cursor-pointer">+</button>
 			</div>
 		</div>
 	</div>
