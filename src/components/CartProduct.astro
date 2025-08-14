@@ -33,25 +33,48 @@ const { cartProductData } = Astro.props as Props;
 	const reduceQuantityBtnArray = document.getElementsByClassName('reduce-quantity-btn');
 	const increaseQuantityBtnArray = document.getElementsByClassName('increase-quantity-btn');
 
+	function updateDisplayedQuantity(HTMLElement, str) {
+		const currentQuantity = Number(HTMLElement.textContent);
+
+		if (Number.isNaN(currentQuantity)) {
+			return;
+		}
+
+		let newQuantity = '';
+		if (str === 'increase') {
+			newQuantity = String(currentQuantity + 1);
+		} 
+		else if (str === 'decrease') {
+			if (currentQuantity === 0) {
+				return;
+			}
+			newQuantity = String(currentQuantity - 1);
+		}
+
+		HTMLElement.textContent = newQuantity;
+	}
+
 	for (const btn of reduceQuantityBtnArray) {
 		btn.addEventListener('click', async (e) => {
-			const targetParentElementDataset = e.target.parentElement.dataset;
+			const targetParentElement = e.target.parentElement;
+			const dataset = targetParentElement.dataset;
 			await actions.reduceCartProductQuantity({
-				documentId: targetParentElementDataset.documentId,
-				size: targetParentElementDataset.size,
+				documentId: dataset.documentId,
+				size: dataset.size,
 			});	
-			location.reload();
+			updateDisplayedQuantity(targetParentElement.children.item(1), 'decrease');
 		})
 	}
 
 	for (const btn of increaseQuantityBtnArray) {
 		btn.addEventListener('click', async (e) => {
-			const targetParentElementDataset = e.target.parentElement.dataset;
+			const targetParentElement = e.target.parentElement;
+			const dataset = targetParentElement.dataset;
 			await actions.increaseCartProductQuantity({
-				documentId: targetParentElementDataset.documentId,
-				size: targetParentElementDataset.size,
+				documentId: dataset.documentId,
+				size: dataset.size,
 			});	
-			location.reload();
+			updateDisplayedQuantity(targetParentElement.children.item(1), 'increase');
 		})
 	}
 
