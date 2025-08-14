@@ -41,14 +41,16 @@ if (productsData.length === 0) {
 	subtitle = 'No hay productos que coincidan con tu búsqueda.';
 }
 ---
+{ title || subtitle || searchValue || category
+	?	<div class="grid gap-4 m-4">
+			{title && <h1 class="text-2xl text-center capitalize">{title}</h1>}	
 
-<div class="grid gap-4">
-	{title && <h1 class="text-2xl text-center capitalize mt-4">{title}</h1>}	
+			{subtitle && <h4 class="text-sm text-gray-300 text-center">{subtitle}</h4>}
 
-	{subtitle && <h4 class="text-sm text-gray-300 text-center">{subtitle}</h4>}
-
-	{(searchValue || category) && <a href="/tienda" class="underline block text-center mb-2">Reiniciar la búsqueda</a>}
-</div>
+			{(searchValue || category) && <a href="/tienda" class="underline block text-center mb-2">Reiniciar la búsqueda</a>}
+		</div>
+	: ''
+}
 
 <div id="products-container">
 	{productsData.map((productData) => <ProductCard productData={productData} />)}
