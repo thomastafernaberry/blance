@@ -106,14 +106,15 @@ export const server = {
 			documentId: z.string(),
 			size: z.string(),
 		}),
-		handler: async (input, context) => {
-			console.log(input);
+		handler: async (input, context): boolean => {
 			const cart = await context.session?.get('cart');
+			let isProductRemovedFromCart = false;
 			try {
 				for (const item of cart) {
 					if (item.documentId === input.documentId && item.size === input.size) {
 						if (item.quantity === 1) {
 							cart.splice(cart.indexOf(item), 1);
+							isProductRemovedFromCart = true;
 						} 
 						else {
 							item.quantity--;
@@ -121,9 +122,10 @@ export const server = {
 					}
 				}
 			} catch (e) {
-				console.error(e)
+				console.error(e);
 			}
 			await context.session?.set('cart', cart);
+			return isProductRemovedFromCart;
 		}
 	}),
 
@@ -133,7 +135,6 @@ export const server = {
 			size: z.string(),
 		}),
 		handler: async (input, context) => {
-			console.log('hi');
 			const cart = await context.session?.get('cart');
 			try {
 				for (const item of cart) {

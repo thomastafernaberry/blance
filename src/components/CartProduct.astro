@@ -7,7 +7,7 @@ interface Props {
 
 const { cartProductData } = Astro.props as Props;
 ---
-<article id="cart-product" class="flex gap-6 max-w-full">
+<article data-document-id={cartProductData?.documentId} data-size={cartProductData?.size} class="flex gap-6 max-w-full">
 	<img class="rounded-xl" src={cartProductData?.firstImageSrc} width="160" height="160" />
 	<div class="flex flex-col gap-2 content-center">
 		<h4 class="text-xl/6 tracking-tight">{cartProductData?.name}</h4>
@@ -58,6 +58,16 @@ const { cartProductData } = Astro.props as Props;
 		}
 	}
 
+	function hideCartProduct(documentId: string, size: string) {
+		for (const article of document.getElementsByTagName('article')) {
+
+			if (article.dataset.documentId === documentId && article.dataset.size === size) {
+				article.setAttribute('hidden', '');			
+			}
+
+		}
+	}
+
 	function updateDisplayedQuantity(HTMLElement, str) {
 		const currentQuantity = Number(HTMLElement.textContent);
 
@@ -85,10 +95,13 @@ const { cartProductData } = Astro.props as Props;
 		btn.addEventListener('click', async (e) => {
 			const targetParentElement = e.target.parentElement;
 			const dataset = targetParentElement.dataset;
-			await actions.reduceCartProductQuantity({
+			const isProductRemovedFromCart = (await actions.reduceCartProductQuantity({
 				documentId: dataset.documentId,
 				size: dataset.size,
-			});	
+			})).data;	
+			if (isProductRemovedFromCart) {
+				hideCartProduct(dataset.documentId, dataset.size);
+			}
 			updateDisplayedQuantity(targetParentElement.children.item(1), 'decrease');
 		})
 	}
