@@ -11,6 +11,10 @@ export type CartProductData = {
 	firstImageSrc: string;
 }
 
+export type CartData = {
+	cartData: CartProductData[];
+}
+
 export const server = {
 	
 	getProducts: defineAction({

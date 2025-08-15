@@ -1,26 +1,22 @@
 ---
-import type { CartProductData } from 'actions/index';
+import type { CartData } from '../actions/index';
+import { getProductsCost, getShippingCost } from '../utils/cart';
 
 interface Props {
-	cart: CartProductData;
+	cart: CartData;
 }
 
-const { cart } = Astro.props;
+const { cart } = Astro.props as Props;
 
-const shippingCost = 2500;
-
-let totalCost = 0;
-for (const item of cart) {
-	totalCost += (item.unitPrice * item.quantity) ;
-}
-
+const productsCost = getProductsCost(cart);
+const shippingCost = getShippingCost();
 ---
 { cart && 
-		<ul class="px-6 py-5 border-1 border-gray-100 rounded-3xl shadow-md grid gap-1">
+		<ul id="summary" class="px-6 py-5 border-1 border-gray-100 rounded-3xl shadow-md grid gap-1">
 			{ cart && <h4 class="text-2xl tracking-tight mb-2">Resumen de compra</h4> }
-			<li class="text-md tracking-tight"><span>Productos: ${totalCost}</span></li>
-			<li class="text-md tracking-tight"><span>Envío: ${shippingCost}</span></li>
-			<li class="text-lg font-semibold tracking-tight mt-4"><span>Total: ${totalCost + shippingCost}</span></li>
+			<li id="summary-products" class="text-md tracking-tight"><span>Productos: ${productsCost}</span></li>
+			<li id="summary-shipping" class="text-md tracking-tight"><span>Envío: ${shippingCost}</span></li>
+			<li id="summary-total" class="text-lg font-semibold tracking-tight mt-4"><span>Total: ${productsCost + shippingCost}</span></li>
 		</ul> 
 } 
 

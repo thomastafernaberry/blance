@@ -29,9 +29,34 @@ const { cartProductData } = Astro.props as Props;
 
 <script>
 	import { actions } from 'astro:actions';
+	import { getProductsCost, getShippingCost } from '/src/utils/cart';
 
 	const reduceQuantityBtnArray = document.getElementsByClassName('reduce-quantity-btn');
 	const increaseQuantityBtnArray = document.getElementsByClassName('increase-quantity-btn');
+	const summary = document.getElementById('summary');
+
+	async function updateSummary(summary) {
+		const { data, error } = await actions.getCart();
+
+		if (typeof data === 'undefined') {
+			return;
+		}
+
+		const productsCost = getProductsCost(data);
+		const shippingCost = getShippingCost();
+
+		for (const e of summary.children)	{
+			if (e.id === 'summary-products') {
+				e.textContent = `Productos: $${productsCost}`;
+			} 
+			else if (e.id === 'summary-shipping') {
+				e.textContent = `Envío: $${shippingCost}`;
+			}
+			else if (e.id === 'summary-total') {
+				e.textContent = `Total: $${productsCost + shippingCost}`;
+			}
+		}
+	}
 
 	function updateDisplayedQuantity(HTMLElement, str) {
 		const currentQuantity = Number(HTMLElement.textContent);
@@ -52,6 +77,8 @@ const { cartProductData } = Astro.props as Props;
 		}
 
 		HTMLElement.textContent = newQuantity;
+	 
+		updateSummary(summary);
 	}
 
 	for (const btn of reduceQuantityBtnArray) {
