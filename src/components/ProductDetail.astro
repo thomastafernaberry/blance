@@ -22,7 +22,7 @@ const firstImageSrc = strapiBaseUrl + productData?.images?.[0]?.url;
 
 <main class="grid px-4">
 	<ProductDetailCarousel images={productData?.images} />
-	<div class="grid gap-5 p-2 pb-10 pt-4">
+	<div class="grid gap-5 p-2 pb-6 pt-4">
 		<h1 class="text-4xl/11 text-dark capitalize">
 			{productData?.name}
 		</h1>
@@ -51,6 +51,7 @@ const firstImageSrc = strapiBaseUrl + productData?.images?.[0]?.url;
 				<SizeSelector availableSizes={availableSizes} />
 			</div>
 			<button id="add-product-btn" class="bg-black text-white tracking-wide py-8 rounded-3xl cursor-pointer mt-6 shadow-md outline-2 hover:bg-white hover:text-black hover:outline-2 hover:scale-98 duration-300 ease-in-out">Añadir producto al carrito</button>
+			<a hidden id="go-to-cart-anchor" href="/cartera" class="text-center underline">Ir al carrito</a>
 		</form>
 	</div>
 	<ProductDetailData description={productData?.description} composition={productData?.composition} />
@@ -75,6 +76,7 @@ const firstImageSrc = strapiBaseUrl + productData?.images?.[0]?.url;
 		const formData = new FormData(productForm);
 		const initialCartDataLength = (await actions.getCart())?.data?.length || 0;
 		const itemsInCartIndicator = document.getElementById('items-in-cart-indicator');
+		const goToCartAnchor = document.getElementById('go-to-cart-anchor');
 
 		await actions.addCartProduct(formData);
 		const newCartDataLength = (await actions.getCart())?.data?.length || 0;
@@ -85,6 +87,10 @@ const firstImageSrc = strapiBaseUrl + productData?.images?.[0]?.url;
 				isIndicatorHidden = false;
 			}
 			addOneItemToCartIndicator(itemsInCartIndicator, isIndicatorHidden);
+		}
+
+		if (goToCartAnchor.hasAttribute('hidden')) {
+			goToCartAnchor.removeAttribute('hidden');
 		}
 
 		const Toast = Swal.mixin({
