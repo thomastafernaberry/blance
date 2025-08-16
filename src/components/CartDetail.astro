@@ -12,7 +12,7 @@ const productsCost = getProductsCost(cart);
 const shippingCost = getShippingCost();
 ---
 { cart && 
-		<ul id="summary" class="px-6 py-5 border-1 border-gray-100 rounded-3xl shadow-md grid gap-1">
+		<ul id="summary" class="px-6 py-5 border-1 border-gray-100 rounded-3xl shadow-sm grid gap-1">
 			{ cart && <h4 class="text-2xl tracking-tight mb-2">Resumen de compra</h4> }
 			<li id="summary-products" class="text-md tracking-tight"><span>Productos: ${productsCost}</span></li>
 			<li id="summary-shipping" class="text-md tracking-tight"><span>Envío: ${shippingCost}</span></li>
