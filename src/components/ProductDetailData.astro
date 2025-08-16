@@ -9,10 +9,10 @@ const { description, composition } = Astro.props as Props;
 
 <div class="my-20 rounded-4xl">
   <div class="flex gap-4 items-center justify-between rounded-3xl bg-white-200 h-2 tracking-wide text-sm">
-    <button id="btn-description" class="bg-black text-white rounded-4xl py-3 w-full min-h-[52px]">Descripción</button>
-    <button id="btn-composition" class="bg-white-200 rounded-3xl py-3 w-full border-[.1px] border-gray-100 min-h-[52px]">Composición</button>
+    <button id="btn-description" class="bg-black text-white rounded-2xl py-3 w-full min-h-[52px]">Descripción</button>
+    <button id="btn-composition" class="bg-white-200 rounded-2xl py-3 w-full border-[.1px] border-gray-100 min-h-[52px]">Composición</button>
   </div>
-	<div class="min-h-60 p-3 mt-6 text-gray-300 font-light text-sm/7">
+	<div class="py-6 px-3 mt-6 text-gray-900 font-light text-sm/7">
 		<p id="product-description">{description}</p>
 		<p hidden id="product-composition">{composition}</p>
 	</div>
