@@ -58,7 +58,7 @@ const { cartProductData } = Astro.props as Props;
 		}
 	}
 
-	function hideCartProduct(documentId: string, size: string) {
+	function hideCartProduct({ documentId, size }, summary) {
 		const articlesArray = document.getElementsByTagName('article');
 		for (const article of articlesArray) {
 
@@ -67,6 +67,7 @@ const { cartProductData } = Astro.props as Props;
 			}
 
 			if (articlesArray.length === 0) {
+				summary.setAttribute('hidden', '');
 				window.location.reload();
 			}
 
@@ -100,12 +101,13 @@ const { cartProductData } = Astro.props as Props;
 		btn.addEventListener('click', async (e) => {
 			const targetParentElement = e.target.parentElement;
 			const dataset = targetParentElement.dataset;
-			const isProductRemovedFromCart = (await actions.reduceCartProductQuantity({
+			const cartProduct = {
 				documentId: dataset.documentId,
 				size: dataset.size,
-			})).data;	
+			}
+			const isProductRemovedFromCart = (await actions.reduceCartProductQuantity(cartProduct))?.data;
 			if (isProductRemovedFromCart) {
-				hideCartProduct(dataset.documentId, dataset.size);
+				hideCartProduct(cartProduct, summary);
 			}
 			updateDisplayedQuantity(targetParentElement.children.item(1), 'decrease');
 		})
