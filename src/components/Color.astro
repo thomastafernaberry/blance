@@ -2,13 +2,21 @@
 interface Props {
 	hex: string;
 	slug: string;
+	currentHex: string;
 }
 
-const { hex = '', slug = '#' } = Astro.props as Props;
+const { hex, slug, currentHex } = Astro.props as Props;
 const productURL = `/tienda/producto/${slug}`;
+
+let colorStyle = 'color w-[24px] h-[24px] rounded-full';
+if (hex === currentHex) {
+	colorStyle += ' outline-2 outline-offset-2 outline-gray-400';
+} else {
+	colorStyle += ' outline-1 outline-offset-1 outline-gray-100';
+}
 ---
 
-<div class="color w-[24px] h-[24px] rounded-full outline-1 outline-gray-100 outline-offset-1">
+<div class={colorStyle}>
 	<a class="block w-full h-full" href={productURL} aria-label="Color disponible"></a>
 </div>
 

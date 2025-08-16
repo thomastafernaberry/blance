@@ -45,7 +45,7 @@ const firstImageSrc = strapiBaseUrl + productData?.images?.[0]?.url;
 						Colores disponibles:
 					</span>
 					<div class="flex gap-6 w-fit items-center h-fit"> 
-						{availableColors.map((hex, i) => <Color hex={hex} slug={productSlugs[i]} />)}
+						{availableColors.map((hex, i) => <Color hex={hex} slug={productSlugs[i]} currentHex={productData?.color?.hex}/>)}
 					</div>
 				</div>
 				<SizeSelector availableSizes={availableSizes} />
