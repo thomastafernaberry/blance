@@ -26,6 +26,10 @@
 	font-display: swap;
 }
 
+html {
+	overflow-y: scroll;
+}
+
 body {
 	font-family: "DM Sans", sans-serif;
 }
