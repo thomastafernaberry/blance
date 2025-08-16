@@ -26,6 +26,7 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 	<a href=`/tienda/producto/${productData?.slug}`>
 		<div>
 			<Image src={productImage} alt={productData?.name} class="w-full aspect-3/4 rounded-2xl" width=568 height=757 loading="eager" fetchpriority="high" />
+			<!--
 			<div class="marker">
 				<button aria-label="Añadir producto al carrito">
 					<p>Añadir producto</p>
@@ -35,6 +36,7 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 					</svg>
 				</button>
 			</div>
+			--!>
 		</div>
 		<div class="product-info">
 			<div>
