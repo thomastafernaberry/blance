@@ -1,7 +1,7 @@
 ---
 import type { ProductData } from '../services/Product.ts';
 import { Image } from 'astro:assets';
-import { getProductColors } from '../utils/product.ts';
+import { getProductColors, getTaxExemptPrice } from '../utils/product.ts';
 import Color from './Color.astro';
 
 interface Props {
@@ -40,7 +40,7 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 			<div>
 				<h5 class="product-name">{productData?.name}</h5>
 				<h5 class="product-price">${productData?.price}</h5>
-				<p class="product-price tax-excluded">Precio sin impuestos nacionales ${productData?.price}</p>
+				<p class="product-price tax-excluded">Precio sin impuestos nacionales ${getTaxExemptPrice(productData?.price)}</p>
 			</div>
 		</div>
 	</a>
