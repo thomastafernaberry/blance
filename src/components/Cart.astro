@@ -1,7 +1,7 @@
 ---
 import CartProduct from '../components/CartProduct.astro';
 import MainBtn from '../components/MainBtn.astro';
-import CartDetail from '../components/CartDetail.astro';
+import CartSummary from '../components/CartSummary.astro';
 import { actions } from 'astro:actions';
 
 const { data, error } = await Astro.callAction(actions.getCart);
@@ -13,7 +13,7 @@ if (error) {
 		?	<main class="grid m-4 gap-y-12">
 				<h1 class="text-2xl text-gray-800 tracking-tight pl-2">Veamos lo que agregaste al carrito hasta ahora:</h1>
 				{data?.map((p) => <CartProduct cartProductData={p} />)}
-				<CartDetail cart={data} />
+				<CartSummary cart={data} />
 			</main>
 		: <main class="grid text-center min-h-120 place-content-center">
 				<h1 class="text-xl font-medium mb-4">No tenés productos en el carrito.</h1> 
