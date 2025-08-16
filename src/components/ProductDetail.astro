@@ -60,13 +60,32 @@ const firstImageSrc = strapiBaseUrl + productData?.images?.[0]?.url;
 	import { actions } from 'astro:actions';
 	import Swal from 'sweetalert2';
 
-	const addProductBtn = document.getElementById('add-product-btn');
 	const productForm = document.getElementById('product-form');
+
+	function addOneItemToCartIndicator(itemsInCartIndicator, isIndicatorHidden) {
+		const displayedAmount = Number(itemsInCartIndicator.textContent);
+		itemsInCartIndicator.textContent = displayedAmount + 1;
+		if (isIndicatorHidden) {
+			itemsInCartIndicator.removeAttribute('hidden');
+		}
+	}
 
 	productForm?.addEventListener('submit', async (e) => {
 		e.preventDefault();
 		const formData = new FormData(productForm);
+		const initialCartDataLength = (await actions.getCart())?.data?.length || 0;
+		const itemsInCartIndicator = document.getElementById('items-in-cart-indicator');
+
 		await actions.addCartProduct(formData);
+		const newCartDataLength = (await actions.getCart())?.data?.length || 0;
+
+		if (newCartDataLength > initialCartDataLength) {
+			let isIndicatorHidden = true;
+			if (initialCartDataLength >= 1) {
+				isIndicatorHidden = false;
+			}
+			addOneItemToCartIndicator(itemsInCartIndicator, isIndicatorHidden);
+		}
 
 		const Toast = Swal.mixin({
 			toast: true,
