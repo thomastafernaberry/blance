@@ -91,19 +91,6 @@ export const server = {
 		}
 	}),
 
-	removeCartProduct: defineAction({
-		handler: async (input, context) => {
-			const cart = await context.session?.get('cart');
-			if (typeof cart === 'undefined') {
-				console.log('cart is undefined. nothing to do');
-				return;
-			}
-			const productCartIndex = cart.indexOf(product.documentId);
-			cart.splice(productCartIndex, 1);
-			console.log(`product ${product.documentId} removed`);
-		}
-	}),
-
 	reduceCartProductQuantity: defineAction({
 		input: z.object({
 			documentId: z.string(),
@@ -153,6 +140,12 @@ export const server = {
 			}
 			await context.session?.set('cart', cart);
 			await context.session?.set('amount-items-in-cart', amountItemsInCart + 1);
+		}
+	}),
+
+	getAmountItemsInCart: defineAction({
+		handler: async (_input, context) => {
+			return context.session?.get('amount-items-in-cart') || 0;
 		}
 	}),
 

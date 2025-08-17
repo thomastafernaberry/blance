@@ -71,12 +71,6 @@ const firstImageSrc = strapiBaseUrl + productData?.images?.[0]?.url;
 		itemsInCartIndicator.textContent = displayedAmount + 1;
 	}
 
-	function requestPageReloadOnLoad() {
-		if (sessionStorage) {
-			sessionStorage.setItem('page-reload-on-load', 'true');
-		}
-	}
-
 	productForm?.addEventListener('submit', async (e) => {
 		e.preventDefault();
 
@@ -85,7 +79,6 @@ const firstImageSrc = strapiBaseUrl + productData?.images?.[0]?.url;
 
 		const formData = new FormData(productForm);
 		await actions.addCartProduct(formData);
-		requestPageReloadOnLoad();
 		addOneItemToCartIndicator(itemsInCartIndicator);
 
 		if (goToCartAnchor.hasAttribute('hidden')) {
