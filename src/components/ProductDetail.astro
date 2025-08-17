@@ -68,6 +68,10 @@ const firstImageSrc = strapiBaseUrl + productData?.images?.[0]?.url;
 		if (displayedAmount === 0) {
 			itemsInCartIndicator.removeAttribute('hidden');
 		}
+		if (sessionStorage) {
+			const amountItemsInCart = Number(sessionStorage.getItem('amount-items-in-cart') || 0);
+			sessionStorage.setItem('amount-items-in-cart', amountItemsInCart + 1);
+		}
 		itemsInCartIndicator.textContent = displayedAmount + 1;
 	}
 
