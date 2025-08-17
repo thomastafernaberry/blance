@@ -97,6 +97,18 @@ const { cartProductData } = Astro.props as Props;
 		updateSummary(summary);
 	}
 
+	function updateAmountItemsInCart(str) {
+		if (sessionStorage) {
+			const amountItemsInCart = Number(sessionStorage.getItem('amount-items-in-cart'));
+			if (str === 'increase') {
+				sessionStorage.setItem('amount-items-in-cart', amountItemsInCart + 1);
+			} 
+			else if (str === 'decrease') {
+				sessionStorage.setItem('amount-items-in-cart', amountItemsInCart - 1);
+			}
+		}
+	}
+
 	for (const btn of reduceQuantityBtnArray) {
 		btn.addEventListener('click', async (e) => {
 			const targetParentElement = e.target.parentElement;
@@ -110,6 +122,7 @@ const { cartProductData } = Astro.props as Props;
 				hideCartProduct(cartProduct, summary);
 			}
 			updateDisplayedQuantity(targetParentElement.children.item(1), 'decrease');
+			updateAmountItemsInCart('decrease');
 		})
 	}
 
@@ -117,12 +130,13 @@ const { cartProductData } = Astro.props as Props;
 		btn.addEventListener('click', async (e) => {
 			const targetParentElement = e.target.parentElement;
 			const dataset = targetParentElement.dataset;
-			await actions.increaseCartProductQuantity({
+			const cartProduct = {
 				documentId: dataset.documentId,
 				size: dataset.size,
-			});	
+			}
+			await actions.increaseCartProductQuantity(cartProduct);
 			updateDisplayedQuantity(targetParentElement.children.item(1), 'increase');
+			updateAmountItemsInCart('increase');
 		})
 	}
-
 </script>

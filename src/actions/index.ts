@@ -61,7 +61,6 @@ export const server = {
 		}),
 		handler: async ({documentId, name, size, unitPrice, quantity, firstImageSrc}, context) => {
 			const cart = await context.session?.get('cart') || [];
-			const amountItemsInCart = await context.session?.get('amount-items-in-cart') || 0;
 
 			try {
 				for (const cartProduct of cart) {
@@ -69,7 +68,6 @@ export const server = {
 						cartProduct.quantity++;	
 						cartProduct.size = cartProduct.size.toUpperCase();
 						await context.session?.set('cart', cart);
-						await context.session?.set('amount-items-in-cart', amountItemsInCart + 1);
 						return;
 					}
 				}
@@ -87,7 +85,6 @@ export const server = {
 			}
 			cart.push(product);	
 			await context.session?.set('cart', cart);
-			await context.session?.set('amount-items-in-cart', amountItemsInCart + 1);
 		}
 	}),
 
@@ -98,7 +95,6 @@ export const server = {
 		}),
 		handler: async (input, context): boolean => {
 			const cart = await context.session?.get('cart');
-			const amountItemsInCart = await context.session?.get('amount-items-in-cart') || 0;
 			let isProductRemovedFromCart = false;
 			try {
 				for (const item of cart) {
@@ -116,7 +112,6 @@ export const server = {
 				console.error(e);
 			}
 			await context.session?.set('cart', cart);
-			await context.session?.set('amount-items-in-cart', amountItemsInCart - 1);
 			return isProductRemovedFromCart;
 		}
 	}),
@@ -128,7 +123,6 @@ export const server = {
 		}),
 		handler: async (input, context): void => {
 			const cart = await context.session?.get('cart');
-			const amountItemsInCart = await context.session?.get('amount-items-in-cart') || 0;
 			try {
 				for (const item of cart) {
 					if (item.documentId === input.documentId && item.size === input.size) {
@@ -136,16 +130,9 @@ export const server = {
 					}
 				}
 			} catch (e) {
-				console.error(e)
+				console.error(e);
 			}
 			await context.session?.set('cart', cart);
-			await context.session?.set('amount-items-in-cart', amountItemsInCart + 1);
-		}
-	}),
-
-	getAmountItemsInCart: defineAction({
-		handler: async (_input, context) => {
-			return context.session?.get('amount-items-in-cart') || 0;
 		}
 	}),
 

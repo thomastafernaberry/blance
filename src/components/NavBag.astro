@@ -9,22 +9,20 @@
 <script>
 	import { actions } from 'astro:actions';
 
-	function setAmountItemsInCartIndicator() {
-		const amountItemsInCart = sessionStorage.getItem('amount-items-in-cart') || '0';
-		const itemsInCartIndicator = document.getElementById('items-in-cart-indicator');
+	function setAmountItemsInCart() {
+		if (sessionStorage) {
+			const amountItemsInCart = sessionStorage.getItem('amount-items-in-cart') || '0';
+			sessionStorage.setItem('amount-items-in-cart', amountItemsInCart);
 
-		itemsInCartIndicator.textContent = amountItemsInCart;
+			const itemsInCartIndicator = document.getElementById('items-in-cart-indicator');
+			itemsInCartIndicator.textContent = amountItemsInCart;
 
-		if (amountItemsInCart >= 1) {
-			itemsInCartIndicator.removeAttribute('hidden');
+			if (amountItemsInCart >= 1) {
+				itemsInCartIndicator.removeAttribute('hidden');
+			}
 		}
 	}
 
-	const amountItemsInCart = (await actions.getAmountItemsInCart())?.data || 0;
-
-	if (sessionStorage) {
-		sessionStorage.setItem('amount-items-in-cart', amountItemsInCart);
-		setAmountItemsInCartIndicator();
-	}
+	setAmountItemsInCart();
 </script>
 
