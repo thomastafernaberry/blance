@@ -21,6 +21,7 @@
 	}
 
 	const historyTraversal = window.performance?.getEntries('navigation')?.[0]?.type;
+	console.log(historyTraversal);
 	if (historyTraversal === 'back_forward') {
 		window.location.reload();
 	}
