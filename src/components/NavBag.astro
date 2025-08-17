@@ -9,20 +9,22 @@
 <script>
 	import { actions } from 'astro:actions';
 
-	function setAmountItemsInCart() {
+	function setAmountItemsInCartIndicator() {
+		const itemsInCartIndicator = document.getElementById('items-in-cart-indicator');
 		if (sessionStorage) {
 			const amountItemsInCart = sessionStorage.getItem('amount-items-in-cart') || '0';
-			sessionStorage.setItem('amount-items-in-cart', amountItemsInCart);
-
-			const itemsInCartIndicator = document.getElementById('items-in-cart-indicator');
 			itemsInCartIndicator.textContent = amountItemsInCart;
-
 			if (amountItemsInCart >= 1) {
 				itemsInCartIndicator.removeAttribute('hidden');
 			}
 		}
 	}
 
-	setAmountItemsInCart();
+	const historyTraversal = window.performance?.getEntries('navigation')?.[0]?.type;
+	if (historyTraversal === 'back_forward') {
+		window.location.reload();
+	}
+
+	setAmountItemsInCartIndicator();
 </script>
 
