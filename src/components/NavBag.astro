@@ -12,3 +12,13 @@ const amountItemsInCart = await Astro.session?.get('amount-items-in-cart') || 0;
 	}
 </a>
 
+<script>
+	if (sessionStorage) {
+		const isPageReloadOnLoadRequested = sessionStorage.getItem('page-reload-on-load');
+		if (isPageReloadOnLoadRequested === 'true') {
+			sessionStorage.setItem('page-reload-on-load', 'false');
+			window.location.reload();
+		}
+	}
+</script>
+
