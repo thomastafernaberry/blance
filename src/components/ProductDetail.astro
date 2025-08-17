@@ -63,31 +63,23 @@ const firstImageSrc = strapiBaseUrl + productData?.images?.[0]?.url;
 
 	const productForm = document.getElementById('product-form');
 
-	function addOneItemToCartIndicator(itemsInCartIndicator, isIndicatorHidden) {
+	function addOneItemToCartIndicator(itemsInCartIndicator) {
 		const displayedAmount = Number(itemsInCartIndicator.textContent);
-		itemsInCartIndicator.textContent = displayedAmount + 1;
-		if (isIndicatorHidden) {
+		if (displayedAmount === 0) {
 			itemsInCartIndicator.removeAttribute('hidden');
 		}
+		itemsInCartIndicator.textContent = displayedAmount + 1;
 	}
 
 	productForm?.addEventListener('submit', async (e) => {
 		e.preventDefault();
-		const formData = new FormData(productForm);
-		const initialCartDataLength = (await actions.getCart())?.data?.length || 0;
+
 		const itemsInCartIndicator = document.getElementById('items-in-cart-indicator');
 		const goToCartAnchor = document.getElementById('go-to-cart-anchor');
 
+		const formData = new FormData(productForm);
 		await actions.addCartProduct(formData);
-		const newCartDataLength = (await actions.getCart())?.data?.length || 0;
-
-		if (newCartDataLength > initialCartDataLength) {
-			let isIndicatorHidden = true;
-			if (initialCartDataLength >= 1) {
-				isIndicatorHidden = false;
-			}
-			addOneItemToCartIndicator(itemsInCartIndicator, isIndicatorHidden);
-		}
+		addOneItemToCartIndicator(itemsInCartIndicator);
 
 		if (goToCartAnchor.hasAttribute('hidden')) {
 			goToCartAnchor.removeAttribute('hidden');

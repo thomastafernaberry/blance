@@ -61,13 +61,15 @@ export const server = {
 		}),
 		handler: async ({documentId, name, size, unitPrice, quantity, firstImageSrc}, context) => {
 			const cart = await context.session?.get('cart') || [];
+			const amountItemsInCart = await context.session?.get('amount-items-in-cart') || 0;
 
 			try {
 				for (const cartProduct of cart) {
 					if (cartProduct?.documentId === documentId && cartProduct?.size == size.toUpperCase()) {
 						cartProduct.quantity++;	
 						cartProduct.size = cartProduct.size.toUpperCase();
-						context.session?.set('cart', cart);
+						await context.session?.set('cart', cart);
+						await context.session?.set('amount-items-in-cart', amountItemsInCart + 1);
 						return;
 					}
 				}
@@ -84,7 +86,8 @@ export const server = {
 				firstImageSrc: firstImageSrc,
 			}
 			cart.push(product);	
-			context.session?.set('cart', cart);
+			await context.session?.set('cart', cart);
+			await context.session?.set('amount-items-in-cart', amountItemsInCart + 1);
 		}
 	}),
 
@@ -108,6 +111,7 @@ export const server = {
 		}),
 		handler: async (input, context): boolean => {
 			const cart = await context.session?.get('cart');
+			const amountItemsInCart = await context.session?.get('amount-items-in-cart') || 0;
 			let isProductRemovedFromCart = false;
 			try {
 				for (const item of cart) {
@@ -125,6 +129,7 @@ export const server = {
 				console.error(e);
 			}
 			await context.session?.set('cart', cart);
+			await context.session?.set('amount-items-in-cart', amountItemsInCart - 1);
 			return isProductRemovedFromCart;
 		}
 	}),
@@ -134,8 +139,9 @@ export const server = {
 			documentId: z.string(),
 			size: z.string(),
 		}),
-		handler: async (input, context) => {
+		handler: async (input, context): void => {
 			const cart = await context.session?.get('cart');
+			const amountItemsInCart = await context.session?.get('amount-items-in-cart') || 0;
 			try {
 				for (const item of cart) {
 					if (item.documentId === input.documentId && item.size === input.size) {
@@ -146,6 +152,7 @@ export const server = {
 				console.error(e)
 			}
 			await context.session?.set('cart', cart);
+			await context.session?.set('amount-items-in-cart', amountItemsInCart + 1);
 		}
 	}),
 
