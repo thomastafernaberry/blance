@@ -31,7 +31,7 @@ const firstImageSrc = strapiBaseUrl + productData?.images?.[0]?.url;
 				${productData?.price}
 			</h2>
 			<span class="text-xs font-light text-gray-600 mt-1">
-				Precio sin impuestos nacionales: ${(productData?.price / 1.21).toPrecision(6)}
+				Precio sin impuestos nacionales: ${getTaxExemptPrice(productData?.price)}
 			</span>
 		</div>
 		<form id="product-form" class="flex flex-col mt-8 gap-8">

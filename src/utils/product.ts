@@ -47,6 +47,6 @@ export function getFeaturedProducts(strapiResponse: StrapiResponse) {
 }
 
 export function getTaxExemptPrice(price: number) {
-	return (price / 1.21).toPrecision(6);
+	return (price / 1.21).toFixed();
 }
 
