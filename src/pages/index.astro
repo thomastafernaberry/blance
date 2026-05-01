@@ -11,7 +11,7 @@ import Card from '../components/Card.astro';
 
 const currentPage = "home";
 
-const { data, error }= await Astro.callAction(actions.getProducts, { featured: true });
+const { data, error } = await Astro.callAction(actions.getProducts, { featured: true });
 
 if (error) {
 	return;

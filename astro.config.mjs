@@ -18,6 +18,6 @@ export default defineConfig({
 		service: passthroughImageService(),
   },
   server: {
-  	allowedHosts: ['blance.ar'],
+  	allowedHosts: true, // ['blance.ar', 'localhost'],
   },
 });
