@@ -8,9 +8,9 @@ const strapiBaseUrl = env.PUBLIC_STRAPI_BASE_URL;
 const strapiApiEndpoint = env.PUBLIC_STRAPI_API_ENDPOINT;
 
 export type StrapiResponse = {
-  readonly data: ProductData | ProductData[] | CategoryData[];
-  readonly meta: any;
-  readonly error?: any;
+	readonly data: ProductData | ProductData[] | CategoryData[];
+	readonly meta: any;
+	readonly error?: any;
 }
 
 export default class Strapi {
@@ -24,6 +24,6 @@ export default class Strapi {
 		this.strapiClient = strapi({ 
 			baseURL: this.strapiApiUrl, 
 			auth: this.strapiToken 
-		});	
+		});
 	}
 }
