@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, passthroughImageService } from 'astro/config';
+import { defineConfig } from 'astro/config';
 import tailwindcss from "@tailwindcss/vite";
 import node from "@astrojs/node";
 
@@ -10,14 +10,7 @@ export default defineConfig({
     mode: 'standalone',
   }),
 	output: 'server',
-  image: {
-  	domains: ["strapi.blance.ar"],
-		// astro:assets <Image /> use Sharp
-		// Sharp does not support server's CPU model
-		// line below disable image optimization
-		service: passthroughImageService(),
-  },
   server: {
-  	allowedHosts: true, // ['blance.ar', 'localhost'],
+  	allowedHosts: [],
   },
 });
