@@ -35,7 +35,7 @@ export function getProductSizes(productData: ProductData): Array<string> {
 }
 
 export function getFeaturedProducts(strapiResponse: StrapiResponse) {
-	const products = strapiResponse.data as ProductData[];
+	const products = strapiResponse?.data as ProductData[];
 	const popularProducts = [] as ProductData[];
 	const newProducts = [] as ProductData[];
 
