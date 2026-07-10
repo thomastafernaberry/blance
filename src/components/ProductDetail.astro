@@ -20,10 +20,10 @@ const strapiBaseUrl = import.meta.env.PUBLIC_STRAPI_BASE_URL;
 const firstImageSrc = strapiBaseUrl + productData?.images?.[0]?.url;
 ---
 
-<main class="grid px-4">
+<main class="grid px-5">
 	<ProductDetailCarousel images={productData?.images} />
-	<div class="grid gap-5 p-2 pb-6 pt-4">
-		<h1 class="text-4xl/11 text-dark capitalize">
+	<div class="grid gap-4 pb-6 pt-3">
+		<h1 class="text-4xl/10 text-dark capitalize">
 			{productData?.name}
 		</h1>
 		<div>
@@ -34,7 +34,7 @@ const firstImageSrc = strapiBaseUrl + productData?.images?.[0]?.url;
 				Precio sin impuestos nacionales: ${getTaxExemptPrice(productData?.price)}
 			</span>
 		</div>
-		<form id="product-form" class="flex flex-col mt-8 gap-8">
+		<form id="product-form" class="flex flex-col mt-4 gap-8">
 			<input type="hidden" name="documentId" value={productData?.documentId} />
 			<input type="hidden" name="name" value={productData?.name} />
 			<input type="hidden" name="unitPrice" value={productData?.price} />
