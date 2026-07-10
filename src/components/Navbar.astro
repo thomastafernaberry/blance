@@ -9,7 +9,7 @@ interface Props {
 
 const { currentPage } = Astro.props as Props;
 
-let navStyle = 'flex flex-row justify-between items-center acenter min-w-full min-h-20 py-4 px-2 text-center px-6 ';
+let navStyle = 'flex flex-row justify-between items-center acenter min-w-full min-h-20 py-4 px-2 text-center px-6';
 
 if (currentPage === 'home') {
 	navStyle += 'bg-[#F4F1EA]';
@@ -21,9 +21,9 @@ if (currentPage === 'home') {
 
 	<div>
 		{ currentPage !== 'home' && <h5 class="font-medium uppercase">Blance</h5> }
-		{ currentPage === 'store' && <p class="text-xs">Tienda online</p> }
-		{ currentPage === 'detail' && <p class="text-xs">Vista detallada</p> }
-		{ currentPage === 'bag' && <p class="text-xs">Tu carrito</p> }
+		{ currentPage === 'store' && <p class="text-xs/3">Tienda online</p> }
+		{ currentPage === 'detail' && <p class="text-xs/3">Vista detallada</p> }
+		{ currentPage === 'bag' && <p class="text-xs/3">Tu carrito</p> }
 	</div>
 
 	{ currentPage === 'bag' ? <div class="w-[30px]"></div> : <NavBag /> }

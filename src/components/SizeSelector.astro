@@ -8,7 +8,7 @@ const { availableSizes = [] } = Astro.props;
 
 <div class="grid w-28">
 	<label for="size" class="text-xs text-gray-600 text-center">Seleccioná el talle:</label>
-	<select id="size" name="size" class="grid place-items-center border-[.1px] border-gray-200 rounded-full px-[20px] h-[44px]">
+	<select id="size" name="size" class="grid place-items-center border-[.1px] border-gray-200 rounded-full px-[20px] h-[44px] cursor-pointer">
 		{ availableSizes.map( (s: string) => <option value={s}>{s}</option>) }
 	</select>
 </div>
