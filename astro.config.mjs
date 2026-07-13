@@ -6,6 +6,9 @@ import node from "@astrojs/node";
 // https://astro.build/config
 export default defineConfig({
   vite: { plugins: [tailwindcss()], },
+	image: {
+		remotepatterns: [{ protocol: 'https' }],
+	},
   adapter: node({
     mode: 'standalone',
   }),
