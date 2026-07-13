@@ -25,7 +25,7 @@ const productImage = strapiBaseURL + productData?.images?.[0]?.url;
 <article class={articleClasses}>
 	<a href=`/tienda/producto/${productData?.slug}`>
 		<div>
-			<Image src={productImage} alt={productData?.name} class="rounded-2xl" priority inferSize />
+			<Image src={productImage} alt={productData?.name} class="rounded-2xl" layout="constrained" priority inferSize />
 			<!--
 			<div class="marker">
 				<button aria-label="Añadir producto al carrito">
